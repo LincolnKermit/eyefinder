@@ -12,7 +12,8 @@ function initMap() {
     zoom: 5,
     minZoom: 2,
     maxZoom: 19,
-    zoomControl: false
+    zoomControl: false,
+    tap: false // Recommended for modern touch devices
   });
 
   // Custom Zoom Control at bottom right
@@ -88,8 +89,8 @@ function getCameraType(cam) {
 }
 
 // Create custom DOM Marker Reticle
-// - Live camera: Dark Green (.pin-live)
-// - Picture refresh: Lighter Green (.pin-picture)
+// - Live camera: Dark Green (.pin-live) with continuous radar pulse
+// - Picture refresh: Lighter Green (.pin-picture) with 60s pulse cycle
 // - Down: Red (.pin-down)
 function createPinIcon(cam) {
   const type = (typeof cam === 'string') 
@@ -123,7 +124,6 @@ function getYouTubeId(cam) {
 // Build popup HTML for a camera
 function createPopupContent(cam) {
   const type = getCameraType(cam);
-  const isUp = cam.status === 'operational';
   const isPic = type === 'picture';
   const isDown = type === 'down';
   const badgeClass = isDown ? 'badge-down' : (isPic ? 'badge-picture' : 'badge-live');
@@ -133,28 +133,50 @@ function createPopupContent(cam) {
   const lonFormatted = Number(cam.longitude).toFixed(4);
   const timeFormatted = cam.last_checked
     ? new Date(cam.last_checked).toLocaleTimeString()
-    : 'N/A';
+    : 'Recent';
 
   const ytId = getYouTubeId(cam);
-  const isVideo = !ytId && cam.stream_url && cam.stream_url.includes('.mp4');
-  const isSnapshot = isPic;
-  const previewImg = cam.preview_image || (isSnapshot ? cam.stream_url : null);
 
   let mediaHtml = '';
-  if (ytId) {
-    mediaHtml = `
-      <iframe class="popup-video" src="https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="no-referrer"></iframe>
-    `;
-  } else if (isVideo) {
-    mediaHtml = `
-      <video class="popup-video" src="${encodeURI(cam.stream_url)}" autoplay loop muted playsinline controls referrerpolicy="no-referrer"></video>
-    `;
-  } else if (previewImg) {
-    const rawSrc = encodeURI(previewImg);
+  if (isPic) {
     mediaHtml = `
       <div class="snapshot-container">
-        <img class="popup-video popup-snapshot" src="${rawSrc}${rawSrc.includes('?') ? '&' : '?'}t=${Date.now()}" data-raw-src="${rawSrc}" alt="${escapeHtml(cam.name)}" loading="lazy" referrerpolicy="no-referrer" />
-        <span class="snapshot-tag">⟳ PICTURE (REFRESH: 60s)</span>
+        <img 
+          class="popup-video popup-snapshot" 
+          src="${escapeHtml(cam.stream_url)}" 
+          data-raw-src="${escapeHtml(cam.stream_url)}"
+          alt="${escapeHtml(cam.name)}" 
+          referrerpolicy="no-referrer"
+          loading="lazy"
+        />
+        <div class="snapshot-tag">⟳ REFRESH 60S</div>
+      </div>
+    `;
+  } else if (!isDown && cam.stream_url) {
+    if (ytId) {
+      mediaHtml = `
+        <iframe 
+          class="popup-video" 
+          src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(ytId)}?autoplay=1&mute=1&playsinline=1" 
+          title="${escapeHtml(cam.name)}" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="no-referrer"
+          allowfullscreen>
+        </iframe>
+      `;
+    } else {
+      mediaHtml = `
+        <video class="popup-video" autoplay muted loop playsinline referrerpolicy="no-referrer">
+          <source src="${escapeHtml(cam.stream_url)}" type="video/mp4">
+          CCTV Stream Unavailable
+        </video>
+      `;
+    }
+  } else {
+    mediaHtml = `
+      <div class="popup-video" style="display:flex;align-items:center;justify-content:center;background:#1a1012;color:var(--status-red);font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px dashed var(--status-red);">
+        OFFLINE / PROBE TIMEOUT
       </div>
     `;
   }
@@ -163,9 +185,7 @@ function createPopupContent(cam) {
     <div class="popup-card">
       <div class="popup-header">
         <div class="popup-title">${escapeHtml(cam.name)}</div>
-        <span class="popup-badge ${badgeClass}">
-          ${badgeText}
-        </span>
+        <span class="popup-badge ${badgeClass}">${badgeText}</span>
       </div>
 
       ${mediaHtml}
@@ -237,18 +257,23 @@ function updateStats(data) {
   const pictureCount = allCameras.filter(c => c.status === 'operational' && getCameraType(c) === 'picture').length;
   const downCount = data.down !== undefined ? data.down : allCameras.filter(c => c.status === 'down').length;
 
-  document.getElementById('stat-total').textContent = total;
-  if (document.getElementById('stat-live')) {
-    document.getElementById('stat-live').textContent = liveCount;
-  }
-  if (document.getElementById('stat-picture')) {
-    document.getElementById('stat-picture').textContent = pictureCount;
-  }
-  if (document.getElementById('stat-online')) {
-    document.getElementById('stat-online').textContent = data.operational || (liveCount + pictureCount);
-  }
-  document.getElementById('stat-down').textContent = downCount;
-  document.getElementById('stat-db').textContent = (data.storage === 'supabase' ? 'SUPABASE' : 'EDGE').toUpperCase();
+  const totalEl = document.getElementById('stat-total');
+  if (totalEl) totalEl.textContent = total;
+
+  const liveEl = document.getElementById('stat-live');
+  if (liveEl) liveEl.textContent = liveCount;
+
+  const pictureEl = document.getElementById('stat-picture');
+  if (pictureEl) pictureEl.textContent = pictureCount;
+
+  const downEl = document.getElementById('stat-down');
+  if (downEl) downEl.textContent = downCount;
+
+  const dbEl = document.getElementById('stat-db');
+  if (dbEl) dbEl.textContent = (data.storage === 'supabase' ? 'SUPABASE' : 'EDGE').toUpperCase();
+
+  const hudBadge = document.getElementById('hud-feed-badge');
+  if (hudBadge) hudBadge.textContent = total;
 }
 
 // Filter cameras based on search and status buttons
@@ -285,7 +310,12 @@ function renderMapMarkers() {
       title: `${cam.name} [${typeLabel}]`
     });
 
-    marker.bindPopup(createPopupContent(cam), { maxWidth: 320 });
+    marker.bindPopup(createPopupContent(cam), {
+      maxWidth: 320,
+      minWidth: 240,
+      autoPanPadding: [15, 15]
+    });
+
     marker.camData = cam;
     markersLayer.addLayer(marker);
   });
@@ -296,7 +326,12 @@ function renderSidebarList() {
   const container = document.getElementById('feed-list');
   const filtered = getFilteredCameras();
 
-  document.getElementById('feed-count').textContent = `${filtered.length} FEEDS`;
+  const feedCountEl = document.getElementById('feed-count');
+  if (feedCountEl) feedCountEl.textContent = `${filtered.length} FEEDS`;
+
+  const hudBadge = document.getElementById('hud-feed-badge');
+  if (hudBadge) hudBadge.textContent = filtered.length;
+
   container.innerHTML = '';
 
   filtered.forEach(cam => {
@@ -328,12 +363,39 @@ function renderSidebarList() {
   });
 }
 
+// Mobile drawer controls
+function openMobileSidebar() {
+  const sidebar = document.getElementById('cctv-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (sidebar) sidebar.classList.add('mobile-open');
+  if (backdrop) backdrop.classList.add('active');
+}
+
+function closeMobileSidebar() {
+  const sidebar = document.getElementById('cctv-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (sidebar) sidebar.classList.remove('mobile-open');
+  if (backdrop) backdrop.classList.remove('active');
+}
+
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById('cctv-sidebar');
+  if (sidebar && sidebar.classList.contains('mobile-open')) {
+    closeMobileSidebar();
+  } else {
+    openMobileSidebar();
+  }
+}
+
 // Fly map to selected camera and open popup
 function focusCamera(cam) {
-  map.flyTo([cam.latitude, cam.longitude], 12, { duration: 1.2 });
+  // On mobile or when drawer is open, auto-close sidebar so user sees map & stream
+  closeMobileSidebar();
+
+  map.flyTo([cam.latitude, cam.longitude], 12, { duration: 1.1 });
   markersLayer.eachLayer(layer => {
     if (layer.camData && layer.camData.id === cam.id) {
-      setTimeout(() => layer.openPopup(), 1300);
+      setTimeout(() => layer.openPopup(), 1200);
     }
   });
 }
@@ -341,7 +403,7 @@ function focusCamera(cam) {
 // Trigger re-scan of streams
 async function triggerReScan() {
   const indicator = document.getElementById('scan-indicator');
-  indicator.classList.remove('hidden');
+  if (indicator) indicator.classList.remove('hidden');
 
   try {
     const res = await fetch('/api/cron', { method: 'POST' });
@@ -361,13 +423,14 @@ async function triggerReScan() {
   } catch (err) {
     console.error('Re-scan error:', err);
   } finally {
-    indicator.classList.add('hidden');
+    if (indicator) indicator.classList.add('hidden');
   }
 }
 
 // UTC Clock updater
 function startClock() {
   const clockEl = document.getElementById('utc-clock');
+  if (!clockEl) return;
   function update() {
     const now = new Date();
     clockEl.textContent = now.toUTCString().split(' ')[4] + ' UTC';
@@ -389,11 +452,13 @@ function escapeHtml(str) {
 function setupEvents() {
   // Search input
   const searchInput = document.getElementById('camera-search');
-  searchInput.addEventListener('input', (e) => {
-    searchQuery = e.target.value.toLowerCase().trim();
-    renderMapMarkers();
-    renderSidebarList();
-  });
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      renderMapMarkers();
+      renderSidebarList();
+    });
+  }
 
   // Filter buttons
   const filterBtns = document.querySelectorAll('.filter-btn');
@@ -407,16 +472,68 @@ function setupEvents() {
     });
   });
 
-  // Re-scan button
-  document.getElementById('btn-scan').addEventListener('click', triggerReScan);
+  // Re-scan buttons (desktop & mobile)
+  const scanBtn = document.getElementById('btn-scan');
+  if (scanBtn) scanBtn.addEventListener('click', triggerReScan);
 
-  // Sidebar toggle button
-  const toggleBtn = document.getElementById('toggle-sidebar');
+  const mobileScanBtn = document.getElementById('btn-scan-mobile');
+  if (mobileScanBtn) mobileScanBtn.addEventListener('click', triggerReScan);
+
+  // Mobile drawer toggle
+  const drawerToggleBtn = document.getElementById('btn-drawer-toggle');
+  if (drawerToggleBtn) {
+    drawerToggleBtn.addEventListener('click', toggleMobileSidebar);
+  }
+
+  // Backdrop click to close drawer
+  const backdrop = document.getElementById('sidebar-backdrop');
+  if (backdrop) {
+    backdrop.addEventListener('click', closeMobileSidebar);
+  }
+
+  // Desktop sidebar toggle button
+  const desktopSidebarBtn = document.getElementById('btn-sidebar-desktop');
+  const desktopToggleText = document.getElementById('desktop-toggle-text');
   const sidebar = document.getElementById('cctv-sidebar');
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('collapsed');
-    toggleBtn.textContent = sidebar.classList.contains('collapsed') ? '›' : '‹';
-    setTimeout(() => map.invalidateSize(), 300);
+
+  if (desktopSidebarBtn && sidebar) {
+    desktopSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      if (desktopToggleText) {
+        desktopToggleText.textContent = sidebar.classList.contains('collapsed') ? 'SHOW' : 'HIDE';
+      }
+      setTimeout(() => map.invalidateSize(), 300);
+    });
+  }
+
+  // Sidebar header toggle / close button
+  const toggleBtn = document.getElementById('toggle-sidebar');
+  if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener('click', () => {
+      if (window.innerWidth <= 850) {
+        closeMobileSidebar();
+      } else {
+        sidebar.classList.toggle('collapsed');
+        if (desktopToggleText) {
+          desktopToggleText.textContent = sidebar.classList.contains('collapsed') ? 'SHOW' : 'HIDE';
+        }
+        setTimeout(() => map.invalidateSize(), 300);
+      }
+    });
+  }
+
+  // Window resize & orientation change handling
+  window.addEventListener('resize', () => {
+    if (map) map.invalidateSize();
+    if (window.innerWidth > 850) {
+      closeMobileSidebar();
+    }
+  });
+
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      if (map) map.invalidateSize();
+    }, 200);
   });
 }
 

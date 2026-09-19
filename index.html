@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0b0e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="referrer" content="no-referrer">
   <title>EyeFinder // Real-Time OSINT CCTV Flux</title>
   
@@ -16,42 +19,55 @@
   <div id="app">
     <!-- Top OSINT Navigation / Status Bar -->
     <header id="header">
-      <div class="hud-left">
-        <div class="brand">
-          <span class="crosshair">⌖</span>
-          <span class="brand-title">EYEFINDER</span>
-          <span class="badge-tag">OSINT FLUX</span>
+      <div class="hud-top-bar">
+        <div class="hud-left">
+          <div class="brand">
+            <span class="crosshair">⌖</span>
+            <span class="brand-title">EYEFINDER</span>
+            <span class="badge-tag">OSINT FLUX</span>
+          </div>
+          <div class="hud-clock" id="utc-clock">00:00:00 UTC</div>
         </div>
-        <div class="hud-clock" id="utc-clock">00:00:00 UTC</div>
-      </div>
 
-      <div class="hud-stats">
-        <div class="stat-item">
-          <span class="stat-label">TOTAL</span>
-          <span class="stat-value" id="stat-total">0</span>
+        <div class="hud-stats">
+          <div class="stat-item stat-total-item">
+            <span class="stat-label">TOTAL</span>
+            <span class="stat-value" id="stat-total">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">LIVE</span>
+            <span class="stat-value status-live" id="stat-live">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">PICTURE</span>
+            <span class="stat-value status-picture" id="stat-picture">0</span>
+          </div>
+          <div class="stat-item stat-down-item">
+            <span class="stat-label">DOWN</span>
+            <span class="stat-value status-down" id="stat-down">0</span>
+          </div>
+          <div class="stat-item db-status">
+            <span class="stat-label">STORAGE</span>
+            <span class="stat-value" id="stat-db">INIT</span>
+          </div>
         </div>
-        <div class="stat-item">
-          <span class="stat-label">LIVE</span>
-          <span class="stat-value status-live" id="stat-live">0</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">PICTURE</span>
-          <span class="stat-value status-picture" id="stat-picture">0</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">DOWN</span>
-          <span class="stat-value status-down" id="stat-down">0</span>
-        </div>
-        <div class="stat-item db-status">
-          <span class="stat-label">STORAGE</span>
-          <span class="stat-value" id="stat-db">INIT</span>
+
+        <div class="hud-mobile-actions">
+          <button id="btn-scan-mobile" class="action-btn-icon" title="Run stream health verification">
+            <span class="scan-icon">⚡</span>
+          </button>
+          <button id="btn-drawer-toggle" class="drawer-toggle-btn" title="Open camera feeds list">
+            <span class="drawer-icon">☰</span>
+            <span class="drawer-text">FEEDS</span>
+            <span class="drawer-badge" id="hud-feed-badge">0</span>
+          </button>
         </div>
       </div>
 
       <div class="hud-controls">
         <div class="search-box">
           <span class="search-icon">🔍</span>
-          <input type="text" id="camera-search" placeholder="Search camera or coordinates..." autocomplete="off" />
+          <input type="text" id="camera-search" placeholder="Search camera or coordinates..." autocomplete="off" autocapitalize="off" spellcheck="false" />
         </div>
 
         <div class="filter-group">
@@ -61,9 +77,14 @@
           <button class="filter-btn" data-filter="down">DOWN</button>
         </div>
 
-        <button id="btn-scan" class="action-btn" title="Run stream health verification">
+        <button id="btn-scan" class="action-btn desktop-only" title="Run stream health verification">
           <span class="scan-icon">⚡</span>
           <span>RE-SCAN</span>
+        </button>
+
+        <button id="btn-sidebar-desktop" class="action-btn desktop-only sidebar-toggle-btn" title="Toggle camera feed sidebar">
+          <span class="toggle-icon">☰</span>
+          <span id="desktop-toggle-text">FEEDS</span>
         </button>
       </div>
     </header>
@@ -73,12 +94,17 @@
       <!-- Leaflet Map Viewport -->
       <div id="map"></div>
 
-      <!-- Collapsible OSINT Side Feed List -->
+      <!-- Backdrop overlay for mobile drawer -->
+      <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+
+      <!-- Collapsible OSINT Side Feed List / Mobile Drawer -->
       <aside id="cctv-sidebar" class="sidebar">
         <div class="sidebar-header">
-          <span class="sidebar-title">DISCOVERED FEEDS</span>
-          <span class="sidebar-count" id="feed-count">0 FEEDS</span>
-          <button id="toggle-sidebar" class="sidebar-toggle" title="Toggle Sidebar">‹</button>
+          <div class="sidebar-header-info">
+            <span class="sidebar-title">DISCOVERED FEEDS</span>
+            <span class="sidebar-count" id="feed-count">0 FEEDS</span>
+          </div>
+          <button id="toggle-sidebar" class="sidebar-close-btn" title="Close Feeds Panel">✕</button>
         </div>
         <div class="feed-list" id="feed-list">
           <!-- Populated dynamically via app.js -->
