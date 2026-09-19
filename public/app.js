@@ -25,6 +25,27 @@ function initMap() {
   }).addTo(map);
 
   markersLayer = L.layerGroup().addTo(map);
+
+  // Auto-refresh snapshot cameras every 60 seconds while popup is open
+  let popupRefreshTimer = null;
+  map.on('popupopen', (e) => {
+    if (popupRefreshTimer) clearInterval(popupRefreshTimer);
+    const popupEl = e.popup.getElement();
+    const snapImg = popupEl ? popupEl.querySelector('.popup-snapshot') : null;
+    if (snapImg && snapImg.dataset.rawSrc) {
+      popupRefreshTimer = setInterval(() => {
+        const raw = snapImg.dataset.rawSrc;
+        snapImg.src = raw + (raw.includes('?') ? '&' : '?') + 't=' + Date.now();
+      }, 60000);
+    }
+  });
+
+  map.on('popupclose', () => {
+    if (popupRefreshTimer) {
+      clearInterval(popupRefreshTimer);
+      popupRefreshTimer = null;
+    }
+  });
 }
 
 // Create custom DOM Marker Reticle
@@ -65,6 +86,8 @@ function createPopupContent(cam) {
 
   const ytId = getYouTubeId(cam);
   const isVideo = !ytId && cam.stream_url && cam.stream_url.includes('.mp4');
+  const isSnapshot = cam.is_snapshot || (cam.stream_url && /\.(jpg|jpeg|png)$/i.test(cam.stream_url));
+  const previewImg = cam.preview_image || (isSnapshot ? cam.stream_url : null);
 
   let mediaHtml = '';
   if (ytId) {
@@ -75,9 +98,13 @@ function createPopupContent(cam) {
     mediaHtml = `
       <video class="popup-video" src="${encodeURI(cam.stream_url)}" autoplay loop muted playsinline controls referrerpolicy="no-referrer"></video>
     `;
-  } else if (cam.preview_image) {
+  } else if (previewImg) {
+    const rawSrc = encodeURI(previewImg);
     mediaHtml = `
-      <img class="popup-video" src="${encodeURI(cam.preview_image)}" alt="${escapeHtml(cam.name)}" loading="lazy" referrerpolicy="no-referrer" />
+      <div class="snapshot-container">
+        <img class="popup-video popup-snapshot" src="${rawSrc}${rawSrc.includes('?') ? '&' : '?'}t=${Date.now()}" data-raw-src="${rawSrc}" alt="${escapeHtml(cam.name)}" loading="lazy" referrerpolicy="no-referrer" />
+        ${isSnapshot ? '<span class="snapshot-tag">● LIVE (REFRESH: 60s)</span>' : ''}
+      </div>
     `;
   }
 
