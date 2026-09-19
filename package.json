@@ -2,9 +2,7 @@
   "name": "eyefinder",
   "version": "1.0.0",
   "description": "Real-time OSINT CCTV map tracker with live status monitoring",
-  "main": "server.js",
   "scripts": {
-    "build": "node scripts/seed-db.js",
     "start": "node server.js",
     "dev": "node server.js",
     "seed": "node scripts/seed-db.js",

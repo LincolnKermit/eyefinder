@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EyeFinder // Real-Time OSINT CCTV Flux</title>
+  
+  <!-- Leaflet Open-Source Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Top OSINT Navigation / Status Bar -->
+    <header id="header">
+      <div class="hud-left">
+        <div class="brand">
+          <span class="crosshair">⌖</span>
+          <span class="brand-title">EYEFINDER</span>
+          <span class="badge-tag">OSINT FLUX</span>
+        </div>
+        <div class="hud-clock" id="utc-clock">00:00:00 UTC</div>
+      </div>
+
+      <div class="hud-stats">
+        <div class="stat-item">
+          <span class="stat-label">TOTAL</span>
+          <span class="stat-value" id="stat-total">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">OPERATIONAL</span>
+          <span class="stat-value status-up" id="stat-online">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">DOWN</span>
+          <span class="stat-value status-down" id="stat-down">0</span>
+        </div>
+        <div class="stat-item db-status">
+          <span class="stat-label">STORAGE</span>
+          <span class="stat-value" id="stat-db">INIT</span>
+        </div>
+      </div>
+
+      <div class="hud-controls">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="camera-search" placeholder="Search camera or coordinates..." autocomplete="off" />
+        </div>
+
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">ALL</button>
+          <button class="filter-btn" data-filter="operational">LIVE</button>
+          <button class="filter-btn" data-filter="down">DOWN</button>
+        </div>
+
+        <button id="btn-scan" class="action-btn" title="Run stream health verification">
+          <span class="scan-icon">⚡</span>
+          <span>RE-SCAN</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main id="main-container">
+      <!-- Leaflet Map Viewport -->
+      <div id="map"></div>
+
+      <!-- Collapsible OSINT Side Feed List -->
+      <aside id="cctv-sidebar" class="sidebar">
+        <div class="sidebar-header">
+          <span class="sidebar-title">DISCOVERED FEEDS</span>
+          <span class="sidebar-count" id="feed-count">0 FEEDS</span>
+          <button id="toggle-sidebar" class="sidebar-toggle" title="Toggle Sidebar">‹</button>
+        </div>
+        <div class="feed-list" id="feed-list">
+          <!-- Populated dynamically via app.js -->
+        </div>
+      </aside>
+    </main>
+
+    <!-- Scanning Overlay -->
+    <div id="scan-indicator" class="scan-indicator hidden">
+      <div class="scan-bar"></div>
+      <span>PROBING CCTV FLUX STREAMS...</span>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- Main App JS -->
+  <script src="app.js"></script>
+</body>
+</html>
