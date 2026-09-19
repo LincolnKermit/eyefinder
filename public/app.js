@@ -26,6 +26,29 @@ function initMap() {
 
   markersLayer = L.layerGroup().addTo(map);
 
+  // Map Legend
+  const legend = L.control({ position: 'bottomleft' });
+  legend.onAdd = function() {
+    const div = L.DomUtil.create('div', 'map-legend');
+    div.innerHTML = `
+      <div class="legend-title">FEED CLASSIFICATION</div>
+      <div class="legend-row">
+        <span class="legend-dot dot-live"></span>
+        <span>Live Stream (Dark Green)</span>
+      </div>
+      <div class="legend-row">
+        <span class="legend-dot dot-picture"></span>
+        <span>Picture Refresh (Light Green)</span>
+      </div>
+      <div class="legend-row">
+        <span class="legend-dot dot-down"></span>
+        <span>Offline (Red)</span>
+      </div>
+    `;
+    return div;
+  };
+  legend.addTo(map);
+
   // Auto-refresh snapshot cameras every 60 seconds while popup is open
   let popupRefreshTimer = null;
   map.on('popupopen', (e) => {
@@ -48,11 +71,33 @@ function initMap() {
   });
 }
 
+// Helper to determine if a camera is a refreshing snapshot or live video stream
+function isPictureCamera(cam) {
+  return Boolean(
+    cam.is_snapshot ||
+    (cam.stream_url && /\.(jpg|jpeg|png)$/i.test(cam.stream_url)) ||
+    (cam.stream_url && cam.stream_url.includes('visu_camera')) ||
+    (cam.preview_image && !cam.youtube_id && (!cam.stream_url || (!cam.stream_url.includes('.mp4') && !cam.stream_url.includes('youtube') && !cam.stream_url.includes('youtu.be'))))
+  );
+}
+
+// Helper to resolve camera type: 'live' | 'picture' | 'down'
+function getCameraType(cam) {
+  if (cam.status === 'down') return 'down';
+  return isPictureCamera(cam) ? 'picture' : 'live';
+}
+
 // Create custom DOM Marker Reticle
-function createPinIcon(status) {
-  const isUp = status === 'operational';
+// - Live camera: Dark Green (.pin-live)
+// - Picture refresh: Lighter Green (.pin-picture)
+// - Down: Red (.pin-down)
+function createPinIcon(cam) {
+  const type = (typeof cam === 'string') 
+    ? (cam === 'down' ? 'down' : 'live') 
+    : getCameraType(cam);
+
   const html = `
-    <div class="custom-pin pin-${isUp ? 'operational' : 'down'}">
+    <div class="custom-pin pin-${type}">
       <div class="pin-pulse"></div>
       <div class="pin-core"></div>
     </div>
@@ -77,7 +122,13 @@ function getYouTubeId(cam) {
 
 // Build popup HTML for a camera
 function createPopupContent(cam) {
+  const type = getCameraType(cam);
   const isUp = cam.status === 'operational';
+  const isPic = type === 'picture';
+  const isDown = type === 'down';
+  const badgeClass = isDown ? 'badge-down' : (isPic ? 'badge-picture' : 'badge-live');
+  const badgeText = isDown ? '■ OFFLINE' : (isPic ? '⟳ PICTURE (60s)' : '● LIVE STREAM');
+
   const latFormatted = Number(cam.latitude).toFixed(4);
   const lonFormatted = Number(cam.longitude).toFixed(4);
   const timeFormatted = cam.last_checked
@@ -86,7 +137,7 @@ function createPopupContent(cam) {
 
   const ytId = getYouTubeId(cam);
   const isVideo = !ytId && cam.stream_url && cam.stream_url.includes('.mp4');
-  const isSnapshot = cam.is_snapshot || (cam.stream_url && /\.(jpg|jpeg|png)$/i.test(cam.stream_url));
+  const isSnapshot = isPic;
   const previewImg = cam.preview_image || (isSnapshot ? cam.stream_url : null);
 
   let mediaHtml = '';
@@ -103,7 +154,7 @@ function createPopupContent(cam) {
     mediaHtml = `
       <div class="snapshot-container">
         <img class="popup-video popup-snapshot" src="${rawSrc}${rawSrc.includes('?') ? '&' : '?'}t=${Date.now()}" data-raw-src="${rawSrc}" alt="${escapeHtml(cam.name)}" loading="lazy" referrerpolicy="no-referrer" />
-        ${isSnapshot ? '<span class="snapshot-tag">● LIVE (REFRESH: 60s)</span>' : ''}
+        <span class="snapshot-tag">⟳ PICTURE (REFRESH: 60s)</span>
       </div>
     `;
   }
@@ -112,14 +163,20 @@ function createPopupContent(cam) {
     <div class="popup-card">
       <div class="popup-header">
         <div class="popup-title">${escapeHtml(cam.name)}</div>
-        <span class="popup-badge badge-${isUp ? 'operational' : 'down'}">
-          ${isUp ? '● OPERATIONAL' : '■ DOWN'}
+        <span class="popup-badge ${badgeClass}">
+          ${badgeText}
         </span>
       </div>
 
       ${mediaHtml}
 
       <div class="popup-meta">
+        <div class="meta-row">
+          <span class="meta-label">TYPE</span>
+          <span class="meta-val" style="color: ${type === 'live' ? 'var(--color-live-text)' : (type === 'picture' ? 'var(--color-picture)' : 'var(--status-red)')}; font-weight: 700;">
+            ${type === 'live' ? 'LIVE CAMERA (VIDEO)' : (type === 'picture' ? 'PERIODIC PICTURE' : 'OFFLINE')}
+          </span>
+        </div>
         <div class="meta-row">
           <span class="meta-label">COORDINATES</span>
           <span class="meta-val">${latFormatted}, ${lonFormatted}</span>
@@ -175,18 +232,34 @@ async function loadCameras() {
 
 // Update telemetry counters
 function updateStats(data) {
-  document.getElementById('stat-total').textContent = data.total || allCameras.length;
-  document.getElementById('stat-online').textContent = data.operational || allCameras.filter(c => c.status === 'operational').length;
-  document.getElementById('stat-down').textContent = data.down || allCameras.filter(c => c.status === 'down').length;
-  document.getElementById('stat-db').textContent = (data.storage === 'supabase' ? 'SUPABASE' : 'DATASTORE').toUpperCase();
+  const total = data.total || allCameras.length;
+  const liveCount = allCameras.filter(c => c.status === 'operational' && getCameraType(c) === 'live').length;
+  const pictureCount = allCameras.filter(c => c.status === 'operational' && getCameraType(c) === 'picture').length;
+  const downCount = data.down !== undefined ? data.down : allCameras.filter(c => c.status === 'down').length;
+
+  document.getElementById('stat-total').textContent = total;
+  if (document.getElementById('stat-live')) {
+    document.getElementById('stat-live').textContent = liveCount;
+  }
+  if (document.getElementById('stat-picture')) {
+    document.getElementById('stat-picture').textContent = pictureCount;
+  }
+  if (document.getElementById('stat-online')) {
+    document.getElementById('stat-online').textContent = data.operational || (liveCount + pictureCount);
+  }
+  document.getElementById('stat-down').textContent = downCount;
+  document.getElementById('stat-db').textContent = (data.storage === 'supabase' ? 'SUPABASE' : 'EDGE').toUpperCase();
 }
 
 // Filter cameras based on search and status buttons
 function getFilteredCameras() {
   return allCameras.filter(cam => {
+    const type = getCameraType(cam);
     const matchesFilter =
       activeFilter === 'all' ||
       (activeFilter === 'operational' && cam.status === 'operational') ||
+      (activeFilter === 'live' && type === 'live') ||
+      (activeFilter === 'picture' && type === 'picture') ||
       (activeFilter === 'down' && cam.status === 'down');
 
     const matchesSearch =
@@ -204,9 +277,12 @@ function renderMapMarkers() {
   const filtered = getFilteredCameras();
 
   filtered.forEach(cam => {
+    const type = getCameraType(cam);
+    const typeLabel = type === 'live' ? 'Live Camera' : (type === 'picture' ? 'Picture (Refresh)' : 'Offline');
+
     const marker = L.marker([cam.latitude, cam.longitude], {
-      icon: createPinIcon(cam.status),
-      title: cam.name
+      icon: createPinIcon(cam),
+      title: `${cam.name} [${typeLabel}]`
     });
 
     marker.bindPopup(createPopupContent(cam), { maxWidth: 320 });
@@ -224,12 +300,19 @@ function renderSidebarList() {
   container.innerHTML = '';
 
   filtered.forEach(cam => {
+    const type = getCameraType(cam);
+    const typeLabel = type === 'live' ? 'LIVE' : (type === 'picture' ? 'PICTURE' : 'OFFLINE');
+    const typePill = type === 'live' ? 'LIVE' : (type === 'picture' ? '60s' : 'DOWN');
+
     const card = document.createElement('div');
     card.className = 'feed-card';
     card.innerHTML = `
       <div class="feed-card-header">
         <span class="feed-name" title="${escapeHtml(cam.name)}">${escapeHtml(cam.name)}</span>
-        <span class="feed-dot ${cam.status}"></span>
+        <div class="feed-header-tags">
+          <span class="feed-tag tag-${type}">${typePill}</span>
+          <span class="feed-dot ${type}" title="${typeLabel}"></span>
+        </div>
       </div>
       <div class="feed-details">
         <span>${escapeHtml(cam.source || 'Public Feed')}</span>

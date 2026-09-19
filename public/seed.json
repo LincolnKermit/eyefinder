@@ -210,7 +210,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live4276.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.982Z"
+      "last_checked": "2026-09-19T22:32:02.982Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-5366",
@@ -222,7 +223,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live5366.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-5755",
@@ -234,7 +236,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live5755.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-5627",
@@ -246,7 +249,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live5627.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-5671",
@@ -258,7 +262,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live5671.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-4666",
@@ -270,7 +275,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live4666.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-6195",
@@ -282,7 +288,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live6195.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-6185",
@@ -294,7 +301,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live6185.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-3771",
@@ -306,7 +314,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live3771.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-6199",
@@ -318,7 +327,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live6199.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-2427",
@@ -330,7 +340,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live2427.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-3761",
@@ -342,7 +353,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live3761.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-3499",
@@ -354,7 +366,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live3499.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-3638",
@@ -366,7 +379,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live3638.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "skyline-3762",
@@ -378,7 +392,8 @@
       "preview_image": "https://cdn.skylinewebcams.com/live3762.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:32:02.983Z"
+      "last_checked": "2026-09-19T22:32:02.983Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-4",
@@ -388,7 +403,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.4.mp4",
       "source": "DIR Centre-Est (Auxerre – Nevers)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.759Z"
+      "last_checked": "2026-09-19T22:19:47.759Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-5",
@@ -398,7 +414,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.5.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-7",
@@ -408,7 +425,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.7.mp4",
       "source": "DIR Centre-Est (Auxerre – Nevers)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-8",
@@ -418,7 +436,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.8.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-9",
@@ -428,7 +447,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.9.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-13",
@@ -438,7 +458,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.13.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-15",
@@ -448,7 +469,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.15.mp4",
       "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-16",
@@ -458,7 +480,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.16.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-17",
@@ -468,7 +491,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.17.mp4",
       "source": "DIR Centre-Est (N7 Vallée du Rhône)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-19",
@@ -478,7 +502,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.19.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-20",
@@ -488,7 +513,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.20.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-24",
@@ -498,7 +524,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.24.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-25",
@@ -508,7 +535,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.25.mp4",
       "source": "DIR Centre-Est (Roanne – Lyon)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-26",
@@ -518,7 +546,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.26.mp4",
       "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-27",
@@ -528,7 +557,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.27.mp4",
       "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-29",
@@ -538,7 +568,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.29.mp4",
       "source": "DIR Centre-Est (N7 Vallée du Rhône)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-30",
@@ -548,7 +579,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.30.mp4",
       "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-31",
@@ -558,7 +590,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.31.mp4",
       "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.760Z"
+      "last_checked": "2026-09-19T22:19:47.760Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-32",
@@ -568,7 +601,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.32.mp4",
       "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-34",
@@ -578,7 +612,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.34.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-37",
@@ -588,7 +623,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.37.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-40",
@@ -598,7 +634,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.40.mp4",
       "source": "DIR Centre-Est (N7 Vallée du Rhône)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-41",
@@ -608,7 +645,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.41.mp4",
       "source": "DIR Centre-Est (Moulins - Mâcon / Dijon)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-45",
@@ -618,7 +656,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.45.mp4",
       "source": "DIR Centre-Est (Roanne – Lyon)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-47",
@@ -628,7 +667,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.47.mp4",
       "source": "DIR Centre-Est (Moulins - Mâcon / Dijon)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-49",
@@ -638,7 +678,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.49.mp4",
       "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-55",
@@ -648,7 +689,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.55.mp4",
       "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-57",
@@ -658,7 +700,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.57.mp4",
       "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-61",
@@ -668,7 +711,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.61.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-64",
@@ -678,7 +722,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.64.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-65",
@@ -688,7 +733,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.65.mp4",
       "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-66",
@@ -698,7 +744,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.66.mp4",
       "source": "DIR Centre-Est (Moulins - Mâcon / Dijon)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "dirce-67",
@@ -708,7 +755,8 @@
       "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.67.mp4",
       "source": "DIR Centre-Est (Roanne – Lyon)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:19:47.762Z"
+      "last_checked": "2026-09-19T22:19:47.762Z",
+      "is_snapshot": false
     },
     {
       "id": "cam-nyc-times-square",
@@ -717,7 +765,8 @@
       "longitude": -73.9855,
       "stream_url": "https://www.earthcam.com/usa/newyork/timessquare/?cam=tsrobo1",
       "source": "EarthCam Public Feeds",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-nyc-5th-ave",
@@ -726,7 +775,8 @@
       "longitude": -73.9818,
       "stream_url": "https://webcams.nyctmc.org",
       "source": "NYC DOT Traffic Cameras",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": true
     },
     {
       "id": "cam-nyc-brooklyn-bridge",
@@ -735,7 +785,8 @@
       "longitude": -73.9969,
       "stream_url": "https://webcams.nyctmc.org",
       "source": "NYC DOT Feeds",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": true
     },
     {
       "id": "cam-sf-bay-bridge",
@@ -744,7 +795,8 @@
       "longitude": -122.3778,
       "stream_url": "https://cwwp2.dot.ca.gov/vm/loc/d4/hwy80atbaybridge.htm",
       "source": "Caltrans District 4",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": true
     },
     {
       "id": "cam-sf-embarcadero",
@@ -753,7 +805,8 @@
       "longitude": -122.3912,
       "stream_url": "https://www.sensibleweather.com",
       "source": "Open City Webcams",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-london-tower-bridge",
@@ -762,7 +815,8 @@
       "longitude": -0.0754,
       "stream_url": "https://www.camscape.com/camera/london-tower-bridge-webcam/",
       "source": "Camscape Feeds",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-london-piccadilly",
@@ -771,7 +825,8 @@
       "longitude": -0.1345,
       "stream_url": "https://www.earthcam.com/world/uk/london/piccadillycircus/?cam=piccadillycircus",
       "source": "EarthCam Feeds",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-paris-eiffel",
@@ -780,7 +835,8 @@
       "longitude": 2.2945,
       "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/ile-de-france/paris/tour-eiffel.html",
       "source": "SkylineWebcams",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-paris-concorde",
@@ -789,7 +845,8 @@
       "longitude": 2.3212,
       "stream_url": "https://www.viewsurf.com/univers/ville/vue/16769-france-ile-de-france-paris-place-de-la-concorde",
       "source": "Viewsurf Open Feeds",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-tokyo-shibuya",
@@ -798,7 +855,8 @@
       "longitude": 139.7004,
       "stream_url": "https://www.youtube.com/watch?v=HpdO5Kq3o8Y",
       "source": "Shibuya Live Stream",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-tokyo-shinjuku",
@@ -807,7 +865,8 @@
       "longitude": 139.7034,
       "stream_url": "https://www.youtube.com/watch?v=6afT4b_aXvI",
       "source": "Live Shinjuku Cam",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-amsterdam-dam",
@@ -816,7 +875,8 @@
       "longitude": 4.8936,
       "stream_url": "https://www.skylinewebcams.com/en/webcam/netherlands/north-holland/amsterdam/dam-square.html",
       "source": "SkylineWebcams",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-berlin-brandenburg",
@@ -825,7 +885,8 @@
       "longitude": 13.3777,
       "stream_url": "https://www.berlin.de/webcams/brandenburger-tor/",
       "source": "Berlin Open Portal",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-rome-colosseum",
@@ -834,7 +895,8 @@
       "longitude": 12.4922,
       "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/colosseo.html",
       "source": "SkylineWebcams",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-venice-san-marco",
@@ -843,7 +905,8 @@
       "longitude": 12.3388,
       "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/piazza-san-marco.html",
       "source": "SkylineWebcams",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-dublin-temple-bar",
@@ -852,7 +915,8 @@
       "longitude": -6.2642,
       "stream_url": "https://www.earthcam.com/world/ireland/dublin/?cam=templebar",
       "source": "EarthCam Feeds",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-sydney-harbour",
@@ -861,7 +925,8 @@
       "longitude": 151.2153,
       "stream_url": "https://www.sydneyoperahouse.com/our-story/live-webcam",
       "source": "Sydney Open Stream",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-seoul-gangnam",
@@ -870,7 +935,8 @@
       "longitude": 127.0276,
       "stream_url": "https://topis.seoul.go.kr",
       "source": "Seoul TOPIS Traffic Feeds",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": true
     },
     {
       "id": "cam-toronto-dundas-sq",
@@ -879,7 +945,8 @@
       "longitude": -79.3802,
       "stream_url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/traffic-cameras/",
       "source": "City of Toronto Traffic",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": true
     },
     {
       "id": "cam-prague-old-town",
@@ -888,7 +955,8 @@
       "longitude": 14.4211,
       "stream_url": "https://www.earthcam.com/world/czechrepublic/prague/?cam=pragueoldtown",
       "source": "EarthCam Feeds",
-      "status": "operational"
+      "status": "operational",
+      "is_snapshot": false
     },
     {
       "id": "cam-unreachable-test",
@@ -897,7 +965,8 @@
       "longitude": -0.12,
       "stream_url": "http://192.0.2.1/stream.mjpg",
       "source": "Offline Simulation Feed",
-      "status": "down"
+      "status": "down",
+      "is_snapshot": false
     },
     {
       "id": "bpnl-valvert",
