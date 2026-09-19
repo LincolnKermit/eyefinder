@@ -68,7 +68,9 @@ function createPopupContent(cam) {
 
       ${isVideo ? `
         <video class="popup-video" src="${encodeURI(cam.stream_url)}" autoplay loop muted playsinline controls></video>
-      ` : ''}
+      ` : (cam.preview_image ? `
+        <img class="popup-video" src="${encodeURI(cam.preview_image)}" alt="${escapeHtml(cam.name)}" loading="lazy" />
+      ` : '')}
 
       <div class="popup-meta">
         <div class="meta-row">
