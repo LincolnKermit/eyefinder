@@ -1,8 +1,8 @@
 {
   "success": true,
-  "storage": "embedded_fallback",
-  "total": 84,
-  "operational": 83,
+  "storage": "fallback",
+  "total": 91,
+  "operational": 90,
   "down": 1,
   "cameras": [
     {
@@ -898,6 +898,97 @@
       "stream_url": "http://192.0.2.1/stream.mjpg",
       "source": "Offline Simulation Feed",
       "status": "down"
+    },
+    {
+      "id": "bpnl-valvert",
+      "name": "Lyon - Périphérique Nord: Porte du Valvert",
+      "latitude": 45.7705553,
+      "longitude": 4.7872918,
+      "stream_url": "https://www.youtube.com/watch?v=WdgZIE0T4Gs",
+      "preview_image": "https://i.ytimg.com/vi/WdgZIE0T4Gs/hqdefault.jpg",
+      "youtube_id": "WdgZIE0T4Gs",
+      "is_snapshot": false,
+      "source": "Périphérique Nord (BPNL)",
+      "status": "operational",
+      "last_checked": "2026-09-19T23:09:39.606Z"
+    },
+    {
+      "id": "bpnl-vaise",
+      "name": "Lyon - Périphérique Nord: Porte de Vaise",
+      "latitude": 45.7817334,
+      "longitude": 4.7993519,
+      "stream_url": "https://www.youtube.com/watch?v=z4vQEMiD3VI",
+      "preview_image": "https://i.ytimg.com/vi/z4vQEMiD3VI/hqdefault.jpg",
+      "youtube_id": "z4vQEMiD3VI",
+      "is_snapshot": false,
+      "source": "Périphérique Nord (BPNL)",
+      "status": "operational",
+      "last_checked": "2026-09-19T23:09:39.606Z"
+    },
+    {
+      "id": "bpnl-croix-luizet",
+      "name": "Lyon - Périphérique Nord: Porte de Croix-Luizet",
+      "latitude": 45.7819899,
+      "longitude": 4.8927078,
+      "stream_url": "https://www.youtube.com/watch?v=CdLzCCHDaYQ",
+      "preview_image": "https://i.ytimg.com/vi/CdLzCCHDaYQ/hqdefault.jpg",
+      "youtube_id": "CdLzCCHDaYQ",
+      "is_snapshot": false,
+      "source": "Périphérique Nord (BPNL)",
+      "status": "operational",
+      "last_checked": "2026-09-19T23:09:39.606Z"
+    },
+    {
+      "id": "bpnl-pape",
+      "name": "Lyon - Périphérique Nord: Porte de la Pape",
+      "latitude": 45.7910872,
+      "longitude": 4.8415849,
+      "stream_url": "https://www.youtube.com/watch?v=z545k7Tcb5o",
+      "preview_image": "https://i.ytimg.com/vi/z545k7Tcb5o/hqdefault.jpg",
+      "youtube_id": "z545k7Tcb5o",
+      "is_snapshot": false,
+      "source": "Périphérique Nord (BPNL)",
+      "status": "operational",
+      "last_checked": "2026-09-19T23:09:39.606Z"
+    },
+    {
+      "id": "lyon-silex2-part-dieu",
+      "name": "Lyon - Part-Dieu: Tour Silex² (Covivio)",
+      "latitude": 45.7594,
+      "longitude": 4.858,
+      "stream_url": "https://www.youtube.com/watch?v=S1GXeusRqMM",
+      "preview_image": "https://i.ytimg.com/vi/S1GXeusRqMM/hqdefault.jpg",
+      "youtube_id": "S1GXeusRqMM",
+      "is_snapshot": false,
+      "source": "Camera Silex Covivio",
+      "status": "operational",
+      "last_checked": "2026-09-19T23:09:39.606Z"
+    },
+    {
+      "id": "chateauneuf-vallee-gier",
+      "name": "Vallée du Gier - Châteauneuf (LPO)",
+      "latitude": 45.5344777,
+      "longitude": 4.6341269,
+      "stream_url": "https://www.youtube.com/watch?v=vjZ7tn_bB34",
+      "preview_image": "https://i.ytimg.com/vi/vjZ7tn_bB34/hqdefault.jpg",
+      "youtube_id": "vjZ7tn_bB34",
+      "is_snapshot": false,
+      "source": "LPO Auvergne-Rhône-Alpes",
+      "status": "operational",
+      "last_checked": "2026-09-19T23:09:39.606Z"
+    },
+    {
+      "id": "lyon-aerodrome-brindas",
+      "name": "Lyon - Aérodrome de Brindas (ACOL)",
+      "latitude": 45.7148,
+      "longitude": 4.6974,
+      "stream_url": "https://www.acol-brindas.com/pages/visu_camera_data.php?camera=1&vue=image&dc=1",
+      "preview_image": "https://www.acol-brindas.com/pages/visu_camera_data.php?camera=1&vue=image&dc=1",
+      "is_snapshot": true,
+      "refresh_interval": 60,
+      "source": "Aérodrome de Brindas (ACOL)",
+      "status": "operational",
+      "last_checked": "2026-09-19T23:09:39.606Z"
     }
   ]
 }
