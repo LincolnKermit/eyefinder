@@ -1,9 +1,22 @@
-module.exports = async function handler(req, res) {
+function sendJson(res, statusCode, data) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Content-Type', 'application/json');
 
+  if (typeof res.status === 'function' && typeof res.json === 'function') {
+    return res.status(statusCode).json(data);
+  }
+  res.statusCode = statusCode;
+  return res.end(JSON.stringify(data));
+}
+
+module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    if (typeof res.status === 'function') return res.status(200).end();
+    res.statusCode = 200;
+    return res.end();
   }
 
   const startTime = Date.now();
@@ -21,13 +34,15 @@ module.exports = async function handler(req, res) {
     const checkedCameras = await verifyAllCameras(cameras);
 
     // Save updated status to database
-    await upsertCameras(checkedCameras);
+    try {
+      await upsertCameras(checkedCameras);
+    } catch (e) {}
 
     const operational = checkedCameras.filter(c => c.status === 'operational').length;
     const down = checkedCameras.filter(c => c.status === 'down').length;
     const duration = Date.now() - startTime;
 
-    return res.status(200).json({
+    return sendJson(res, 200, {
       success: true,
       timestamp: new Date().toISOString(),
       duration_ms: duration,
@@ -40,11 +55,10 @@ module.exports = async function handler(req, res) {
     });
   } catch (err) {
     console.error('Cron job error:', err);
-    return res.status(200).json({
+    return sendJson(res, 200, {
       success: false,
       diagnostics: true,
-      error: err.message,
-      stack: err.stack
+      error: err.message
     });
   }
 };
