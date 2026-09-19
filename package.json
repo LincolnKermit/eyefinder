@@ -8,13 +8,16 @@
     "seed": "node scripts/seed-db.js",
     "check": "node scripts/check-health.js"
   },
-  "keywords": ["cctv", "osint", "map", "leaflet", "realtime", "streams"],
+  "keywords": [
+    "cctv",
+    "osint",
+    "map",
+    "leaflet",
+    "realtime",
+    "streams"
+  ],
   "author": "lincolnkermit",
   "license": "MIT",
-  "dependencies": {
-    "@supabase/supabase-js": "^2.48.0"
-  },
-  "devDependencies": {},
   "engines": {
     "node": ">=20.0.0"
   }
