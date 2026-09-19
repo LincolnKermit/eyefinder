@@ -1,7 +1,3 @@
-const { getCameras, upsertCameras } = require('../lib/db');
-const { verifyAllCameras, scrapeFeeds } = require('../lib/scraper');
-const { SEED_CAMERAS } = require('../lib/seed');
-
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -13,6 +9,9 @@ module.exports = async function handler(req, res) {
   const startTime = Date.now();
 
   try {
+    const { getCameras, upsertCameras } = require('../lib/db');
+    const { verifyAllCameras, scrapeFeeds } = require('../lib/scraper');
+
     let cameras = await getCameras();
     if (!cameras || cameras.length === 0) {
       cameras = await scrapeFeeds();
@@ -41,9 +40,11 @@ module.exports = async function handler(req, res) {
     });
   } catch (err) {
     console.error('Cron job error:', err);
-    return res.status(500).json({
+    return res.status(200).json({
       success: false,
-      error: err.message
+      diagnostics: true,
+      error: err.message,
+      stack: err.stack
     });
   }
 };

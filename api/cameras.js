@@ -1,6 +1,3 @@
-const { getCameras, upsertCameras, isUsingSupabase } = require('../lib/db');
-const { SEED_CAMERAS } = require('../lib/seed');
-
 module.exports = async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -12,6 +9,9 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    const { getCameras, upsertCameras, isUsingSupabase } = require('../lib/db');
+    const { SEED_CAMERAS } = require('../lib/seed');
+
     if (req.method === 'GET') {
       let cameras = await getCameras();
 
@@ -54,6 +54,7 @@ module.exports = async function handler(req, res) {
         last_checked: new Date().toISOString()
       };
 
+      const { upsertCameras } = require('../lib/db');
       await upsertCameras([newCamera]);
       return res.status(201).json({ success: true, camera: newCamera });
     }
@@ -61,6 +62,11 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   } catch (err) {
     console.error('API /api/cameras error:', err);
-    return res.status(500).json({ error: 'Internal server error', details: err.message });
+    return res.status(200).json({
+      success: false,
+      diagnostics: true,
+      error: err.message,
+      stack: err.stack
+    });
   }
 };
