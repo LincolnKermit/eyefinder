@@ -7,7 +7,7 @@
     "stream_url": "https://www.earthcam.com/usa/newyork/timessquare/?cam=tsrobo1",
     "source": "EarthCam Public Feeds",
     "status": "operational",
-    "last_checked": "2026-09-19T21:48:21.815Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-nyc-5th-ave",
@@ -16,8 +16,8 @@
     "longitude": -73.9818,
     "stream_url": "https://webcams.nyctmc.org",
     "source": "NYC DOT Traffic Cameras",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:25.075Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-nyc-brooklyn-bridge",
@@ -26,8 +26,8 @@
     "longitude": -73.9969,
     "stream_url": "https://webcams.nyctmc.org",
     "source": "NYC DOT Feeds",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:25.078Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-sf-bay-bridge",
@@ -36,8 +36,8 @@
     "longitude": -122.3778,
     "stream_url": "https://cwwp2.dot.ca.gov/vm/loc/d4/hwy80atbaybridge.htm",
     "source": "Caltrans District 4",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:24.112Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-sf-embarcadero",
@@ -47,7 +47,7 @@
     "stream_url": "https://www.sensibleweather.com",
     "source": "Open City Webcams",
     "status": "operational",
-    "last_checked": "2026-09-19T21:48:23.793Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-london-tower-bridge",
@@ -56,8 +56,8 @@
     "longitude": -0.0754,
     "stream_url": "https://www.camscape.com/camera/london-tower-bridge-webcam/",
     "source": "Camscape Feeds",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:25.306Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-london-piccadilly",
@@ -66,8 +66,8 @@
     "longitude": -0.1345,
     "stream_url": "https://www.earthcam.com/world/uk/london/piccadillycircus/?cam=piccadillycircus",
     "source": "EarthCam Feeds",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:25.718Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-paris-eiffel",
@@ -77,7 +77,7 @@
     "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/ile-de-france/paris/tour-eiffel.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "last_checked": "2026-09-19T21:48:25.230Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-paris-concorde",
@@ -86,8 +86,8 @@
     "longitude": 2.3212,
     "stream_url": "https://www.viewsurf.com/univers/ville/vue/16769-france-ile-de-france-paris-place-de-la-concorde",
     "source": "Viewsurf Open Feeds",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:26.467Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-tokyo-shibuya",
@@ -97,7 +97,7 @@
     "stream_url": "https://www.youtube.com/watch?v=HpdO5Kq3o8Y",
     "source": "Shibuya Live Stream",
     "status": "operational",
-    "last_checked": "2026-09-19T21:48:25.339Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-tokyo-shinjuku",
@@ -107,7 +107,7 @@
     "stream_url": "https://www.youtube.com/watch?v=6afT4b_aXvI",
     "source": "Live Shinjuku Cam",
     "status": "operational",
-    "last_checked": "2026-09-19T21:48:26.697Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-amsterdam-dam",
@@ -116,8 +116,8 @@
     "longitude": 4.8936,
     "stream_url": "https://www.skylinewebcams.com/en/webcam/netherlands/north-holland/amsterdam/dam-square.html",
     "source": "SkylineWebcams",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:26.586Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-berlin-brandenburg",
@@ -126,8 +126,8 @@
     "longitude": 13.3777,
     "stream_url": "https://www.berlin.de/webcams/brandenburger-tor/",
     "source": "Berlin Open Portal",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:26.610Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-rome-colosseum",
@@ -137,7 +137,7 @@
     "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/colosseo.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "last_checked": "2026-09-19T21:48:26.574Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-venice-san-marco",
@@ -147,7 +147,7 @@
     "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/piazza-san-marco.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "last_checked": "2026-09-19T21:48:26.581Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-dublin-temple-bar",
@@ -157,7 +157,7 @@
     "stream_url": "https://www.earthcam.com/world/ireland/dublin/?cam=templebar",
     "source": "EarthCam Feeds",
     "status": "operational",
-    "last_checked": "2026-09-19T21:48:26.876Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-sydney-harbour",
@@ -166,8 +166,8 @@
     "longitude": 151.2153,
     "stream_url": "https://www.sydneyoperahouse.com/our-story/live-webcam",
     "source": "Sydney Open Stream",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:28.208Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-seoul-gangnam",
@@ -176,8 +176,8 @@
     "longitude": 127.0276,
     "stream_url": "https://topis.seoul.go.kr",
     "source": "Seoul TOPIS Traffic Feeds",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:30.222Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-toronto-dundas-sq",
@@ -186,8 +186,8 @@
     "longitude": -79.3802,
     "stream_url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/traffic-cameras/",
     "source": "City of Toronto Traffic",
-    "status": "down",
-    "last_checked": "2026-09-19T21:48:27.336Z"
+    "status": "operational",
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-prague-old-town",
@@ -197,7 +197,7 @@
     "stream_url": "https://www.earthcam.com/world/czechrepublic/prague/?cam=pragueoldtown",
     "source": "EarthCam Feeds",
     "status": "operational",
-    "last_checked": "2026-09-19T21:48:26.998Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   },
   {
     "id": "cam-unreachable-test",
@@ -207,6 +207,6 @@
     "stream_url": "http://192.0.2.1/stream.mjpg",
     "source": "Offline Simulation Feed",
     "status": "down",
-    "last_checked": "2026-09-19T21:48:30.222Z"
+    "last_checked": "2026-09-19T22:06:14.411Z"
   }
 ]
