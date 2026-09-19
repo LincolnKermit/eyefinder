@@ -5,24 +5,23 @@ let allCameras = [];
 let activeFilter = 'all';
 let searchQuery = '';
 
-// Initialize Leaflet Map with CartoDB Dark Matter free tiles
+// Initialize Leaflet Map with ESRI World Dark Gray free tiles (no API key required)
 function initMap() {
   map = L.map('map', {
-    center: [30.0, 0.0],
-    zoom: 3,
+    center: [46.5, 4.8], // Centered around France / Europe initial viewport
+    zoom: 5,
     minZoom: 2,
-    maxZoom: 18,
+    maxZoom: 19,
     zoomControl: false
   });
 
   // Custom Zoom Control at bottom right
   L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-  // Free, Open-Source CartoDB Dark Matter tile layer
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 19
+  // ESRI World Dark Gray Canvas: 100% Free, No API Key Required
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri, DeLorme, NAVTEQ, TomTom, USGS, NPS, NRCAN, Ordnance Survey',
+    maxZoom: 16
   }).addTo(map);
 
   markersLayer = L.layerGroup().addTo(map);
@@ -56,6 +55,8 @@ function createPopupContent(cam) {
     ? new Date(cam.last_checked).toLocaleTimeString()
     : 'N/A';
 
+  const isVideo = cam.stream_url && cam.stream_url.includes('.mp4');
+
   return `
     <div class="popup-card">
       <div class="popup-header">
@@ -64,6 +65,11 @@ function createPopupContent(cam) {
           ${isUp ? '● OPERATIONAL' : '■ DOWN'}
         </span>
       </div>
+
+      ${isVideo ? `
+        <video class="popup-video" src="${encodeURI(cam.stream_url)}" autoplay loop muted playsinline controls></video>
+      ` : ''}
+
       <div class="popup-meta">
         <div class="meta-row">
           <span class="meta-label">COORDINATES</span>
@@ -85,20 +91,36 @@ function createPopupContent(cam) {
   `;
 }
 
-// Fetch cameras from API
+// Fetch cameras from API with automatic fallback to static seed data
 async function loadCameras() {
   try {
     const res = await fetch('/api/cameras');
-    const data = await res.json();
+    if (res.ok) {
+      const data = await res.json();
+      if (data.cameras && data.cameras.length > 0) {
+        allCameras = data.cameras;
+        updateStats(data);
+        renderMapMarkers();
+        renderSidebarList();
+        return;
+      }
+    }
+  } catch (err) {
+    console.warn('API /api/cameras unavailable, loading static fallback seed:', err);
+  }
 
-    if (data.success && Array.isArray(data.cameras)) {
-      allCameras = data.cameras;
-      updateStats(data);
+  // Fallback to static seed.json if serverless API is initializing or offline
+  try {
+    const seedRes = await fetch('/seed.json');
+    if (seedRes.ok) {
+      const seedData = await seedRes.json();
+      allCameras = seedData.cameras;
+      updateStats(seedData);
       renderMapMarkers();
       renderSidebarList();
     }
   } catch (err) {
-    console.error('Failed to load cameras:', err);
+    console.error('Failed to load fallback cameras:', err);
   }
 }
 
@@ -107,7 +129,7 @@ function updateStats(data) {
   document.getElementById('stat-total').textContent = data.total || allCameras.length;
   document.getElementById('stat-online').textContent = data.operational || allCameras.filter(c => c.status === 'operational').length;
   document.getElementById('stat-down').textContent = data.down || allCameras.filter(c => c.status === 'down').length;
-  document.getElementById('stat-db').textContent = (data.storage === 'supabase' ? 'SUPABASE' : 'LOCAL').toUpperCase();
+  document.getElementById('stat-db').textContent = (data.storage === 'supabase' ? 'SUPABASE' : 'DATASTORE').toUpperCase();
 }
 
 // Filter cameras based on search and status buttons
@@ -138,7 +160,7 @@ function renderMapMarkers() {
       title: cam.name
     });
 
-    marker.bindPopup(createPopupContent(cam));
+    marker.bindPopup(createPopupContent(cam), { maxWidth: 320 });
     marker.camData = cam;
     markersLayer.addLayer(marker);
   });
@@ -191,16 +213,18 @@ async function triggerReScan() {
 
   try {
     const res = await fetch('/api/cron', { method: 'POST' });
-    const data = await res.json();
-    if (data.cameras) {
-      allCameras = data.cameras;
-      updateStats({
-        total: data.summary.total,
-        operational: data.summary.operational,
-        down: data.summary.down
-      });
-      renderMapMarkers();
-      renderSidebarList();
+    if (res.ok) {
+      const data = await res.json();
+      if (data.cameras) {
+        allCameras = data.cameras;
+        updateStats({
+          total: data.summary.total,
+          operational: data.summary.operational,
+          down: data.summary.down
+        });
+        renderMapMarkers();
+        renderSidebarList();
+      }
     }
   } catch (err) {
     console.error('Re-scan error:', err);
