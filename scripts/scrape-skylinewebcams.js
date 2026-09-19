@@ -69,7 +69,7 @@ async function scrapeSkylineWebcams() {
       name: meta.name || alt,
       latitude: meta.lat,
       longitude: meta.lon,
-      stream_url: youtubeId ? `https://www.youtube.com/watch?v=s${youtubeId}`.replace('/watch?vs', '/watch?v=') : pageUrl,
+      stream_url: youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}` : pageUrl,
       youtube_id: youtubeId,
       preview_image: thumbUrl,
       source: 'SkylineWebcams (Auvergne-Rhône-Alpes)',
