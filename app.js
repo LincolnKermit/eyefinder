@@ -67,9 +67,9 @@ function createPopupContent(cam) {
       </div>
 
       ${isVideo ? `
-        <video class="popup-video" src="${encodeURI(cam.stream_url)}" autoplay loop muted playsinline controls></video>
+        <video class="popup-video" src="${encodeURI(cam.stream_url)}" autoplay loop muted playsinline controls referrerpolicy="no-referrer"></video>
       ` : (cam.preview_image ? `
-        <img class="popup-video" src="${encodeURI(cam.preview_image)}" alt="${escapeHtml(cam.name)}" loading="lazy" />
+        <img class="popup-video" src="${encodeURI(cam.preview_image)}" alt="${escapeHtml(cam.name)}" loading="lazy" referrerpolicy="no-referrer" />
       ` : '')}
 
       <div class="popup-meta">
@@ -86,7 +86,7 @@ function createPopupContent(cam) {
           <span class="meta-val">${timeFormatted}</span>
         </div>
       </div>
-      <a href="${encodeURI(cam.stream_url)}" target="_blank" rel="noopener noreferrer" class="popup-btn">
+      <a href="${encodeURI(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn">
         ACCESS CCTV FLUX ↗
       </a>
     </div>
