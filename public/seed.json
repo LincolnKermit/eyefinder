@@ -11,10 +11,11 @@
       "latitude": 45.6985,
       "longitude": 5.8885,
       "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget.html",
+      "youtube_id": null,
       "preview_image": "https://cdn.skylinewebcams.com/live4276.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.429Z"
+      "last_checked": "2026-09-19T22:31:25.088Z"
     },
     {
       "id": "skyline-5366",
@@ -22,10 +23,11 @@
       "latitude": 46.0336,
       "longitude": 6.9328,
       "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/vallorcine/vallorcine-mont-blanc.html",
+      "youtube_id": null,
       "preview_image": "https://cdn.skylinewebcams.com/live5366.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
+      "last_checked": "2026-09-19T22:31:25.089Z"
     },
     {
       "id": "skyline-5755",
@@ -33,10 +35,11 @@
       "latitude": 45.6885,
       "longitude": 5.9125,
       "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget-france.html",
+      "youtube_id": null,
       "preview_image": "https://cdn.skylinewebcams.com/live5755.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
+      "last_checked": "2026-09-19T22:31:25.089Z"
     },
     {
       "id": "skyline-5627",
@@ -44,10 +47,11 @@
       "latitude": 46.0911,
       "longitude": 6.2197,
       "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/arbusigny/les-aravis-mont-blanc.html",
+      "youtube_id": null,
       "preview_image": "https://cdn.skylinewebcams.com/live5627.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
+      "last_checked": "2026-09-19T22:31:25.089Z"
     },
     {
       "id": "skyline-5671",
@@ -55,10 +59,11 @@
       "latitude": 45.7511,
       "longitude": 6.5847,
       "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/hauteluce/domaine-skiable-des-contamines-montjoie.html",
+      "youtube_id": null,
       "preview_image": "https://cdn.skylinewebcams.com/live5671.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
+      "last_checked": "2026-09-19T22:31:25.089Z"
     },
     {
       "id": "skyline-4666",
@@ -66,109 +71,119 @@
       "latitude": 45.7869,
       "longitude": 6.2203,
       "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/doussard/lac-d-annecy-france.html",
+      "youtube_id": null,
       "preview_image": "https://cdn.skylinewebcams.com/live4666.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
-    },
-    {
-      "id": "skyline-6199",
-      "name": "La Chapelle-d'Abondance Panoramique",
-      "latitude": 46.2953,
-      "longitude": 6.7878,
-      "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/la-chapelle-d-abondance/la-chapelle-dabondance.html",
-      "preview_image": "https://cdn.skylinewebcams.com/live6199.jpg",
-      "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
-      "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
-    },
-    {
-      "id": "skyline-3771",
-      "name": "Villard-de-Lans - Massif du Vercors",
-      "latitude": 45.0711,
-      "longitude": 5.5517,
-      "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/villard-de-lans/villard-de-lans.html",
-      "preview_image": "https://cdn.skylinewebcams.com/live3771.jpg",
-      "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
-      "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
-    },
-    {
-      "id": "skyline-6185",
-      "name": "Lyon - Surveillance Trafic Porte de Saint-Clair",
-      "latitude": 45.7875,
-      "longitude": 4.8569,
-      "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/lyon/porte-de-saint-clair.html",
-      "preview_image": "https://cdn.skylinewebcams.com/live6185.jpg",
-      "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
-      "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
+      "last_checked": "2026-09-19T22:31:25.089Z"
     },
     {
       "id": "skyline-6195",
       "name": "Lyon - Vue panoramique depuis le Mont Cindre",
       "latitude": 45.8197,
       "longitude": 4.8294,
-      "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/lyon/mont-cindre.html",
+      "stream_url": "https://www.youtube.com/watch?v=ss-J0yE5Tpu4",
+      "youtube_id": "s-J0yE5Tpu4",
       "preview_image": "https://cdn.skylinewebcams.com/live6195.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
+      "last_checked": "2026-09-19T22:31:25.089Z"
     },
     {
-      "id": "skyline-3762",
-      "name": "Bourg-Saint-Maurice - Les Arcs Snowpark",
-      "latitude": 45.5722,
-      "longitude": 6.8297,
-      "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/bourg-saint-maurice/les-arcs-snowpark.html",
-      "preview_image": "https://cdn.skylinewebcams.com/live3762.jpg",
+      "id": "skyline-6185",
+      "name": "Lyon - Surveillance Trafic Porte de Saint-Clair",
+      "latitude": 45.7875,
+      "longitude": 4.8569,
+      "stream_url": "https://www.youtube.com/watch?v=sEBhCrTPpdBI",
+      "youtube_id": "EBhCrTPpdBI",
+      "preview_image": "https://cdn.skylinewebcams.com/live6185.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
+      "last_checked": "2026-09-19T22:31:25.089Z"
     },
     {
-      "id": "skyline-3761",
-      "name": "Bourg-Saint-Maurice - Pistes des Arcs Varet",
-      "latitude": 45.5564,
-      "longitude": 6.8361,
-      "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/bourg-saint-maurice/les-arcs-varet.html",
-      "preview_image": "https://cdn.skylinewebcams.com/live3761.jpg",
+      "id": "skyline-3771",
+      "name": "Villard-de-Lans - Massif du Vercors",
+      "latitude": 45.0711,
+      "longitude": 5.5517,
+      "stream_url": "https://www.youtube.com/watch?v=solfe6GhsrIk",
+      "youtube_id": "olfe6GhsrIk",
+      "preview_image": "https://cdn.skylinewebcams.com/live3771.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.430Z"
+      "last_checked": "2026-09-19T22:31:25.090Z"
     },
     {
-      "id": "skyline-3638",
-      "name": "Bourg-Saint-Maurice - Pistes de ski des Arcs",
-      "latitude": 45.57,
-      "longitude": 6.815,
-      "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/bourg-saint-maurice/les-arcs.html",
-      "preview_image": "https://cdn.skylinewebcams.com/live3638.jpg",
+      "id": "skyline-6199",
+      "name": "La Chapelle-d'Abondance Panoramique",
+      "latitude": 46.2953,
+      "longitude": 6.7878,
+      "stream_url": "https://www.youtube.com/watch?v=sX1o1sxtWi1M",
+      "youtube_id": "X1o1sxtWi1M",
+      "preview_image": "https://cdn.skylinewebcams.com/live6199.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.431Z"
-    },
-    {
-      "id": "skyline-3499",
-      "name": "La Plagne - Domaine skiable Colorado",
-      "latitude": 45.5064,
-      "longitude": 6.6744,
-      "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/la-plagne-tarentaise/colorado.html",
-      "preview_image": "https://cdn.skylinewebcams.com/live3499.jpg",
-      "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
-      "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.431Z"
+      "last_checked": "2026-09-19T22:31:25.090Z"
     },
     {
       "id": "skyline-2427",
       "name": "Super-Besse - Station du Massif du Sancy",
       "latitude": 45.5117,
       "longitude": 2.8539,
-      "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/besse-et-saint-anastaise/super-besse.html",
+      "stream_url": "https://www.youtube.com/watch?v=sXWmQtBOaSXQ",
+      "youtube_id": "XWmQtBOaSXQ",
       "preview_image": "https://cdn.skylinewebcams.com/live2427.jpg",
       "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
       "status": "operational",
-      "last_checked": "2026-09-19T22:24:29.431Z"
+      "last_checked": "2026-09-19T22:31:25.090Z"
+    },
+    {
+      "id": "skyline-3761",
+      "name": "Bourg-Saint-Maurice - Pistes des Arcs Varet",
+      "latitude": 45.5564,
+      "longitude": 6.8361,
+      "stream_url": "https://www.youtube.com/watch?v=sBuB981VNriE",
+      "youtube_id": "BuB981VNriE",
+      "preview_image": "https://cdn.skylinewebcams.com/live3761.jpg",
+      "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
+      "status": "operational",
+      "last_checked": "2026-09-19T22:31:25.090Z"
+    },
+    {
+      "id": "skyline-3499",
+      "name": "La Plagne - Domaine skiable Colorado",
+      "latitude": 45.5064,
+      "longitude": 6.6744,
+      "stream_url": "https://www.youtube.com/watch?v=sl9Z4fFK43AM",
+      "youtube_id": "l9Z4fFK43AM",
+      "preview_image": "https://cdn.skylinewebcams.com/live3499.jpg",
+      "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
+      "status": "operational",
+      "last_checked": "2026-09-19T22:31:25.090Z"
+    },
+    {
+      "id": "skyline-3638",
+      "name": "Bourg-Saint-Maurice - Pistes de ski des Arcs",
+      "latitude": 45.57,
+      "longitude": 6.815,
+      "stream_url": "https://www.youtube.com/watch?v=sSXXHa5SoAHo",
+      "youtube_id": "SXXHa5SoAHo",
+      "preview_image": "https://cdn.skylinewebcams.com/live3638.jpg",
+      "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
+      "status": "operational",
+      "last_checked": "2026-09-19T22:31:25.090Z"
+    },
+    {
+      "id": "skyline-3762",
+      "name": "Bourg-Saint-Maurice - Les Arcs Snowpark",
+      "latitude": 45.5722,
+      "longitude": 6.8297,
+      "stream_url": "https://www.youtube.com/watch?v=sB0vZX9GnpxI",
+      "youtube_id": "B0vZX9GnpxI",
+      "preview_image": "https://cdn.skylinewebcams.com/live3762.jpg",
+      "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
+      "status": "operational",
+      "last_checked": "2026-09-19T22:31:25.090Z"
     },
     {
       "id": "dirce-4",

@@ -46,6 +46,14 @@ function createPinIcon(status) {
   });
 }
 
+// Helper to extract YouTube video ID from cam metadata or URL
+function getYouTubeId(cam) {
+  if (cam.youtube_id) return cam.youtube_id;
+  if (!cam.stream_url) return null;
+  const match = cam.stream_url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+  return match ? match[1] : null;
+}
+
 // Build popup HTML for a camera
 function createPopupContent(cam) {
   const isUp = cam.status === 'operational';
@@ -55,7 +63,23 @@ function createPopupContent(cam) {
     ? new Date(cam.last_checked).toLocaleTimeString()
     : 'N/A';
 
-  const isVideo = cam.stream_url && cam.stream_url.includes('.mp4');
+  const ytId = getYouTubeId(cam);
+  const isVideo = !ytId && cam.stream_url && cam.stream_url.includes('.mp4');
+
+  let mediaHtml = '';
+  if (ytId) {
+    mediaHtml = `
+      <iframe class="popup-video" src="https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&playsinline=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="no-referrer"></iframe>
+    `;
+  } else if (isVideo) {
+    mediaHtml = `
+      <video class="popup-video" src="${encodeURI(cam.stream_url)}" autoplay loop muted playsinline controls referrerpolicy="no-referrer"></video>
+    `;
+  } else if (cam.preview_image) {
+    mediaHtml = `
+      <img class="popup-video" src="${encodeURI(cam.preview_image)}" alt="${escapeHtml(cam.name)}" loading="lazy" referrerpolicy="no-referrer" />
+    `;
+  }
 
   return `
     <div class="popup-card">
@@ -66,11 +90,7 @@ function createPopupContent(cam) {
         </span>
       </div>
 
-      ${isVideo ? `
-        <video class="popup-video" src="${encodeURI(cam.stream_url)}" autoplay loop muted playsinline controls referrerpolicy="no-referrer"></video>
-      ` : (cam.preview_image ? `
-        <img class="popup-video" src="${encodeURI(cam.preview_image)}" alt="${escapeHtml(cam.name)}" loading="lazy" referrerpolicy="no-referrer" />
-      ` : '')}
+      ${mediaHtml}
 
       <div class="popup-meta">
         <div class="meta-row">

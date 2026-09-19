@@ -19,11 +19,24 @@ const SKYLINE_COORDS = {
   'super-besse': { lat: 45.5117, lon: 2.8539, name: 'Super-Besse - Station du Massif du Sancy' }
 };
 
+// Known YouTube live stream IDs extracted from the respective Skyline pages
+const KNOWN_YOUTUBE_IDS = {
+  'porte-de-saint-clair': 'EBhCrTPpdBI',
+  'mont-cindre': 's-J0yE5Tpu4',
+  'villard-de-lans': 'olfe6GhsrIk',
+  'la-chapelle-dabondance': 'X1o1sxtWi1M',
+  'super-besse': 'XWmQtBOaSXQ',
+  'les-arcs-varet': 'BuB981VNriE',
+  'colorado': 'l9Z4fFK43AM',
+  'les-arcs': 'SXXHa5SoAHo',
+  'les-arcs-snowpark': 'B0vZX9GnpxI'
+};
+
 async function scrapeSkylineWebcams() {
   console.log('[Skyline Scraper] Fetching Auvergne-Rhône-Alpes webcams listing...');
   const res = await fetch('https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes.html', {
     headers: {
-      'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
   });
 
@@ -49,12 +62,15 @@ async function scrapeSkylineWebcams() {
       name: alt
     };
 
+    const youtubeId = KNOWN_YOUTUBE_IDS[slug] || null;
+
     cameras.push({
       id: `skyline-${camNum}`,
       name: meta.name || alt,
       latitude: meta.lat,
       longitude: meta.lon,
-      stream_url: pageUrl,
+      stream_url: youtubeId ? `https://www.youtube.com/watch?v=s${youtubeId}`.replace('/watch?vs', '/watch?v=') : pageUrl,
+      youtube_id: youtubeId,
       preview_image: thumbUrl,
       source: 'SkylineWebcams (Auvergne-Rhône-Alpes)',
       status: 'operational',
@@ -62,12 +78,13 @@ async function scrapeSkylineWebcams() {
     });
   }
 
-  console.log(`[Skyline Scraper] Successfully extracted ${cameras.length} live cameras.`);
+  console.log(`[Skyline Scraper] Successfully extracted ${cameras.length} live cameras (${cameras.filter(c => c.youtube_id).length} YouTube streams).`);
   return cameras;
 }
 
 module.exports = {
-  scrapeSkylineWebcams
+  scrapeSkylineWebcams,
+  KNOWN_YOUTUBE_IDS
 };
 
 if (require.main === module) {
