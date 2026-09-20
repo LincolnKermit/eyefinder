@@ -24,7 +24,7 @@ module.exports = async function handler(req, res) {
   let SEED_CAMERAS = [];
   try {
     const seedMod = require('../lib/seed');
-    SEED_CAMERAS = seedMod.SEED_CAMERAS || [];
+    SEED_CAMERAS = Array.isArray(seedMod) ? seedMod : (seedMod.SEED_CAMERAS || seedMod.cameras || []);
   } catch (e) {
     try {
       const seedJson = require('../public/seed.json');
