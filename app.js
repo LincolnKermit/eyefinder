@@ -210,6 +210,10 @@ function createPopupContent(cam) {
           </span>
         </div>
         <div class="meta-row">
+          <span class="meta-label">LOCATION</span>
+          <span class="meta-val">${escapeHtml(cam.city ? (cam.city + (cam.country ? ', ' + cam.country : '')) : (cam.country || 'Global'))}</span>
+        </div>
+        <div class="meta-row">
           <span class="meta-label">COORDINATES</span>
           <span class="meta-val">${latFormatted}, ${lonFormatted}</span>
         </div>
@@ -308,6 +312,8 @@ function getFilteredCameras() {
       (activeFilter === 'operational' && cam.status === 'operational') ||
       (activeFilter === 'live' && type === 'live') ||
       (activeFilter === 'picture' && type === 'picture') ||
+      (activeFilter === 'france' && (cam.country === 'France' || (cam.name && cam.name.toLowerCase().includes('france')))) ||
+      (activeFilter === 'swiss' && (cam.country === 'Switzerland' || (cam.city && cam.city.toLowerCase().includes('genev')) || (cam.name && cam.name.toLowerCase().includes('suisse')))) ||
       (activeFilter === 'down' && cam.status === 'down');
 
     const matchesSearch =
@@ -375,7 +381,7 @@ function renderSidebarList() {
         </div>
       </div>
       <div class="feed-details">
-        <span>${escapeHtml(cam.source || 'Public Feed')}</span>
+        <span>${escapeHtml(cam.city ? (cam.city + (cam.country ? ', ' + cam.country : '')) : (cam.source || 'Public Feed'))}</span>
         <span>${Number(cam.latitude).toFixed(2)}, ${Number(cam.longitude).toFixed(2)}</span>
       </div>
     `;
@@ -511,6 +517,16 @@ function setupEvents() {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeFilter = btn.dataset.filter;
+
+      // Pan & zoom map to selected theater of operations
+      if (activeFilter === 'france') {
+        map.flyTo([46.6, 2.4], 6, { duration: 1.2 });
+      } else if (activeFilter === 'swiss') {
+        map.flyTo([46.8, 8.2], 7, { duration: 1.2 });
+      } else if (activeFilter === 'all') {
+        map.flyTo([46.15, 5.4], 7, { duration: 1.2 });
+      }
+
       renderMapMarkers();
       renderSidebarList();
     });

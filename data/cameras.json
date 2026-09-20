@@ -10,7 +10,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.249Z"
+    "last_checked": "2026-09-20T10:28:48.249Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-258",
@@ -23,7 +25,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.170Z"
+    "last_checked": "2026-09-20T10:28:48.170Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-224",
@@ -36,7 +40,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.180Z"
+    "last_checked": "2026-09-20T10:28:48.180Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-219",
@@ -49,7 +55,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.220Z"
+    "last_checked": "2026-09-20T10:28:48.220Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-254",
@@ -62,7 +70,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.272Z"
+    "last_checked": "2026-09-20T10:28:48.272Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-253",
@@ -75,7 +85,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.257Z"
+    "last_checked": "2026-09-20T10:28:48.257Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-255",
@@ -88,7 +100,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.279Z"
+    "last_checked": "2026-09-20T10:28:48.279Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-256",
@@ -101,7 +115,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.231Z"
+    "last_checked": "2026-09-20T10:28:48.231Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-257",
@@ -114,7 +130,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.287Z"
+    "last_checked": "2026-09-20T10:28:48.287Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-259",
@@ -127,7 +145,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.241Z"
+    "last_checked": "2026-09-20T10:28:48.241Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-261",
@@ -140,7 +160,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.160Z"
+    "last_checked": "2026-09-20T10:28:48.160Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-220",
@@ -153,7 +175,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.191Z"
+    "last_checked": "2026-09-20T10:28:48.191Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-221",
@@ -166,7 +190,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.264Z"
+    "last_checked": "2026-09-20T10:28:48.264Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-222",
@@ -179,7 +205,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.148Z"
+    "last_checked": "2026-09-20T10:28:48.148Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-criter-223",
@@ -192,7 +220,9 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.295Z"
+    "last_checked": "2026-09-20T10:28:48.295Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "skyline-4276",
@@ -205,7 +235,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:47.991Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-5366",
@@ -218,7 +249,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.004Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-5755",
@@ -231,7 +263,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.359Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-5627",
@@ -244,7 +277,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:47.944Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-5671",
@@ -257,7 +291,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:47.952Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-4666",
@@ -270,7 +305,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:47.933Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-6195",
@@ -283,7 +319,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "down",
     "last_checked": "2026-09-20T10:28:48.772Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-6185",
@@ -296,7 +333,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.633Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-3771",
@@ -309,7 +347,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "down",
     "last_checked": "2026-09-20T10:28:48.776Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-6199",
@@ -322,7 +361,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.673Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-2427",
@@ -335,7 +375,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.665Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-3761",
@@ -348,7 +389,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.691Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-3499",
@@ -361,7 +403,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.725Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-3638",
@@ -374,7 +417,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "down",
     "last_checked": "2026-09-20T10:28:48.781Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "skyline-3762",
@@ -387,7 +431,8 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "down",
     "last_checked": "2026-09-20T10:28:48.785Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-4",
@@ -398,7 +443,8 @@
     "source": "DIR Centre-Est (Auxerre – Nevers)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.060Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-5",
@@ -409,7 +455,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.069Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-7",
@@ -420,7 +467,8 @@
     "source": "DIR Centre-Est (Auxerre – Nevers)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.079Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-8",
@@ -431,7 +479,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.097Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-9",
@@ -442,7 +491,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.109Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-13",
@@ -453,7 +503,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.339Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-15",
@@ -464,7 +515,8 @@
     "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.349Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-16",
@@ -475,7 +527,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.319Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-17",
@@ -486,7 +539,8 @@
     "source": "DIR Centre-Est (N7 Vallée du Rhône)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.326Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-19",
@@ -497,7 +551,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.332Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-20",
@@ -508,7 +563,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.531Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-24",
@@ -519,7 +575,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.644Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-25",
@@ -530,7 +587,8 @@
     "source": "DIR Centre-Est (Roanne – Lyon)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.649Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-26",
@@ -541,7 +599,8 @@
     "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.591Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-27",
@@ -552,7 +611,8 @@
     "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.595Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-29",
@@ -563,7 +623,8 @@
     "source": "DIR Centre-Est (N7 Vallée du Rhône)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.438Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-30",
@@ -574,7 +635,8 @@
     "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.450Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-31",
@@ -585,7 +647,8 @@
     "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.457Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-32",
@@ -596,7 +659,8 @@
     "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.463Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-34",
@@ -607,7 +671,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.470Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-37",
@@ -618,7 +683,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.477Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-40",
@@ -629,7 +695,8 @@
     "source": "DIR Centre-Est (N7 Vallée du Rhône)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.484Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-41",
@@ -640,7 +707,8 @@
     "source": "DIR Centre-Est (Moulins - Mâcon / Dijon)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.492Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-45",
@@ -651,7 +719,8 @@
     "source": "DIR Centre-Est (Roanne – Lyon)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.550Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-47",
@@ -662,7 +731,8 @@
     "source": "DIR Centre-Est (Moulins - Mâcon / Dijon)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.540Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-49",
@@ -673,7 +743,8 @@
     "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.557Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-55",
@@ -684,7 +755,8 @@
     "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.563Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-57",
@@ -695,7 +767,8 @@
     "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.569Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-61",
@@ -706,7 +779,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.574Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-64",
@@ -717,7 +791,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.579Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-65",
@@ -728,7 +803,8 @@
     "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.652Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-66",
@@ -739,7 +815,8 @@
     "source": "DIR Centre-Est (Moulins - Mâcon / Dijon)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.656Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "dirce-67",
@@ -750,7 +827,8 @@
     "source": "DIR Centre-Est (Roanne – Lyon)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.660Z",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "country": "France"
   },
   {
     "id": "cam-nyc-times-square",
@@ -761,7 +839,9 @@
     "source": "EarthCam Public Feeds",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.938Z"
+    "last_checked": "2026-09-20T10:28:48.938Z",
+    "country": "United States",
+    "city": "New York"
   },
   {
     "id": "cam-nyc-5th-ave",
@@ -772,7 +852,9 @@
     "source": "NYC DOT Traffic Cameras",
     "status": "down",
     "is_snapshot": true,
-    "last_checked": "2026-09-20T10:28:49.500Z"
+    "last_checked": "2026-09-20T10:28:49.500Z",
+    "country": "United States",
+    "city": "New York"
   },
   {
     "id": "cam-nyc-brooklyn-bridge",
@@ -783,7 +865,9 @@
     "source": "NYC DOT Feeds",
     "status": "down",
     "is_snapshot": true,
-    "last_checked": "2026-09-20T10:28:49.521Z"
+    "last_checked": "2026-09-20T10:28:49.521Z",
+    "country": "United States",
+    "city": "New York"
   },
   {
     "id": "cam-sf-bay-bridge",
@@ -794,7 +878,9 @@
     "source": "Caltrans District 4",
     "status": "down",
     "is_snapshot": true,
-    "last_checked": "2026-09-20T10:28:49.257Z"
+    "last_checked": "2026-09-20T10:28:49.257Z",
+    "country": "United States",
+    "city": "San Francisco"
   },
   {
     "id": "cam-sf-embarcadero",
@@ -805,7 +891,9 @@
     "source": "Open City Webcams",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.982Z"
+    "last_checked": "2026-09-20T10:28:48.982Z",
+    "country": "United States",
+    "city": "San Francisco"
   },
   {
     "id": "cam-london-tower-bridge",
@@ -816,7 +904,9 @@
     "source": "Camscape Feeds",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.867Z"
+    "last_checked": "2026-09-20T10:28:48.867Z",
+    "country": "United Kingdom",
+    "city": "London"
   },
   {
     "id": "cam-london-piccadilly",
@@ -827,7 +917,9 @@
     "source": "EarthCam Feeds",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:49.357Z"
+    "last_checked": "2026-09-20T10:28:49.357Z",
+    "country": "United Kingdom",
+    "city": "London"
   },
   {
     "id": "cam-paris-eiffel",
@@ -838,7 +930,9 @@
     "source": "SkylineWebcams",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.686Z"
+    "last_checked": "2026-09-20T10:28:48.686Z",
+    "country": "France",
+    "city": "Paris"
   },
   {
     "id": "cam-paris-concorde",
@@ -849,7 +943,9 @@
     "source": "Viewsurf Open Feeds",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.905Z"
+    "last_checked": "2026-09-20T10:28:48.905Z",
+    "country": "France",
+    "city": "Paris"
   },
   {
     "id": "cam-tokyo-shibuya",
@@ -860,7 +956,9 @@
     "source": "Shibuya Live Stream",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.964Z"
+    "last_checked": "2026-09-20T10:28:48.964Z",
+    "country": "Japan",
+    "city": "Tokyo"
   },
   {
     "id": "cam-tokyo-shinjuku",
@@ -871,7 +969,9 @@
     "source": "Live Shinjuku Cam",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.972Z"
+    "last_checked": "2026-09-20T10:28:48.972Z",
+    "country": "Japan",
+    "city": "Tokyo"
   },
   {
     "id": "cam-amsterdam-dam",
@@ -882,7 +982,9 @@
     "source": "SkylineWebcams",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.793Z"
+    "last_checked": "2026-09-20T10:28:48.793Z",
+    "country": "Netherlands",
+    "city": "Amsterdam"
   },
   {
     "id": "cam-berlin-brandenburg",
@@ -893,7 +995,9 @@
     "source": "Berlin Open Portal",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.928Z"
+    "last_checked": "2026-09-20T10:28:48.928Z",
+    "country": "Germany",
+    "city": "Berlin"
   },
   {
     "id": "cam-rome-colosseum",
@@ -904,7 +1008,9 @@
     "source": "SkylineWebcams",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.802Z"
+    "last_checked": "2026-09-20T10:28:48.802Z",
+    "country": "Italy",
+    "city": "Rome"
   },
   {
     "id": "cam-venice-san-marco",
@@ -915,7 +1021,9 @@
     "source": "SkylineWebcams",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.798Z"
+    "last_checked": "2026-09-20T10:28:48.798Z",
+    "country": "Italy",
+    "city": "Venice"
   },
   {
     "id": "cam-dublin-temple-bar",
@@ -926,7 +1034,9 @@
     "source": "EarthCam Feeds",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:49.057Z"
+    "last_checked": "2026-09-20T10:28:49.057Z",
+    "country": "Ireland",
+    "city": "Dublin"
   },
   {
     "id": "cam-sydney-harbour",
@@ -937,7 +1047,9 @@
     "source": "Sydney Open Stream",
     "status": "down",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:49.735Z"
+    "last_checked": "2026-09-20T10:28:49.735Z",
+    "country": "Australia",
+    "city": "Sydney"
   },
   {
     "id": "cam-seoul-gangnam",
@@ -948,7 +1060,9 @@
     "source": "Seoul TOPIS Traffic Feeds",
     "status": "down",
     "is_snapshot": true,
-    "last_checked": "2026-09-20T10:28:49.744Z"
+    "last_checked": "2026-09-20T10:28:49.744Z",
+    "country": "South Korea",
+    "city": "Seoul"
   },
   {
     "id": "cam-toronto-dundas-sq",
@@ -959,7 +1073,9 @@
     "source": "City of Toronto Traffic",
     "status": "operational",
     "is_snapshot": true,
-    "last_checked": "2026-09-20T10:28:49.270Z"
+    "last_checked": "2026-09-20T10:28:49.270Z",
+    "country": "Canada",
+    "city": "Toronto"
   },
   {
     "id": "cam-prague-old-town",
@@ -970,7 +1086,9 @@
     "source": "EarthCam Feeds",
     "status": "operational",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:49.118Z"
+    "last_checked": "2026-09-20T10:28:49.118Z",
+    "country": "Czech Republic",
+    "city": "Prague"
   },
   {
     "id": "cam-unreachable-test",
@@ -981,7 +1099,9 @@
     "source": "Offline Simulation Feed",
     "status": "down",
     "is_snapshot": false,
-    "last_checked": "2026-09-20T10:28:48.563Z"
+    "last_checked": "2026-09-20T10:28:48.563Z",
+    "country": "Test Station",
+    "city": "Offline Simulation"
   },
   {
     "id": "bpnl-valvert",
@@ -994,7 +1114,9 @@
     "is_snapshot": false,
     "source": "Périphérique Nord (BPNL)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:49.585Z"
+    "last_checked": "2026-09-20T10:28:49.585Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "bpnl-vaise",
@@ -1007,7 +1129,9 @@
     "is_snapshot": false,
     "source": "Périphérique Nord (BPNL)",
     "status": "down",
-    "last_checked": "2026-09-20T10:28:49.774Z"
+    "last_checked": "2026-09-20T10:28:49.774Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "bpnl-croix-luizet",
@@ -1020,7 +1144,9 @@
     "is_snapshot": false,
     "source": "Périphérique Nord (BPNL)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:49.778Z"
+    "last_checked": "2026-09-20T10:28:49.778Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "bpnl-pape",
@@ -1033,7 +1159,9 @@
     "is_snapshot": false,
     "source": "Périphérique Nord (BPNL)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:49.687Z"
+    "last_checked": "2026-09-20T10:28:49.687Z",
+    "country": "France",
+    "city": "Lyon"
   },
   {
     "id": "lyon-silex2-part-dieu",
@@ -1046,7 +1174,8 @@
     "is_snapshot": false,
     "source": "Camera Silex Covivio",
     "status": "down",
-    "last_checked": "2026-09-20T10:28:49.795Z"
+    "last_checked": "2026-09-20T10:28:49.795Z",
+    "country": "France"
   },
   {
     "id": "chateauneuf-vallee-gier",
@@ -1059,7 +1188,8 @@
     "is_snapshot": false,
     "source": "LPO Auvergne-Rhône-Alpes",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:49.588Z"
+    "last_checked": "2026-09-20T10:28:49.588Z",
+    "country": "France"
   },
   {
     "id": "lyon-aerodrome-brindas",
@@ -1072,11 +1202,12 @@
     "refresh_interval": 60,
     "source": "Aérodrome de Brindas (ACOL)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.955Z"
+    "last_checked": "2026-09-20T10:28:48.955Z",
+    "country": "France"
   },
   {
     "id": "insecam-869519",
-    "name": "[Insecam] Lyon - Sony IP Cam (Auvergne-Rhône-Alpes)",
+    "name": "[Insecam France] Lyon - Sony IP Cam (Auvergne-Rhône-Alpes)",
     "latitude": 45.74846,
     "longitude": 4.84671,
     "stream_url": "http://92.154.0.63:1024/oneshotimage1?COUNTER",
@@ -1093,7 +1224,7 @@
   },
   {
     "id": "insecam-847294",
-    "name": "[Insecam] Geneva - Mobotix IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Geneva - Mobotix IP Cam (Lake Geneva)",
     "latitude": 46.20222,
     "longitude": 6.14569,
     "stream_url": "http://213.3.20.173:50001/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -1110,7 +1241,7 @@
   },
   {
     "id": "insecam-805685",
-    "name": "[Insecam] Geneva - Axis IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Geneva - Axis IP Cam (Lake Geneva)",
     "latitude": 46.20222,
     "longitude": 6.14569,
     "stream_url": "http://46.14.58.189:80/mjpg/video.mjpg",
@@ -1127,7 +1258,7 @@
   },
   {
     "id": "insecam-238235",
-    "name": "[Insecam] Geneve - Axis IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Geneve - Axis IP Cam (Lake Geneva)",
     "latitude": 46.20222,
     "longitude": 6.14569,
     "stream_url": "http://46.14.177.164:8000/mjpg/video.mjpg",
@@ -1144,7 +1275,7 @@
   },
   {
     "id": "insecam-1011663",
-    "name": "[Insecam] Founex - Axis IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Founex - Axis IP Cam (Lake Geneva)",
     "latitude": 46.33277,
     "longitude": 6.19243,
     "stream_url": "http://83.76.247.226:8083/mjpg/video.mjpg",
@@ -1161,7 +1292,7 @@
   },
   {
     "id": "insecam-1011595",
-    "name": "[Insecam] Lausanne - Axis IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Lausanne - Axis IP Cam (Lake Geneva)",
     "latitude": 46.516,
     "longitude": 6.63282,
     "stream_url": "http://188.62.72.99:8081/mjpg/video.mjpg",
@@ -1178,7 +1309,7 @@
   },
   {
     "id": "insecam-1011035",
-    "name": "[Insecam] Lausanne - Axis IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Lausanne - Axis IP Cam (Lake Geneva)",
     "latitude": 46.516,
     "longitude": 6.63282,
     "stream_url": "http://178.196.182.17:80/mjpg/video.mjpg",
@@ -1195,7 +1326,7 @@
   },
   {
     "id": "insecam-405713",
-    "name": "[Insecam] Lausanne - Mobotix IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Lausanne - Mobotix IP Cam (Lake Geneva)",
     "latitude": 46.516,
     "longitude": 6.63282,
     "stream_url": "http://46.14.203.136:8080/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -1212,7 +1343,7 @@
   },
   {
     "id": "insecam-575132",
-    "name": "[Insecam] Vevey - Axis IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Vevey - Axis IP Cam (Lake Geneva)",
     "latitude": 46.46116,
     "longitude": 6.84328,
     "stream_url": "http://83.173.213.86:8081/mjpg/video.mjpg",
@@ -1229,7 +1360,7 @@
   },
   {
     "id": "insecam-750288",
-    "name": "[Insecam] Vevey - Axis IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Vevey - Axis IP Cam (Lake Geneva)",
     "latitude": 46.46116,
     "longitude": 6.84328,
     "stream_url": "http://83.173.213.86:8080/mjpg/video.mjpg",
@@ -1246,7 +1377,7 @@
   },
   {
     "id": "insecam-1010697",
-    "name": "[Insecam] Aubervilliers - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Aubervilliers - Axis IP Cam (Ile De France)",
     "latitude": 48.91667,
     "longitude": 2.38333,
     "stream_url": "http://80.14.201.251:8010/mjpg/video.mjpg",
@@ -1263,7 +1394,7 @@
   },
   {
     "id": "insecam-1011004",
-    "name": "[Insecam] Aubervilliers - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Aubervilliers - Axis IP Cam (Ile De France)",
     "latitude": 48.91667,
     "longitude": 2.38333,
     "stream_url": "http://80.15.30.66:3101/mjpg/video.mjpg",
@@ -1280,7 +1411,7 @@
   },
   {
     "id": "insecam-1011534",
-    "name": "[Insecam] Aubervilliers - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Aubervilliers - Axis IP Cam (Ile De France)",
     "latitude": 48.91667,
     "longitude": 2.38333,
     "stream_url": "http://82.127.227.39:8089/mjpg/video.mjpg",
@@ -1297,7 +1428,7 @@
   },
   {
     "id": "insecam-898540",
-    "name": "[Insecam] Bethune - Axis IP Cam (Hauts De France)",
+    "name": "[Insecam France] Bethune - Axis IP Cam (Hauts De France)",
     "latitude": 50.53333,
     "longitude": 2.63333,
     "stream_url": "http://89.158.49.98:80/mjpg/video.mjpg",
@@ -1314,7 +1445,7 @@
   },
   {
     "id": "insecam-1010996",
-    "name": "[Insecam] Bondy - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Bondy - Axis IP Cam (Ile De France)",
     "latitude": 48.9018,
     "longitude": 2.48931,
     "stream_url": "http://88.184.28.11:30002/mjpg/video.mjpg",
@@ -1331,7 +1462,7 @@
   },
   {
     "id": "insecam-1007750",
-    "name": "[Insecam] Champs Sur Marne - Mobotix IP Cam (Ile De France)",
+    "name": "[Insecam France] Champs Sur Marne - Mobotix IP Cam (Ile De France)",
     "latitude": 48.85,
     "longitude": 2.6,
     "stream_url": "http://81.67.25.88:8080/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -1348,7 +1479,7 @@
   },
   {
     "id": "insecam-1010868",
-    "name": "[Insecam] Chateauneuf Les Martigues - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
+    "name": "[Insecam France] Chateauneuf Les Martigues - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
     "latitude": 43.38333,
     "longitude": 5.16667,
     "stream_url": "http://80.14.73.7:3101/mjpg/video.mjpg",
@@ -1365,7 +1496,7 @@
   },
   {
     "id": "insecam-1011326",
-    "name": "[Insecam] Chateauneuf Sur Charente - Axis IP Cam (Nouvelle Aquitaine)",
+    "name": "[Insecam France] Chateauneuf Sur Charente - Axis IP Cam (Nouvelle Aquitaine)",
     "latitude": 45.6,
     "longitude": -0.05,
     "stream_url": "http://86.254.156.219:80/mjpg/video.mjpg",
@@ -1382,7 +1513,7 @@
   },
   {
     "id": "insecam-1010131",
-    "name": "[Insecam] Dreux - Megapixel IP Cam (Centre Val De Loire)",
+    "name": "[Insecam France] Dreux - Megapixel IP Cam (Centre Val De Loire)",
     "latitude": 48.73333,
     "longitude": 1.36667,
     "stream_url": "http://92.188.157.17:80/jpgmulreq/1/image.jpg?key=1516975535684&lq=1&COUNTER",
@@ -1399,7 +1530,7 @@
   },
   {
     "id": "insecam-1010929",
-    "name": "[Insecam] Goult - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
+    "name": "[Insecam France] Goult - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
     "latitude": 43.8608,
     "longitude": 5.24247,
     "stream_url": "http://82.66.246.174:26/mjpg/video.mjpg",
@@ -1416,7 +1547,7 @@
   },
   {
     "id": "insecam-1011828",
-    "name": "[Insecam] Issy Les Moulineaux - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Issy Les Moulineaux - Axis IP Cam (Ile De France)",
     "latitude": 48.82104,
     "longitude": 2.27718,
     "stream_url": "http://82.122.129.146:80/mjpg/video.mjpg",
@@ -1433,7 +1564,7 @@
   },
   {
     "id": "insecam-635278",
-    "name": "[Insecam] Le Touquet Paris Pla - Mobotix IP Cam (Nord Pas De Calais)",
+    "name": "[Insecam France] Le Touquet Paris Pla - Mobotix IP Cam (Nord Pas De Calais)",
     "latitude": 50.52432,
     "longitude": 1.58571,
     "stream_url": "http://80.11.104.64:90/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -1450,7 +1581,7 @@
   },
   {
     "id": "insecam-1011809",
-    "name": "[Insecam] Lille - Axis IP Cam (Hauts De France)",
+    "name": "[Insecam France] Lille - Axis IP Cam (Hauts De France)",
     "latitude": 50.63297,
     "longitude": 3.05858,
     "stream_url": "http://81.250.223.103:8090/mjpg/video.mjpg",
@@ -1467,7 +1598,7 @@
   },
   {
     "id": "insecam-1011330",
-    "name": "[Insecam] Manosque - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
+    "name": "[Insecam France] Manosque - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
     "latitude": 43.82883,
     "longitude": 5.78688,
     "stream_url": "http://86.237.46.227:8001/mjpg/video.mjpg",
@@ -1484,7 +1615,7 @@
   },
   {
     "id": "insecam-1011277",
-    "name": "[Insecam] Marseille - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
+    "name": "[Insecam France] Marseille - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
     "latitude": 43.29695,
     "longitude": 5.38107,
     "stream_url": "http://92.145.57.187:80/mjpg/video.mjpg",
@@ -1501,7 +1632,7 @@
   },
   {
     "id": "insecam-672740",
-    "name": "[Insecam] Meudon - Defeway IP Cam (Ile De France)",
+    "name": "[Insecam France] Meudon - Defeway IP Cam (Ile De France)",
     "latitude": 48.81381,
     "longitude": 2.235,
     "stream_url": "http://89.90.206.214:80/cgi-bin/snapshot.cgi?chn=0&u=admin&p=&q=0&COUNTER",
@@ -1518,7 +1649,7 @@
   },
   {
     "id": "insecam-934936",
-    "name": "[Insecam] Miramas - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
+    "name": "[Insecam France] Miramas - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
     "latitude": 43.58666,
     "longitude": 5.00464,
     "stream_url": "http://77.193.208.216:80/mjpg/video.mjpg",
@@ -1535,7 +1666,7 @@
   },
   {
     "id": "insecam-634383",
-    "name": "[Insecam] Mondeville - Mobotix IP Cam (Basse Normandie)",
+    "name": "[Insecam France] Mondeville - Mobotix IP Cam (Basse Normandie)",
     "latitude": 49.17497,
     "longitude": -0.32238,
     "stream_url": "http://193.253.238.50:8001/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -1552,7 +1683,7 @@
   },
   {
     "id": "insecam-1011460",
-    "name": "[Insecam] Nice - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
+    "name": "[Insecam France] Nice - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
     "latitude": 43.70313,
     "longitude": 7.26608,
     "stream_url": "http://90.59.117.51:80/mjpg/video.mjpg",
@@ -1569,7 +1700,7 @@
   },
   {
     "id": "insecam-897502",
-    "name": "[Insecam] Pantin - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Pantin - Axis IP Cam (Ile De France)",
     "latitude": 48.89437,
     "longitude": 2.40935,
     "stream_url": "http://185.194.123.84:8001/mjpg/video.mjpg",
@@ -1586,7 +1717,7 @@
   },
   {
     "id": "insecam-934332",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://90.63.255.188:81/mjpg/video.mjpg",
@@ -1603,7 +1734,7 @@
   },
   {
     "id": "insecam-928754",
-    "name": "[Insecam] Paris - DLink-DCS-932 IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - DLink-DCS-932 IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://82.65.143.75:80/mjpeg.cgi",
@@ -1620,7 +1751,7 @@
   },
   {
     "id": "insecam-760550",
-    "name": "[Insecam] Paris - PanasonicHD IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - PanasonicHD IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://82.64.88.141:82/cgi-bin/camera?resolution=640&amp;quality=1&amp;Language=0&amp;COUNTER",
@@ -1637,7 +1768,7 @@
   },
   {
     "id": "insecam-800182",
-    "name": "[Insecam] Paris - PanasonicHD IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - PanasonicHD IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://82.64.88.141:81/cgi-bin/camera?resolution=640&amp;quality=1&amp;Language=0&amp;COUNTER",
@@ -1654,7 +1785,7 @@
   },
   {
     "id": "insecam-1011608",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://193.248.185.120:80/mjpg/video.mjpg",
@@ -1671,7 +1802,7 @@
   },
   {
     "id": "insecam-242029",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://145.238.185.10:80/mjpg/video.mjpg",
@@ -1688,7 +1819,7 @@
   },
   {
     "id": "insecam-1011560",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://92.163.30.2:8098/mjpg/video.mjpg",
@@ -1705,7 +1836,7 @@
   },
   {
     "id": "insecam-887421",
-    "name": "[Insecam] Paris - ChannelVision IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - ChannelVision IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://82.64.77.27:8080/GetData.cgi?CH=1",
@@ -1722,7 +1853,7 @@
   },
   {
     "id": "insecam-1011611",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://93.3.66.8:82/mjpg/video.mjpg",
@@ -1739,7 +1870,7 @@
   },
   {
     "id": "insecam-812820",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://82.64.66.72:80/mjpg/video.mjpg",
@@ -1756,7 +1887,7 @@
   },
   {
     "id": "insecam-1011605",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://82.127.214.213:9001/mjpg/video.mjpg",
@@ -1773,7 +1904,7 @@
   },
   {
     "id": "insecam-240804",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://80.15.60.67:8090/mjpg/video.mjpg",
@@ -1790,7 +1921,7 @@
   },
   {
     "id": "insecam-1004901",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://80.11.95.43:80/mjpg/video.mjpg",
@@ -1807,7 +1938,7 @@
   },
   {
     "id": "insecam-846497",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://82.64.237.163:8083/mjpg/video.mjpg",
@@ -1824,7 +1955,7 @@
   },
   {
     "id": "insecam-237638",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://217.128.254.187:8081/mjpg/video.mjpg",
@@ -1841,7 +1972,7 @@
   },
   {
     "id": "insecam-846492",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://82.64.237.163:8082/mjpg/video.mjpg",
@@ -1858,7 +1989,7 @@
   },
   {
     "id": "insecam-1011617",
-    "name": "[Insecam] Paris - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Paris - Axis IP Cam (Ile De France)",
     "latitude": 48.85341,
     "longitude": 2.3488,
     "stream_url": "http://80.15.125.250:8181/mjpg/video.mjpg",
@@ -1875,7 +2006,7 @@
   },
   {
     "id": "insecam-1010839",
-    "name": "[Insecam] Pau - Axis IP Cam (Nouvelle Aquitaine)",
+    "name": "[Insecam France] Pau - Axis IP Cam (Nouvelle Aquitaine)",
     "latitude": 43.3,
     "longitude": -0.36667,
     "stream_url": "http://82.65.61.45:8085/mjpg/video.mjpg",
@@ -1892,7 +2023,7 @@
   },
   {
     "id": "insecam-246664",
-    "name": "[Insecam] Puteaux - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Puteaux - Axis IP Cam (Ile De France)",
     "latitude": 48.88341,
     "longitude": 2.23894,
     "stream_url": "http://80.13.21.61:82/mjpg/video.mjpg",
@@ -1909,7 +2040,7 @@
   },
   {
     "id": "insecam-188504",
-    "name": "[Insecam] Puteaux - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Puteaux - Axis IP Cam (Ile De France)",
     "latitude": 48.88341,
     "longitude": 2.23894,
     "stream_url": "http://193.253.252.122:86/mjpg/video.mjpg",
@@ -1926,7 +2057,7 @@
   },
   {
     "id": "insecam-1000013",
-    "name": "[Insecam] Puteaux - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Puteaux - Axis IP Cam (Ile De France)",
     "latitude": 48.88341,
     "longitude": 2.23894,
     "stream_url": "http://80.15.183.96:81/mjpg/video.mjpg",
@@ -1943,7 +2074,7 @@
   },
   {
     "id": "insecam-946153",
-    "name": "[Insecam] Puteaux - Axis IP Cam (Ile De France)",
+    "name": "[Insecam France] Puteaux - Axis IP Cam (Ile De France)",
     "latitude": 48.88341,
     "longitude": 2.23894,
     "stream_url": "http://82.127.249.27:8000/mjpg/video.mjpg",
@@ -1960,7 +2091,7 @@
   },
   {
     "id": "insecam-902541",
-    "name": "[Insecam] Vaison La Romaine - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
+    "name": "[Insecam France] Vaison La Romaine - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
     "latitude": 44.23896,
     "longitude": 5.07461,
     "stream_url": "http://176.139.87.16:8082/mjpg/video.mjpg",
@@ -1977,7 +2108,7 @@
   },
   {
     "id": "insecam-886960",
-    "name": "[Insecam] Valreas - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
+    "name": "[Insecam France] Valreas - Axis IP Cam (Provence Alpes Cote D&#39;Azur)",
     "latitude": 44.38366,
     "longitude": 4.99084,
     "stream_url": "http://176.139.87.16:80/mjpg/video.mjpg",
@@ -1994,7 +2125,7 @@
   },
   {
     "id": "insecam-636880",
-    "name": "[Insecam] Aesch - Mobotix IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Aesch - Mobotix IP Cam (Zurich)",
     "latitude": 47.3297,
     "longitude": 8.6541,
     "stream_url": "http://62.2.92.234:80/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -2011,7 +2142,7 @@
   },
   {
     "id": "insecam-1010791",
-    "name": "[Insecam] Arosa - Axis IP Cam (Graubunden)",
+    "name": "[Insecam Suisse] Arosa - Axis IP Cam (Graubunden)",
     "latitude": 46.77793,
     "longitude": 9.67621,
     "stream_url": "http://85.4.30.236:80/mjpg/video.mjpg",
@@ -2028,7 +2159,7 @@
   },
   {
     "id": "insecam-849282",
-    "name": "[Insecam] Bern - Mobotix IP Cam (Bern)",
+    "name": "[Insecam Suisse] Bern - Mobotix IP Cam (Bern)",
     "latitude": 46.94809,
     "longitude": 7.44744,
     "stream_url": "http://213.142.173.187:80/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -2045,7 +2176,7 @@
   },
   {
     "id": "insecam-1010842",
-    "name": "[Insecam] Bern - Axis IP Cam (Bern)",
+    "name": "[Insecam Suisse] Bern - Axis IP Cam (Bern)",
     "latitude": 46.94809,
     "longitude": 7.44744,
     "stream_url": "http://81.221.175.78:9000/mjpg/video.mjpg",
@@ -2062,7 +2193,7 @@
   },
   {
     "id": "insecam-266901",
-    "name": "[Insecam] Bern - PanasonicHD IP Cam (Bern)",
+    "name": "[Insecam Suisse] Bern - PanasonicHD IP Cam (Bern)",
     "latitude": 46.94809,
     "longitude": 7.44744,
     "stream_url": "http://194.124.138.130:80/cgi-bin/camera?resolution=640&amp;quality=1&amp;Language=0&amp;COUNTER",
@@ -2079,7 +2210,7 @@
   },
   {
     "id": "insecam-497885",
-    "name": "[Insecam] Bern - Mobotix IP Cam (Bern)",
+    "name": "[Insecam Suisse] Bern - Mobotix IP Cam (Bern)",
     "latitude": 46.94809,
     "longitude": 7.44744,
     "stream_url": "http://46.14.234.221:81/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -2096,7 +2227,7 @@
   },
   {
     "id": "insecam-237567",
-    "name": "[Insecam] Brugg - Axis IP Cam (Aargau)",
+    "name": "[Insecam Suisse] Brugg - Axis IP Cam (Aargau)",
     "latitude": 47.48096,
     "longitude": 8.20869,
     "stream_url": "http://80.254.191.189:81/mjpg/video.mjpg",
@@ -2113,7 +2244,7 @@
   },
   {
     "id": "insecam-455554",
-    "name": "[Insecam] Bubikon - Sony IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Bubikon - Sony IP Cam (Zurich)",
     "latitude": 47.26698,
     "longitude": 8.8179,
     "stream_url": "http://46.14.251.37:2000/oneshotimage1?COUNTER",
@@ -2130,7 +2261,7 @@
   },
   {
     "id": "insecam-878014",
-    "name": "[Insecam] Chippis - Sony IP Cam (Valais)",
+    "name": "[Insecam Suisse] Chippis - Sony IP Cam (Valais)",
     "latitude": 46.28103,
     "longitude": 7.54288,
     "stream_url": "http://213.221.146.11:8080/oneshotimage1?COUNTER",
@@ -2147,7 +2278,7 @@
   },
   {
     "id": "insecam-1011594",
-    "name": "[Insecam] Davos - Axis IP Cam (Graubunden)",
+    "name": "[Insecam Suisse] Davos - Axis IP Cam (Graubunden)",
     "latitude": 46.80429,
     "longitude": 9.83723,
     "stream_url": "http://85.5.103.219:80/mjpg/video.mjpg",
@@ -2164,7 +2295,7 @@
   },
   {
     "id": "insecam-789619",
-    "name": "[Insecam] Fribourg - Mobotix IP Cam (Fribourg)",
+    "name": "[Insecam Suisse] Fribourg - Mobotix IP Cam (Fribourg)",
     "latitude": 46.80237,
     "longitude": 7.15128,
     "stream_url": "http://213.3.5.199:80/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -2181,7 +2312,7 @@
   },
   {
     "id": "insecam-1011503",
-    "name": "[Insecam] Gossau - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Gossau - Axis IP Cam (Zurich)",
     "latitude": 47.3051,
     "longitude": 8.75831,
     "stream_url": "http://46.140.55.254:80/mjpg/video.mjpg",
@@ -2198,7 +2329,7 @@
   },
   {
     "id": "insecam-167968",
-    "name": "[Insecam] Hinwil - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Hinwil - Axis IP Cam (Zurich)",
     "latitude": 47.29426,
     "longitude": 8.84393,
     "stream_url": "http://80.75.114.18:80/mjpg/video.mjpg",
@@ -2215,7 +2346,7 @@
   },
   {
     "id": "insecam-167969",
-    "name": "[Insecam] Hinwil - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Hinwil - Axis IP Cam (Zurich)",
     "latitude": 47.29426,
     "longitude": 8.84393,
     "stream_url": "http://80.75.114.19:80/mjpg/video.mjpg",
@@ -2232,7 +2363,7 @@
   },
   {
     "id": "insecam-883012",
-    "name": "[Insecam] La Chaux De Fonds - Mobotix IP Cam (Neuchatel)",
+    "name": "[Insecam Suisse] La Chaux De Fonds - Mobotix IP Cam (Neuchatel)",
     "latitude": 47.09993,
     "longitude": 6.82586,
     "stream_url": "http://80.83.62.89:80/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -2249,7 +2380,7 @@
   },
   {
     "id": "insecam-881797",
-    "name": "[Insecam] Lugano - Axis IP Cam (Ticino)",
+    "name": "[Insecam Suisse] Lugano - Axis IP Cam (Ticino)",
     "latitude": 46.01008,
     "longitude": 8.96004,
     "stream_url": "http://213.200.230.69:80/mjpg/video.mjpg",
@@ -2266,7 +2397,7 @@
   },
   {
     "id": "insecam-540044",
-    "name": "[Insecam] Munchenbuchsee - Axis IP Cam (Bern)",
+    "name": "[Insecam Suisse] Munchenbuchsee - Axis IP Cam (Bern)",
     "latitude": 47.02175,
     "longitude": 7.45036,
     "stream_url": "http://213.3.2.168:9000/mjpg/video.mjpg",
@@ -2283,7 +2414,7 @@
   },
   {
     "id": "insecam-818703",
-    "name": "[Insecam] Muralto - Axis IP Cam (Ticino)",
+    "name": "[Insecam Suisse] Muralto - Axis IP Cam (Ticino)",
     "latitude": 46.166667,
     "longitude": 8.8,
     "stream_url": "http://46.127.218.148:80/mjpg/video.mjpg",
@@ -2300,7 +2431,7 @@
   },
   {
     "id": "insecam-635324",
-    "name": "[Insecam] Neuchatel - Mobotix IP Cam (Neuchatel)",
+    "name": "[Insecam Suisse] Neuchatel - Mobotix IP Cam (Neuchatel)",
     "latitude": 46.99179,
     "longitude": 6.931,
     "stream_url": "http://213.193.106.62:8080/cgi-bin/faststream.jpg?stream=half&fps=15&rand=COUNTER",
@@ -2317,7 +2448,7 @@
   },
   {
     "id": "insecam-931675",
-    "name": "[Insecam] Pully - Axis IP Cam (Lake Geneva)",
+    "name": "[Insecam Suisse] Pully - Axis IP Cam (Lake Geneva)",
     "latitude": 46.51027,
     "longitude": 6.66183,
     "stream_url": "http://212.147.38.3:80/mjpg/video.mjpg",
@@ -2334,7 +2465,7 @@
   },
   {
     "id": "insecam-1011122",
-    "name": "[Insecam] Rheinfelden - Axis IP Cam (Aargau)",
+    "name": "[Insecam Suisse] Rheinfelden - Axis IP Cam (Aargau)",
     "latitude": 47.55437,
     "longitude": 7.79403,
     "stream_url": "http://178.192.94.63:1023/mjpg/video.mjpg",
@@ -2351,7 +2482,7 @@
   },
   {
     "id": "insecam-1011358",
-    "name": "[Insecam] Schlieren - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Schlieren - Axis IP Cam (Zurich)",
     "latitude": 47.39668,
     "longitude": 8.44763,
     "stream_url": "http://213.230.47.243:80/mjpg/video.mjpg",
@@ -2368,7 +2499,7 @@
   },
   {
     "id": "insecam-1011107",
-    "name": "[Insecam] Sion - Axis IP Cam (Valais)",
+    "name": "[Insecam Suisse] Sion - Axis IP Cam (Valais)",
     "latitude": 46.22908,
     "longitude": 7.35942,
     "stream_url": "http://78.155.23.63:888/mjpg/video.mjpg",
@@ -2385,7 +2516,7 @@
   },
   {
     "id": "insecam-417259",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://46.14.231.181:8888/mjpg/video.mjpg",
@@ -2402,7 +2533,7 @@
   },
   {
     "id": "insecam-371870",
-    "name": "[Insecam] Zurich - WebcamXP IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - WebcamXP IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://213.144.145.239:8090/cam_1.cgi",
@@ -2419,7 +2550,7 @@
   },
   {
     "id": "insecam-1011050",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://62.202.56.2:9080/mjpg/video.mjpg",
@@ -2436,7 +2567,7 @@
   },
   {
     "id": "insecam-1011715",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://217.22.133.232:80/mjpg/video.mjpg",
@@ -2453,7 +2584,7 @@
   },
   {
     "id": "insecam-579030",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://151.127.6.169:8081/mjpg/video.mjpg",
@@ -2470,7 +2601,7 @@
   },
   {
     "id": "insecam-239274",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://46.14.203.122:81/mjpg/video.mjpg",
@@ -2487,7 +2618,7 @@
   },
   {
     "id": "insecam-1010836",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://83.78.78.10:9002/mjpg/video.mjpg",
@@ -2504,7 +2635,7 @@
   },
   {
     "id": "insecam-1011545",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://83.78.78.10:9004/mjpg/video.mjpg",
@@ -2521,7 +2652,7 @@
   },
   {
     "id": "insecam-789458",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://213.3.32.49:9010/mjpg/video.mjpg",
@@ -2538,7 +2669,7 @@
   },
   {
     "id": "insecam-238770",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://213.200.245.146:83/mjpg/video.mjpg",
@@ -2555,7 +2686,7 @@
   },
   {
     "id": "insecam-579026",
-    "name": "[Insecam] Zurich - Axis IP Cam (Zurich)",
+    "name": "[Insecam Suisse] Zurich - Axis IP Cam (Zurich)",
     "latitude": 47.36667,
     "longitude": 8.55,
     "stream_url": "http://151.127.6.169:8082/mjpg/video.mjpg",
@@ -2569,5 +2700,22 @@
     "insecam_url": "http://www.insecam.org/en/view/579026/",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:50.004Z"
+  },
+  {
+    "id": "insecam-1010358",
+    "name": "[Insecam France] Paris - Megapixel Hankvision IP Cam (Île-de-France)",
+    "latitude": 48.85341,
+    "longitude": 2.3488,
+    "stream_url": "http://77.140.89.250:83/jpgmulreq/1/image.jpg?key=1516975535684&lq=1",
+    "preview_image": "http://77.140.89.250:83/jpgmulreq/1/image.jpg?key=1516975535684&lq=1",
+    "is_snapshot": true,
+    "is_mjpeg": false,
+    "refresh_interval": 60,
+    "source": "Insecam (Megapixel)",
+    "city": "Paris",
+    "country": "France",
+    "insecam_url": "http://www.insecam.org/en/view/1010358/",
+    "status": "operational",
+    "last_checked": "2026-09-20T10:46:07.855Z"
   }
 ]
