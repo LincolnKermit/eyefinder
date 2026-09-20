@@ -56,18 +56,26 @@ function initMap() {
     if (popupRefreshTimer) clearInterval(popupRefreshTimer);
     const popupEl = e.popup.getElement();
     const snapImg = popupEl ? popupEl.querySelector('.popup-snapshot') : null;
-    if (snapImg && snapImg.dataset.rawSrc) {
+    if (snapImg) {
+      const baseSrc = snapImg.dataset.proxiedSrc || snapImg.dataset.rawSrc;
       popupRefreshTimer = setInterval(() => {
-        const raw = snapImg.dataset.rawSrc;
-        snapImg.src = raw + (raw.includes('?') ? '&' : '?') + 't=' + Date.now();
+        snapImg.src = baseSrc + (baseSrc.includes('?') ? '&' : '?') + 't=' + Date.now();
       }, 60000);
     }
   });
 
-  map.on('popupclose', () => {
+  map.on('popupclose', (e) => {
     if (popupRefreshTimer) {
       clearInterval(popupRefreshTimer);
       popupRefreshTimer = null;
+    }
+    const popupEl = e.popup ? e.popup.getElement() : null;
+    if (popupEl) {
+      const streamImg = popupEl.querySelector('.popup-stream');
+      if (streamImg && streamImg._pollTimer) {
+        clearInterval(streamImg._pollTimer);
+        streamImg._pollTimer = null;
+      }
     }
   });
 }
@@ -124,6 +132,44 @@ function getYouTubeId(cam) {
   return match ? match[1] : null;
 }
 
+// Helper to resolve stream URL with HTTPS reverse proxy to prevent mixed-content & SSL_ERROR_RX_RECORD_TOO_LONG
+function getStreamSource(cam, mode = 'stream') {
+  if (!cam || !cam.stream_url) return '';
+  const url = cam.stream_url;
+
+  // YouTube streams are handled via nocookie embed iframe
+  if (getYouTubeId(cam) || url.includes('youtube') || url.includes('youtu.be')) {
+    return url;
+  }
+
+  // All HTTP streams must be routed via /api/proxy to enforce HTTPS and eliminate SSL_ERROR_RX_RECORD_TOO_LONG
+  if (url.startsWith('http://')) {
+    return `/api/proxy?url=${encodeURIComponent(url)}${mode === 'frame' ? '&mode=frame' : ''}`;
+  }
+
+  return url;
+}
+
+// Fallback if live streaming connection is interrupted or times out: seamless live frame polling
+window.onStreamError = function(img) {
+  if (img.dataset.hasSwitched) return;
+  img.dataset.hasSwitched = 'true';
+  const fallback = img.dataset.frameFallback;
+  if (!fallback) return;
+
+  // Immediately load single frame
+  img.src = fallback + (fallback.includes('?') ? '&' : '?') + 't=' + Date.now();
+
+  // Poll frames at 1 frame every 1.5s while popup is active
+  img._pollTimer = setInterval(() => {
+    if (!document.body.contains(img)) {
+      clearInterval(img._pollTimer);
+      return;
+    }
+    img.src = fallback + (fallback.includes('?') ? '&' : '?') + 't=' + Date.now();
+  }, 1500);
+};
+
 // Build popup HTML for a camera
 function createPopupContent(cam) {
   const type = getCameraType(cam);
@@ -139,6 +185,8 @@ function createPopupContent(cam) {
     : 'Recent';
 
   const ytId = getYouTubeId(cam);
+  const streamSrc = getStreamSource(cam, 'stream');
+  const frameSrc = getStreamSource(cam, 'frame');
 
   let mediaHtml = '';
   if (isPic) {
@@ -146,8 +194,9 @@ function createPopupContent(cam) {
       <div class="snapshot-container">
         <img 
           class="popup-video popup-snapshot" 
-          src="${escapeHtml(cam.stream_url)}" 
+          src="${escapeHtml(frameSrc)}" 
           data-raw-src="${escapeHtml(cam.stream_url)}"
+          data-proxied-src="${escapeHtml(frameSrc)}"
           alt="${escapeHtml(cam.name)}" 
           referrerpolicy="no-referrer"
           loading="lazy"
@@ -171,16 +220,18 @@ function createPopupContent(cam) {
     } else if (cam.is_mjpeg || cam.stream_url.includes('mjpg') || cam.stream_url.includes('faststream')) {
       mediaHtml = `
         <img 
-          class="popup-video" 
-          src="${escapeHtml(cam.stream_url)}" 
+          class="popup-video popup-stream" 
+          src="${escapeHtml(streamSrc)}" 
+          data-frame-fallback="${escapeHtml(frameSrc)}"
           alt="${escapeHtml(cam.name)}" 
           referrerpolicy="no-referrer"
+          onerror="onStreamError(this)"
         />
       `;
     } else {
       mediaHtml = `
         <video class="popup-video" autoplay muted loop playsinline referrerpolicy="no-referrer">
-          <source src="${escapeHtml(cam.stream_url)}" type="video/mp4">
+          <source src="${escapeHtml(streamSrc)}" type="video/mp4">
           CCTV Stream Unavailable
         </video>
       `;

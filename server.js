@@ -5,6 +5,7 @@ const url = require('url');
 
 const camerasHandler = require('./api/cameras');
 const cronHandler = require('./api/cron');
+const proxyHandler = require('./api/proxy');
 
 const PORT = process.env.PORT || 3000;
 
@@ -60,6 +61,10 @@ const server = http.createServer(async (req, res) => {
       req.body = await parseBody(req);
     }
     return camerasHandler(req, res);
+  }
+
+  if (pathname === '/api/proxy') {
+    return proxyHandler(req, res);
   }
 
   if (pathname === '/api/cron' || pathname === '/api/refresh') {
