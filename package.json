@@ -20,5 +20,8 @@
   "license": "MIT",
   "engines": {
     "node": "20.x"
+  },
+  "dependencies": {
+    "@vercel/node": "^13.0.1"
   }
 }
