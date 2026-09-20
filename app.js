@@ -50,32 +50,26 @@ function initMap() {
   };
   legend.addTo(map);
 
-  // Auto-refresh snapshot cameras every 60 seconds while popup is open
+  // Auto-refresh camera feed previews while popup is open
   let popupRefreshTimer = null;
   map.on('popupopen', (e) => {
     if (popupRefreshTimer) clearInterval(popupRefreshTimer);
     const popupEl = e.popup.getElement();
-    const snapImg = popupEl ? popupEl.querySelector('.popup-snapshot') : null;
-    if (snapImg) {
-      const baseSrc = snapImg.dataset.proxiedSrc || snapImg.dataset.rawSrc;
+    const feedImg = popupEl ? popupEl.querySelector('.popup-camera-feed') : null;
+    if (feedImg && feedImg.dataset.secureSrc) {
+      const baseSrc = feedImg.dataset.secureSrc;
+      const isSnapshot = feedImg.closest('.popup-card') && feedImg.closest('.popup-card').querySelector('.badge-picture');
+      const intervalMs = isSnapshot ? 60000 : 5000;
       popupRefreshTimer = setInterval(() => {
-        snapImg.src = baseSrc + (baseSrc.includes('?') ? '&' : '?') + 't=' + Date.now();
-      }, 60000);
+        feedImg.src = baseSrc + (baseSrc.includes('?') ? '&' : '?') + 't=' + Date.now();
+      }, intervalMs);
     }
   });
 
-  map.on('popupclose', (e) => {
+  map.on('popupclose', () => {
     if (popupRefreshTimer) {
       clearInterval(popupRefreshTimer);
       popupRefreshTimer = null;
-    }
-    const popupEl = e.popup ? e.popup.getElement() : null;
-    if (popupEl) {
-      const streamImg = popupEl.querySelector('.popup-stream');
-      if (streamImg && streamImg._pollTimer) {
-        clearInterval(streamImg._pollTimer);
-        streamImg._pollTimer = null;
-      }
     }
   });
 }
@@ -132,43 +126,32 @@ function getYouTubeId(cam) {
   return match ? match[1] : null;
 }
 
-// Helper to resolve stream URL with HTTPS reverse proxy to prevent mixed-content & SSL_ERROR_RX_RECORD_TOO_LONG
-function getStreamSource(cam, mode = 'stream') {
+// Helper to resolve an HTTPS-compatible image/stream preview URL to eliminate SSL_ERROR_RX_RECORD_TOO_LONG
+function getSecureMediaUrl(cam) {
   if (!cam || !cam.stream_url) return '';
   const url = cam.stream_url;
 
-  // YouTube streams are handled via nocookie embed iframe
-  if (getYouTubeId(cam) || url.includes('youtube') || url.includes('youtu.be')) {
+  // Already HTTPS or YouTube embed
+  if (url.startsWith('https://') || getYouTubeId(cam)) {
     return url;
   }
 
-  // All HTTP streams must be routed via /api/proxy to enforce HTTPS and eliminate SSL_ERROR_RX_RECORD_TOO_LONG
-  if (url.startsWith('http://')) {
-    return `/api/proxy?url=${encodeURIComponent(url)}${mode === 'frame' ? '&mode=frame' : ''}`;
+  // Derive static JPEG snapshot endpoint from camera hardware if stream is MJPEG
+  let snapshotUrl = url;
+  if (url.includes('/mjpg/video.mjpg')) {
+    snapshotUrl = url.replace('/mjpg/video.mjpg', '/axis-cgi/jpg/image.cgi');
+  } else if (url.includes('/cgi-bin/faststream.jpg')) {
+    snapshotUrl = url.replace(/\/cgi-bin\/faststream\.jpg.*$/, '/record/current.jpg');
+  } else if (url.includes('/mjpeg.cgi')) {
+    snapshotUrl = url.replace('/mjpeg.cgi', '/image.jpg');
   }
 
-  return url;
+  // Clean counter parameters
+  snapshotUrl = snapshotUrl.replace(/[\?&]COUNTER/g, '');
+
+  // Route via Cloudflare-backed secure HTTPS image proxy to bypass mixed-content blocks and SSL_ERROR_RX_RECORD_TOO_LONG
+  return `https://images.weserv.nl/?url=${encodeURIComponent(snapshotUrl)}`;
 }
-
-// Fallback if live streaming connection is interrupted or times out: seamless live frame polling
-window.onStreamError = function(img) {
-  if (img.dataset.hasSwitched) return;
-  img.dataset.hasSwitched = 'true';
-  const fallback = img.dataset.frameFallback;
-  if (!fallback) return;
-
-  // Immediately load single frame
-  img.src = fallback + (fallback.includes('?') ? '&' : '?') + 't=' + Date.now();
-
-  // Poll frames at 1 frame every 1.5s while popup is active
-  img._pollTimer = setInterval(() => {
-    if (!document.body.contains(img)) {
-      clearInterval(img._pollTimer);
-      return;
-    }
-    img.src = fallback + (fallback.includes('?') ? '&' : '?') + 't=' + Date.now();
-  }, 1500);
-};
 
 // Build popup HTML for a camera
 function createPopupContent(cam) {
@@ -185,57 +168,36 @@ function createPopupContent(cam) {
     : 'Recent';
 
   const ytId = getYouTubeId(cam);
-  const streamSrc = getStreamSource(cam, 'stream');
-  const frameSrc = getStreamSource(cam, 'frame');
+  const secureMediaSrc = getSecureMediaUrl(cam);
 
   let mediaHtml = '';
-  if (isPic) {
+  if (ytId) {
+    mediaHtml = `
+      <iframe 
+        class="popup-video" 
+        src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(ytId)}?autoplay=1&mute=1&playsinline=1" 
+        title="${escapeHtml(cam.name)}" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="no-referrer"
+        allowfullscreen>
+      </iframe>
+    `;
+  } else if (!isDown && cam.stream_url) {
     mediaHtml = `
       <div class="snapshot-container">
         <img 
-          class="popup-video popup-snapshot" 
-          src="${escapeHtml(frameSrc)}" 
+          class="popup-video popup-camera-feed" 
+          src="${escapeHtml(secureMediaSrc)}" 
+          data-secure-src="${escapeHtml(secureMediaSrc)}"
           data-raw-src="${escapeHtml(cam.stream_url)}"
-          data-proxied-src="${escapeHtml(frameSrc)}"
           alt="${escapeHtml(cam.name)}" 
           referrerpolicy="no-referrer"
           loading="lazy"
         />
-        <div class="snapshot-tag">⟳ REFRESH 60S</div>
+        <div class="snapshot-tag">${isPic ? '⟳ REFRESH 60S' : '● LIVE PREVIEW'}</div>
       </div>
     `;
-  } else if (!isDown && cam.stream_url) {
-    if (ytId) {
-      mediaHtml = `
-        <iframe 
-          class="popup-video" 
-          src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(ytId)}?autoplay=1&mute=1&playsinline=1" 
-          title="${escapeHtml(cam.name)}" 
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          referrerpolicy="no-referrer"
-          allowfullscreen>
-        </iframe>
-      `;
-    } else if (cam.is_mjpeg || cam.stream_url.includes('mjpg') || cam.stream_url.includes('faststream')) {
-      mediaHtml = `
-        <img 
-          class="popup-video popup-stream" 
-          src="${escapeHtml(streamSrc)}" 
-          data-frame-fallback="${escapeHtml(frameSrc)}"
-          alt="${escapeHtml(cam.name)}" 
-          referrerpolicy="no-referrer"
-          onerror="onStreamError(this)"
-        />
-      `;
-    } else {
-      mediaHtml = `
-        <video class="popup-video" autoplay muted loop playsinline referrerpolicy="no-referrer">
-          <source src="${escapeHtml(streamSrc)}" type="video/mp4">
-          CCTV Stream Unavailable
-        </video>
-      `;
-    }
   } else {
     mediaHtml = `
       <div class="popup-video" style="display:flex;align-items:center;justify-content:center;background:#1a1012;color:var(--status-red);font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px dashed var(--status-red);">
