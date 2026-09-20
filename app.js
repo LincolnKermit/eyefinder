@@ -8,8 +8,8 @@ let searchQuery = '';
 // Initialize Leaflet Map with ESRI World Dark Gray free tiles (no API key required)
 function initMap() {
   map = L.map('map', {
-    center: [46.5, 4.8], // Centered around France / Europe initial viewport
-    zoom: 5,
+    center: [46.15, 5.4], // Centered between Lyon, Geneva & Rhône-Alpes
+    zoom: 7,
     minZoom: 2,
     maxZoom: 19,
     zoomControl: false,
@@ -74,8 +74,11 @@ function initMap() {
 
 // Helper to determine if a camera is a refreshing snapshot or live video stream
 function isPictureCamera(cam) {
+  if (cam.is_snapshot) return true;
+  if (cam.is_mjpeg || (cam.stream_url && (cam.stream_url.includes('mjpg') || cam.stream_url.includes('faststream')))) {
+    return false;
+  }
   return Boolean(
-    cam.is_snapshot ||
     (cam.stream_url && /\.(jpg|jpeg|png)$/i.test(cam.stream_url)) ||
     (cam.stream_url && cam.stream_url.includes('visu_camera')) ||
     (cam.preview_image && !cam.youtube_id && (!cam.stream_url || (!cam.stream_url.includes('.mp4') && !cam.stream_url.includes('youtube') && !cam.stream_url.includes('youtu.be'))))
@@ -127,7 +130,7 @@ function createPopupContent(cam) {
   const isPic = type === 'picture';
   const isDown = type === 'down';
   const badgeClass = isDown ? 'badge-down' : (isPic ? 'badge-picture' : 'badge-live');
-  const badgeText = isDown ? '■ OFFLINE' : (isPic ? '⟳ PICTURE (60s)' : '● LIVE STREAM');
+  const badgeText = isDown ? '■ OFFLINE' : (isPic ? '⟳ PICTURE (60s)' : (cam.is_mjpeg ? '● LIVE MJPEG' : '● LIVE STREAM'));
 
   const latFormatted = Number(cam.latitude).toFixed(4);
   const lonFormatted = Number(cam.longitude).toFixed(4);
@@ -165,6 +168,15 @@ function createPopupContent(cam) {
           allowfullscreen>
         </iframe>
       `;
+    } else if (cam.is_mjpeg || cam.stream_url.includes('mjpg') || cam.stream_url.includes('faststream')) {
+      mediaHtml = `
+        <img 
+          class="popup-video" 
+          src="${escapeHtml(cam.stream_url)}" 
+          alt="${escapeHtml(cam.name)}" 
+          referrerpolicy="no-referrer"
+        />
+      `;
     } else {
       mediaHtml = `
         <video class="popup-video" autoplay muted loop playsinline referrerpolicy="no-referrer">
@@ -194,7 +206,7 @@ function createPopupContent(cam) {
         <div class="meta-row">
           <span class="meta-label">TYPE</span>
           <span class="meta-val" style="color: ${type === 'live' ? 'var(--color-live-text)' : (type === 'picture' ? 'var(--color-picture)' : 'var(--status-red)')}; font-weight: 700;">
-            ${type === 'live' ? 'LIVE CAMERA (VIDEO)' : (type === 'picture' ? 'PERIODIC PICTURE' : 'OFFLINE')}
+            ${type === 'live' ? (cam.is_mjpeg ? 'LIVE IP MJPEG' : 'LIVE CAMERA (VIDEO)') : (type === 'picture' ? 'PERIODIC PICTURE' : 'OFFLINE')}
           </span>
         </div>
         <div class="meta-row">
@@ -210,9 +222,20 @@ function createPopupContent(cam) {
           <span class="meta-val">${timeFormatted}</span>
         </div>
       </div>
+      ${cam.insecam_url ? `
+      <div class="popup-actions" style="display: flex; gap: 8px;">
+        <a href="${encodeURI(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1;">
+          CCTV FLUX ↗
+        </a>
+        <a href="${encodeURI(cam.insecam_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1; background: var(--bg-primary); border-color: var(--border-active);">
+          INSECAM ↗
+        </a>
+      </div>
+      ` : `
       <a href="${encodeURI(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn">
         ACCESS CCTV FLUX ↗
       </a>
+      `}
     </div>
   `;
 }
@@ -290,6 +313,8 @@ function getFilteredCameras() {
     const matchesSearch =
       !searchQuery ||
       cam.name.toLowerCase().includes(searchQuery) ||
+      (cam.city && cam.city.toLowerCase().includes(searchQuery)) ||
+      (cam.country && cam.country.toLowerCase().includes(searchQuery)) ||
       (cam.source && cam.source.toLowerCase().includes(searchQuery));
 
     return matchesFilter && matchesSearch;
@@ -337,7 +362,7 @@ function renderSidebarList() {
   filtered.forEach(cam => {
     const type = getCameraType(cam);
     const typeLabel = type === 'live' ? 'LIVE' : (type === 'picture' ? 'PICTURE' : 'OFFLINE');
-    const typePill = type === 'live' ? 'LIVE' : (type === 'picture' ? '60s' : 'DOWN');
+    const typePill = type === 'live' ? (cam.is_mjpeg ? 'MJPEG' : 'LIVE') : (type === 'picture' ? '60s' : 'DOWN');
 
     const card = document.createElement('div');
     card.className = 'feed-card';
