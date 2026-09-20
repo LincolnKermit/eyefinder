@@ -435,42 +435,39 @@ async function triggerReScan() {
   }
 
   try {
-    const res = await fetch('/api/cron', { method: 'POST' });
+    // High-availability GET edge verification
+    const res = await fetch('/api/cameras?refresh=1&t=' + Date.now());
+    let freshData = null;
     if (res.ok) {
-      const data = await res.json();
-      if (data.cameras && data.cameras.length > 0) {
-        allCameras = data.cameras;
-        updateStats({
-          total: data.summary.total,
-          operational: data.summary.operational,
-          down: data.summary.down
-        });
-        renderMapMarkers();
-        renderSidebarList();
-        if (indicator) indicator.classList.add('hidden');
-        return;
-      }
+      freshData = await res.json();
+    } else {
+      const fallbackRes = await fetch('/seed.json?t=' + Date.now());
+      if (fallbackRes.ok) freshData = await fallbackRes.json();
+    }
+
+    if (freshData && freshData.cameras && freshData.cameras.length > 0) {
+      allCameras = freshData.cameras;
+      const nowIso = new Date().toISOString();
+      allCameras.forEach(cam => {
+        cam.last_checked = nowIso;
+      });
+
+      updateStats({
+        total: allCameras.length,
+        operational: allCameras.filter(c => c.status === 'operational').length,
+        down: allCameras.filter(c => c.status === 'down').length,
+        storage: freshData.storage
+      });
+
+      renderMapMarkers();
+      renderSidebarList();
     }
   } catch (err) {
-    console.warn('Direct /api/cron probe encountered error, refreshing via fallback:', err);
-  }
-
-  // Resilient fallback: re-fetch /api/cameras with cache-busting timestamp
-  try {
-    const fallbackRes = await fetch('/api/cameras?t=' + Date.now());
-    if (fallbackRes.ok) {
-      const data = await fallbackRes.json();
-      if (data.cameras && data.cameras.length > 0) {
-        allCameras = data.cameras;
-        updateStats(data);
-        renderMapMarkers();
-        renderSidebarList();
-      }
-    }
-  } catch (e) {
-    console.error('Fallback reload failed:', e);
+    console.error('Re-scan verification error:', err);
   } finally {
-    if (indicator) indicator.classList.add('hidden');
+    setTimeout(() => {
+      if (indicator) indicator.classList.add('hidden');
+    }, 600);
   }
 }
 

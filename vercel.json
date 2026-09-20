@@ -10,12 +10,10 @@
     {
       "source": "/api/cameras",
       "destination": "/seed.json"
-    }
-  ],
-  "crons": [
+    },
     {
-      "path": "/api/cron",
-      "schedule": "0 0 * * *"
+      "source": "/api/cron",
+      "destination": "/seed.json"
     }
   ]
 }
