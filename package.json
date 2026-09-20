@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Real-time OSINT CCTV map tracker with live status monitoring",
   "scripts": {
-    "start": "node server.js",
     "dev": "node server.js",
     "seed": "node scripts/seed-db.js",
     "check": "node scripts/check-health.js"
@@ -19,7 +18,7 @@
   "author": "lincolnkermit",
   "license": "MIT",
   "engines": {
-    "node": "20.x"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@vercel/node": "^13.0.1"
