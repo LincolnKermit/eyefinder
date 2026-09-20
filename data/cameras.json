@@ -10,11 +10,11 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.673Z"
+    "last_checked": "2026-09-20T10:28:48.249Z"
   },
   {
     "id": "lyon-criter-258",
-    "name": "Lyon - M7 - Marseille: Pont de la Mulati\u00e8re (M7 - Marseille)",
+    "name": "Lyon - M7 - Marseille: Pont de la Mulatière (M7 - Marseille)",
     "latitude": 45.7288611,
     "longitude": 4.81570358,
     "stream_url": "https://download.data.grandlyon.com/files/rdata/pvo_patrimoine_voirie.pvocameracriter/CWML005.JPG",
@@ -23,7 +23,7 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.170Z"
   },
   {
     "id": "lyon-criter-224",
@@ -36,11 +36,11 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.180Z"
   },
   {
     "id": "lyon-criter-219",
-    "name": "Lyon - Lyon - Perrache: Tunnel sous Fourvi\u00e8re (Lyon - Perrache)",
+    "name": "Lyon - Lyon - Perrache: Tunnel sous Fourvière (Lyon - Perrache)",
     "latitude": 45.75235829,
     "longitude": 4.81978207,
     "stream_url": "https://download.data.grandlyon.com/files/rdata/pvo_patrimoine_voirie.pvocameracriter/CWL5801.JPG",
@@ -49,11 +49,11 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.220Z"
   },
   {
     "id": "lyon-criter-254",
-    "name": "Lyon - Lyon - Villeurbanne: Pont Poincar\u00e9 (Lyon - Villeurbanne)",
+    "name": "Lyon - Lyon - Villeurbanne: Pont Poincaré (Lyon - Villeurbanne)",
     "latitude": 45.78824631,
     "longitude": 4.86040666,
     "stream_url": "https://download.data.grandlyon.com/files/rdata/pvo_patrimoine_voirie.pvocameracriter/CW3CL005.JPG",
@@ -62,7 +62,7 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.272Z"
   },
   {
     "id": "lyon-criter-253",
@@ -75,11 +75,11 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.257Z"
   },
   {
     "id": "lyon-criter-255",
-    "name": "Lyon - Porte des Alpes: Boulevard de l'Universit\u00e9 / Rue A.Bouloche (Porte des Alpes)",
+    "name": "Lyon - Porte des Alpes: Boulevard de l'Université / Rue A.Bouloche (Porte des Alpes)",
     "latitude": 45.72302417,
     "longitude": 4.92010936,
     "stream_url": "https://download.data.grandlyon.com/files/rdata/pvo_patrimoine_voirie.pvocameracriter/CWBR043.JPG",
@@ -88,7 +88,7 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.279Z"
   },
   {
     "id": "lyon-criter-256",
@@ -101,7 +101,7 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.231Z"
   },
   {
     "id": "lyon-criter-257",
@@ -114,11 +114,11 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.287Z"
   },
   {
     "id": "lyon-criter-259",
-    "name": "Lyon - Porte de Gerland: Avenue T.Garnier / Avenue J.Jaur\u00e8s (Porte de Gerland)",
+    "name": "Lyon - Porte de Gerland: Avenue T.Garnier / Avenue J.Jaurès (Porte de Gerland)",
     "latitude": 45.72673364,
     "longitude": 4.83031718,
     "stream_url": "https://download.data.grandlyon.com/files/rdata/pvo_patrimoine_voirie.pvocameracriter/CWL7033.JPG",
@@ -127,11 +127,11 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.241Z"
   },
   {
     "id": "lyon-criter-261",
-    "name": "Lyon - A7 - Paris: Tunnel sous Fourvi\u00e8re (M6 - Paris)",
+    "name": "Lyon - A7 - Paris: Tunnel sous Fourvière (M6 - Paris)",
     "latitude": 45.76352371,
     "longitude": 4.80278803,
     "stream_url": "https://download.data.grandlyon.com/files/rdata/pvo_patrimoine_voirie.pvocameracriter/CWL9801.JPG",
@@ -140,11 +140,11 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.160Z"
   },
   {
     "id": "lyon-criter-220",
-    "name": "Lyon - Grange Blanche: Cours A.Thomas / Bd des Tch\u00e9coslovaques (Grange Blanche)",
+    "name": "Lyon - Grange Blanche: Cours A.Thomas / Bd des Tchécoslovaques (Grange Blanche)",
     "latitude": 45.74958364,
     "longitude": 4.85958053,
     "stream_url": "https://download.data.grandlyon.com/files/rdata/pvo_patrimoine_voirie.pvocameracriter/CWL3005.JPG",
@@ -153,7 +153,7 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.191Z"
   },
   {
     "id": "lyon-criter-221",
@@ -166,7 +166,7 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.264Z"
   },
   {
     "id": "lyon-criter-222",
@@ -179,7 +179,7 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.148Z"
   },
   {
     "id": "lyon-criter-223",
@@ -192,7 +192,7 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:44:15.674Z"
+    "last_checked": "2026-09-20T10:28:48.295Z"
   },
   {
     "id": "skyline-4276",
@@ -202,9 +202,9 @@
     "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget.html",
     "youtube_id": null,
     "preview_image": "https://cdn.skylinewebcams.com/live4276.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.982Z",
+    "last_checked": "2026-09-20T10:28:47.991Z",
     "is_snapshot": false
   },
   {
@@ -215,9 +215,9 @@
     "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/vallorcine/vallorcine-mont-blanc.html",
     "youtube_id": null,
     "preview_image": "https://cdn.skylinewebcams.com/live5366.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:48.004Z",
     "is_snapshot": false
   },
   {
@@ -228,22 +228,22 @@
     "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget-france.html",
     "youtube_id": null,
     "preview_image": "https://cdn.skylinewebcams.com/live5755.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:48.359Z",
     "is_snapshot": false
   },
   {
     "id": "skyline-5627",
-    "name": "Arbusigny - Cha\u00eene des Aravis & Mont Blanc",
+    "name": "Arbusigny - Chaîne des Aravis & Mont Blanc",
     "latitude": 46.0911,
     "longitude": 6.2197,
     "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/arbusigny/les-aravis-mont-blanc.html",
     "youtube_id": null,
     "preview_image": "https://cdn.skylinewebcams.com/live5627.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:47.944Z",
     "is_snapshot": false
   },
   {
@@ -254,9 +254,9 @@
     "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/hauteluce/domaine-skiable-des-contamines-montjoie.html",
     "youtube_id": null,
     "preview_image": "https://cdn.skylinewebcams.com/live5671.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:47.952Z",
     "is_snapshot": false
   },
   {
@@ -267,9 +267,9 @@
     "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/doussard/lac-d-annecy-france.html",
     "youtube_id": null,
     "preview_image": "https://cdn.skylinewebcams.com/live4666.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:47.933Z",
     "is_snapshot": false
   },
   {
@@ -280,9 +280,9 @@
     "stream_url": "https://www.youtube.com/watch?v=s-J0yE5Tpu4",
     "youtube_id": "s-J0yE5Tpu4",
     "preview_image": "https://cdn.skylinewebcams.com/live6195.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
-    "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:48.772Z",
     "is_snapshot": false
   },
   {
@@ -293,9 +293,9 @@
     "stream_url": "https://www.youtube.com/watch?v=EBhCrTPpdBI",
     "youtube_id": "EBhCrTPpdBI",
     "preview_image": "https://cdn.skylinewebcams.com/live6185.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:48.633Z",
     "is_snapshot": false
   },
   {
@@ -306,9 +306,9 @@
     "stream_url": "https://www.youtube.com/watch?v=olfe6GhsrIk",
     "youtube_id": "olfe6GhsrIk",
     "preview_image": "https://cdn.skylinewebcams.com/live3771.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
-    "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:48.776Z",
     "is_snapshot": false
   },
   {
@@ -319,9 +319,9 @@
     "stream_url": "https://www.youtube.com/watch?v=X1o1sxtWi1M",
     "youtube_id": "X1o1sxtWi1M",
     "preview_image": "https://cdn.skylinewebcams.com/live6199.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:48.673Z",
     "is_snapshot": false
   },
   {
@@ -332,9 +332,9 @@
     "stream_url": "https://www.youtube.com/watch?v=XWmQtBOaSXQ",
     "youtube_id": "XWmQtBOaSXQ",
     "preview_image": "https://cdn.skylinewebcams.com/live2427.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:48.665Z",
     "is_snapshot": false
   },
   {
@@ -345,9 +345,9 @@
     "stream_url": "https://www.youtube.com/watch?v=BuB981VNriE",
     "youtube_id": "BuB981VNriE",
     "preview_image": "https://cdn.skylinewebcams.com/live3761.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:48.691Z",
     "is_snapshot": false
   },
   {
@@ -358,9 +358,9 @@
     "stream_url": "https://www.youtube.com/watch?v=l9Z4fFK43AM",
     "youtube_id": "l9Z4fFK43AM",
     "preview_image": "https://cdn.skylinewebcams.com/live3499.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "last_checked": "2026-09-20T10:28:48.725Z",
     "is_snapshot": false
   },
   {
@@ -371,9 +371,9 @@
     "stream_url": "https://www.youtube.com/watch?v=SXXHa5SoAHo",
     "youtube_id": "SXXHa5SoAHo",
     "preview_image": "https://cdn.skylinewebcams.com/live3638.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
-    "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:48.781Z",
     "is_snapshot": false
   },
   {
@@ -384,9 +384,9 @@
     "stream_url": "https://www.youtube.com/watch?v=B0vZX9GnpxI",
     "youtube_id": "B0vZX9GnpxI",
     "preview_image": "https://cdn.skylinewebcams.com/live3762.jpg",
-    "source": "SkylineWebcams (Auvergne-Rh\u00f4ne-Alpes)",
-    "status": "operational",
-    "last_checked": "2026-09-19T22:32:02.983Z",
+    "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:48.785Z",
     "is_snapshot": false
   },
   {
@@ -395,9 +395,9 @@
     "latitude": 47.2979,
     "longitude": 2.95234,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.4.mp4",
-    "source": "DIR Centre-Est (Auxerre \u2013 Nevers)",
+    "source": "DIR Centre-Est (Auxerre – Nevers)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.759Z",
+    "last_checked": "2026-09-20T10:28:48.060Z",
     "is_snapshot": false
   },
   {
@@ -406,9 +406,9 @@
     "latitude": 45.5854,
     "longitude": 4.7511,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.5.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.069Z",
     "is_snapshot": false
   },
   {
@@ -417,20 +417,20 @@
     "latitude": 47.8194,
     "longitude": 3.57128,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.7.mp4",
-    "source": "DIR Centre-Est (Auxerre \u2013 Nevers)",
+    "source": "DIR Centre-Est (Auxerre – Nevers)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.079Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-8",
-    "name": "N\u0153ud des \u00eeles N346 PR26+48 (vers Marseille)",
+    "name": "Nœud des îles N346 PR26+48 (vers Marseille)",
     "latitude": 45.8034,
     "longitude": 4.92638,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.8.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.097Z",
     "is_snapshot": false
   },
   {
@@ -439,31 +439,31 @@
     "latitude": 45.4505,
     "longitude": 4.4201,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.9.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.109Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-13",
-    "name": "Terrenoire N88 PR33+560 (vers Saint-\u00c9tienne)",
+    "name": "Terrenoire N88 PR33+560 (vers Saint-Étienne)",
     "latitude": 45.4397,
     "longitude": 4.45516,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.13.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.339Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-15",
-    "name": "La L\u00e9ch\u00e8re N90 PR44+53 (vers Mo\u00fbtiers)",
+    "name": "La Léchère N90 PR44+53 (vers Moûtiers)",
     "latitude": 45.5205,
     "longitude": 6.48541,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.15.mp4",
-    "source": "DIR Centre-Est (Grenoble - Chamb\u00e9ry - Tarentaise)",
+    "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.349Z",
     "is_snapshot": false
   },
   {
@@ -472,9 +472,9 @@
     "latitude": 45.7103,
     "longitude": 4.96788,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.16.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.319Z",
     "is_snapshot": false
   },
   {
@@ -483,9 +483,9 @@
     "latitude": 44.932,
     "longitude": 4.94488,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.17.mp4",
-    "source": "DIR Centre-Est (N7 Vall\u00e9e du Rh\u00f4ne)",
+    "source": "DIR Centre-Est (N7 Vallée du Rhône)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.326Z",
     "is_snapshot": false
   },
   {
@@ -494,9 +494,9 @@
     "latitude": 45.5903,
     "longitude": 4.7973,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.19.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.332Z",
     "is_snapshot": false
   },
   {
@@ -505,9 +505,9 @@
     "latitude": 45.68,
     "longitude": 4.84886,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.20.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.531Z",
     "is_snapshot": false
   },
   {
@@ -516,9 +516,9 @@
     "latitude": 45.3941,
     "longitude": 4.32776,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.24.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.644Z",
     "is_snapshot": false
   },
   {
@@ -527,9 +527,9 @@
     "latitude": 45.9158,
     "longitude": 4.34315,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.25.mp4",
-    "source": "DIR Centre-Est (Roanne \u2013 Lyon)",
+    "source": "DIR Centre-Est (Roanne – Lyon)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.649Z",
     "is_snapshot": false
   },
   {
@@ -538,9 +538,9 @@
     "latitude": 45.6026,
     "longitude": 6.75392,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.26.mp4",
-    "source": "DIR Centre-Est (Grenoble - Chamb\u00e9ry - Tarentaise)",
+    "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.591Z",
     "is_snapshot": false
   },
   {
@@ -549,9 +549,9 @@
     "latitude": 45.2037,
     "longitude": 5.78258,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.27.mp4",
-    "source": "DIR Centre-Est (Grenoble - Chamb\u00e9ry - Tarentaise)",
+    "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.595Z",
     "is_snapshot": false
   },
   {
@@ -560,20 +560,20 @@
     "latitude": 45.5323,
     "longitude": 4.87398,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.29.mp4",
-    "source": "DIR Centre-Est (N7 Vall\u00e9e du Rh\u00f4ne)",
+    "source": "DIR Centre-Est (N7 Vallée du Rhône)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.438Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-30",
-    "name": "Sortie 15 Chamb\u00e9ry N201 PR4+1033 (vers Lyon)",
+    "name": "Sortie 15 Chambéry N201 PR4+1033 (vers Lyon)",
     "latitude": 45.5858,
     "longitude": 5.90688,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.30.mp4",
-    "source": "DIR Centre-Est (Grenoble - Chamb\u00e9ry - Tarentaise)",
+    "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.450Z",
     "is_snapshot": false
   },
   {
@@ -582,20 +582,20 @@
     "latitude": 45.1558,
     "longitude": 5.74697,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.31.mp4",
-    "source": "DIR Centre-Est (Grenoble - Chamb\u00e9ry - Tarentaise)",
+    "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.760Z",
+    "last_checked": "2026-09-20T10:28:48.457Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-32",
-    "name": "Chamb\u00e9ry sortie centre commercial  N201 PR5+980 (vers Albertville)",
+    "name": "Chambéry sortie centre commercial  N201 PR5+980 (vers Albertville)",
     "latitude": 45.5918,
     "longitude": 5.89783,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.32.mp4",
-    "source": "DIR Centre-Est (Grenoble - Chamb\u00e9ry - Tarentaise)",
+    "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.463Z",
     "is_snapshot": false
   },
   {
@@ -604,20 +604,20 @@
     "latitude": 45.6914,
     "longitude": 4.81978,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.34.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.470Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-37",
-    "name": "Pierre B\u00e9nite A7 PR6+428 (vers Marseille)",
+    "name": "Pierre Bénite A7 PR6+428 (vers Marseille)",
     "latitude": 45.698,
     "longitude": 4.8359,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.37.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.477Z",
     "is_snapshot": false
   },
   {
@@ -626,9 +626,9 @@
     "latitude": 44.953,
     "longitude": 4.93509,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.40.mp4",
-    "source": "DIR Centre-Est (N7 Vall\u00e9e du Rh\u00f4ne)",
+    "source": "DIR Centre-Est (N7 Vallée du Rhône)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.484Z",
     "is_snapshot": false
   },
   {
@@ -637,9 +637,9 @@
     "latitude": 46.4748,
     "longitude": 3.36751,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.41.mp4",
-    "source": "DIR Centre-Est (Moulins - M\u00e2con / Dijon)",
+    "source": "DIR Centre-Est (Moulins - Mâcon / Dijon)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.492Z",
     "is_snapshot": false
   },
   {
@@ -648,42 +648,42 @@
     "latitude": 46.0631,
     "longitude": 4.06162,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.45.mp4",
-    "source": "DIR Centre-Est (Roanne \u2013 Lyon)",
+    "source": "DIR Centre-Est (Roanne – Lyon)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.550Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-47",
-    "name": "Col de Bois Clair N79 PR63+640 (vers M\u00e2con)",
+    "name": "Col de Bois Clair N79 PR63+640 (vers Mâcon)",
     "latitude": 46.3839,
     "longitude": 4.66724,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.47.mp4",
-    "source": "DIR Centre-Est (Moulins - M\u00e2con / Dijon)",
+    "source": "DIR Centre-Est (Moulins - Mâcon / Dijon)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.540Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-49",
-    "name": "Gilly-sur-Is\u00e8re N90 PR20+029 (vers Albertville)",
+    "name": "Gilly-sur-Isère N90 PR20+029 (vers Albertville)",
     "latitude": 45.6503,
     "longitude": 6.34652,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.49.mp4",
-    "source": "DIR Centre-Est (Grenoble - Chamb\u00e9ry - Tarentaise)",
+    "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.557Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-55",
-    "name": "Chamb\u00e9ry nord acc\u00e8s A41A43 RN201 PR7+100 (vers Lyon)",
+    "name": "Chambéry nord accès A41A43 RN201 PR7+100 (vers Lyon)",
     "latitude": 45.5999,
     "longitude": 5.89298,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.55.mp4",
-    "source": "DIR Centre-Est (Grenoble - Chamb\u00e9ry - Tarentaise)",
+    "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.563Z",
     "is_snapshot": false
   },
   {
@@ -692,9 +692,9 @@
     "latitude": 45.1589,
     "longitude": 5.70088,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.57.mp4",
-    "source": "DIR Centre-Est (Grenoble - Chamb\u00e9ry - Tarentaise)",
+    "source": "DIR Centre-Est (Grenoble - Chambéry - Tarentaise)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.569Z",
     "is_snapshot": false
   },
   {
@@ -703,9 +703,9 @@
     "latitude": 45.7262,
     "longitude": 4.917,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.61.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.574Z",
     "is_snapshot": false
   },
   {
@@ -714,9 +714,9 @@
     "latitude": 45.5437,
     "longitude": 4.65852,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.64.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.579Z",
     "is_snapshot": false
   },
   {
@@ -725,31 +725,31 @@
     "latitude": 45.7768,
     "longitude": 4.97971,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.65.mp4",
-    "source": "DIR Centre-Est (Lyon \u2013 Saint-\u00c9tienne)",
+    "source": "DIR Centre-Est (Lyon – Saint-Étienne)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.652Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-66",
-    "name": "Paray-le-Monial N79 PR13+407 (vers Chalon/s-Sa\u00f4ne)",
+    "name": "Paray-le-Monial N79 PR13+407 (vers Chalon/s-Saône)",
     "latitude": 46.4747,
     "longitude": 4.13631,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.66.mp4",
-    "source": "DIR Centre-Est (Moulins - M\u00e2con / Dijon)",
+    "source": "DIR Centre-Est (Moulins - Mâcon / Dijon)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.656Z",
     "is_snapshot": false
   },
   {
     "id": "dirce-67",
-    "name": "Vendranges N82 PR3+11 (vers Saint-\u00c9tienne et Lyon)",
+    "name": "Vendranges N82 PR3+11 (vers Saint-Étienne et Lyon)",
     "latitude": 45.9431,
     "longitude": 4.14081,
     "stream_url": "https://www.webcams-dir.centre-est.developpement-durable.gouv.fr/streams/last/nce.67.mp4",
-    "source": "DIR Centre-Est (Roanne \u2013 Lyon)",
+    "source": "DIR Centre-Est (Roanne – Lyon)",
     "status": "operational",
-    "last_checked": "2026-09-19T22:19:47.762Z",
+    "last_checked": "2026-09-20T10:28:48.660Z",
     "is_snapshot": false
   },
   {
@@ -760,7 +760,8 @@
     "stream_url": "https://www.earthcam.com/usa/newyork/timessquare/?cam=tsrobo1",
     "source": "EarthCam Public Feeds",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.938Z"
   },
   {
     "id": "cam-nyc-5th-ave",
@@ -769,8 +770,9 @@
     "longitude": -73.9818,
     "stream_url": "https://webcams.nyctmc.org",
     "source": "NYC DOT Traffic Cameras",
-    "status": "operational",
-    "is_snapshot": true
+    "status": "down",
+    "is_snapshot": true,
+    "last_checked": "2026-09-20T10:28:49.500Z"
   },
   {
     "id": "cam-nyc-brooklyn-bridge",
@@ -779,8 +781,9 @@
     "longitude": -73.9969,
     "stream_url": "https://webcams.nyctmc.org",
     "source": "NYC DOT Feeds",
-    "status": "operational",
-    "is_snapshot": true
+    "status": "down",
+    "is_snapshot": true,
+    "last_checked": "2026-09-20T10:28:49.521Z"
   },
   {
     "id": "cam-sf-bay-bridge",
@@ -789,8 +792,9 @@
     "longitude": -122.3778,
     "stream_url": "https://cwwp2.dot.ca.gov/vm/loc/d4/hwy80atbaybridge.htm",
     "source": "Caltrans District 4",
-    "status": "operational",
-    "is_snapshot": true
+    "status": "down",
+    "is_snapshot": true,
+    "last_checked": "2026-09-20T10:28:49.257Z"
   },
   {
     "id": "cam-sf-embarcadero",
@@ -800,7 +804,8 @@
     "stream_url": "https://www.sensibleweather.com",
     "source": "Open City Webcams",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.982Z"
   },
   {
     "id": "cam-london-tower-bridge",
@@ -810,7 +815,8 @@
     "stream_url": "https://www.camscape.com/camera/london-tower-bridge-webcam/",
     "source": "Camscape Feeds",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.867Z"
   },
   {
     "id": "cam-london-piccadilly",
@@ -820,7 +826,8 @@
     "stream_url": "https://www.earthcam.com/world/uk/london/piccadillycircus/?cam=piccadillycircus",
     "source": "EarthCam Feeds",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:49.357Z"
   },
   {
     "id": "cam-paris-eiffel",
@@ -830,7 +837,8 @@
     "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/ile-de-france/paris/tour-eiffel.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.686Z"
   },
   {
     "id": "cam-paris-concorde",
@@ -840,7 +848,8 @@
     "stream_url": "https://www.viewsurf.com/univers/ville/vue/16769-france-ile-de-france-paris-place-de-la-concorde",
     "source": "Viewsurf Open Feeds",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.905Z"
   },
   {
     "id": "cam-tokyo-shibuya",
@@ -850,7 +859,8 @@
     "stream_url": "https://www.youtube.com/watch?v=HpdO5Kq3o8Y",
     "source": "Shibuya Live Stream",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.964Z"
   },
   {
     "id": "cam-tokyo-shinjuku",
@@ -860,7 +870,8 @@
     "stream_url": "https://www.youtube.com/watch?v=6afT4b_aXvI",
     "source": "Live Shinjuku Cam",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.972Z"
   },
   {
     "id": "cam-amsterdam-dam",
@@ -870,7 +881,8 @@
     "stream_url": "https://www.skylinewebcams.com/en/webcam/netherlands/north-holland/amsterdam/dam-square.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.793Z"
   },
   {
     "id": "cam-berlin-brandenburg",
@@ -880,7 +892,8 @@
     "stream_url": "https://www.berlin.de/webcams/brandenburger-tor/",
     "source": "Berlin Open Portal",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.928Z"
   },
   {
     "id": "cam-rome-colosseum",
@@ -890,7 +903,8 @@
     "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/colosseo.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.802Z"
   },
   {
     "id": "cam-venice-san-marco",
@@ -900,7 +914,8 @@
     "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/piazza-san-marco.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.798Z"
   },
   {
     "id": "cam-dublin-temple-bar",
@@ -910,7 +925,8 @@
     "stream_url": "https://www.earthcam.com/world/ireland/dublin/?cam=templebar",
     "source": "EarthCam Feeds",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:49.057Z"
   },
   {
     "id": "cam-sydney-harbour",
@@ -919,8 +935,9 @@
     "longitude": 151.2153,
     "stream_url": "https://www.sydneyoperahouse.com/our-story/live-webcam",
     "source": "Sydney Open Stream",
-    "status": "operational",
-    "is_snapshot": false
+    "status": "down",
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:49.735Z"
   },
   {
     "id": "cam-seoul-gangnam",
@@ -929,8 +946,9 @@
     "longitude": 127.0276,
     "stream_url": "https://topis.seoul.go.kr",
     "source": "Seoul TOPIS Traffic Feeds",
-    "status": "operational",
-    "is_snapshot": true
+    "status": "down",
+    "is_snapshot": true,
+    "last_checked": "2026-09-20T10:28:49.744Z"
   },
   {
     "id": "cam-toronto-dundas-sq",
@@ -940,7 +958,8 @@
     "stream_url": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/traffic-cameras/",
     "source": "City of Toronto Traffic",
     "status": "operational",
-    "is_snapshot": true
+    "is_snapshot": true,
+    "last_checked": "2026-09-20T10:28:49.270Z"
   },
   {
     "id": "cam-prague-old-town",
@@ -950,7 +969,8 @@
     "stream_url": "https://www.earthcam.com/world/czechrepublic/prague/?cam=pragueoldtown",
     "source": "EarthCam Feeds",
     "status": "operational",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:49.118Z"
   },
   {
     "id": "cam-unreachable-test",
@@ -960,63 +980,64 @@
     "stream_url": "http://192.0.2.1/stream.mjpg",
     "source": "Offline Simulation Feed",
     "status": "down",
-    "is_snapshot": false
+    "is_snapshot": false,
+    "last_checked": "2026-09-20T10:28:48.563Z"
   },
   {
     "id": "bpnl-valvert",
-    "name": "Lyon - P\u00e9riph\u00e9rique Nord: Porte du Valvert",
+    "name": "Lyon - Périphérique Nord: Porte du Valvert",
     "latitude": 45.7705553,
     "longitude": 4.7872918,
     "stream_url": "https://www.youtube.com/watch?v=WdgZIE0T4Gs",
     "preview_image": "https://i.ytimg.com/vi/WdgZIE0T4Gs/hqdefault.jpg",
     "youtube_id": "WdgZIE0T4Gs",
     "is_snapshot": false,
-    "source": "P\u00e9riph\u00e9rique Nord (BPNL)",
+    "source": "Périphérique Nord (BPNL)",
     "status": "operational",
-    "last_checked": "2026-09-19T23:09:39.606Z"
+    "last_checked": "2026-09-20T10:28:49.585Z"
   },
   {
     "id": "bpnl-vaise",
-    "name": "Lyon - P\u00e9riph\u00e9rique Nord: Porte de Vaise",
+    "name": "Lyon - Périphérique Nord: Porte de Vaise",
     "latitude": 45.7817334,
     "longitude": 4.7993519,
     "stream_url": "https://www.youtube.com/watch?v=z4vQEMiD3VI",
     "preview_image": "https://i.ytimg.com/vi/z4vQEMiD3VI/hqdefault.jpg",
     "youtube_id": "z4vQEMiD3VI",
     "is_snapshot": false,
-    "source": "P\u00e9riph\u00e9rique Nord (BPNL)",
-    "status": "operational",
-    "last_checked": "2026-09-19T23:09:39.606Z"
+    "source": "Périphérique Nord (BPNL)",
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:49.774Z"
   },
   {
     "id": "bpnl-croix-luizet",
-    "name": "Lyon - P\u00e9riph\u00e9rique Nord: Porte de Croix-Luizet",
+    "name": "Lyon - Périphérique Nord: Porte de Croix-Luizet",
     "latitude": 45.7819899,
     "longitude": 4.8927078,
     "stream_url": "https://www.youtube.com/watch?v=CdLzCCHDaYQ",
     "preview_image": "https://i.ytimg.com/vi/CdLzCCHDaYQ/hqdefault.jpg",
     "youtube_id": "CdLzCCHDaYQ",
     "is_snapshot": false,
-    "source": "P\u00e9riph\u00e9rique Nord (BPNL)",
+    "source": "Périphérique Nord (BPNL)",
     "status": "operational",
-    "last_checked": "2026-09-19T23:09:39.606Z"
+    "last_checked": "2026-09-20T10:28:49.778Z"
   },
   {
     "id": "bpnl-pape",
-    "name": "Lyon - P\u00e9riph\u00e9rique Nord: Porte de la Pape",
+    "name": "Lyon - Périphérique Nord: Porte de la Pape",
     "latitude": 45.7910872,
     "longitude": 4.8415849,
     "stream_url": "https://www.youtube.com/watch?v=z545k7Tcb5o",
     "preview_image": "https://i.ytimg.com/vi/z545k7Tcb5o/hqdefault.jpg",
     "youtube_id": "z545k7Tcb5o",
     "is_snapshot": false,
-    "source": "P\u00e9riph\u00e9rique Nord (BPNL)",
+    "source": "Périphérique Nord (BPNL)",
     "status": "operational",
-    "last_checked": "2026-09-19T23:09:39.606Z"
+    "last_checked": "2026-09-20T10:28:49.687Z"
   },
   {
     "id": "lyon-silex2-part-dieu",
-    "name": "Lyon - Part-Dieu: Tour Silex\u00b2 (Covivio)",
+    "name": "Lyon - Part-Dieu: Tour Silex² (Covivio)",
     "latitude": 45.7594,
     "longitude": 4.858,
     "stream_url": "https://www.youtube.com/watch?v=S1GXeusRqMM",
@@ -1024,38 +1045,38 @@
     "youtube_id": "S1GXeusRqMM",
     "is_snapshot": false,
     "source": "Camera Silex Covivio",
-    "status": "operational",
-    "last_checked": "2026-09-19T23:09:39.606Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:49.795Z"
   },
   {
     "id": "chateauneuf-vallee-gier",
-    "name": "Vall\u00e9e du Gier - Ch\u00e2teauneuf (LPO)",
+    "name": "Vallée du Gier - Châteauneuf (LPO)",
     "latitude": 45.5344777,
     "longitude": 4.6341269,
     "stream_url": "https://www.youtube.com/watch?v=vjZ7tn_bB34",
     "preview_image": "https://i.ytimg.com/vi/vjZ7tn_bB34/hqdefault.jpg",
     "youtube_id": "vjZ7tn_bB34",
     "is_snapshot": false,
-    "source": "LPO Auvergne-Rh\u00f4ne-Alpes",
+    "source": "LPO Auvergne-Rhône-Alpes",
     "status": "operational",
-    "last_checked": "2026-09-19T23:09:39.606Z"
+    "last_checked": "2026-09-20T10:28:49.588Z"
   },
   {
     "id": "lyon-aerodrome-brindas",
-    "name": "Lyon - A\u00e9rodrome de Brindas (ACOL)",
+    "name": "Lyon - Aérodrome de Brindas (ACOL)",
     "latitude": 45.7148,
     "longitude": 4.6974,
     "stream_url": "https://www.acol-brindas.com/pages/visu_camera_data.php?camera=1&vue=image&dc=1",
     "preview_image": "https://www.acol-brindas.com/pages/visu_camera_data.php?camera=1&vue=image&dc=1",
     "is_snapshot": true,
     "refresh_interval": 60,
-    "source": "A\u00e9rodrome de Brindas (ACOL)",
+    "source": "Aérodrome de Brindas (ACOL)",
     "status": "operational",
-    "last_checked": "2026-09-19T23:09:39.606Z"
+    "last_checked": "2026-09-20T10:28:48.955Z"
   },
   {
     "id": "insecam-869519",
-    "name": "[Insecam] Lyon - Sony IP Cam (Auvergne-Rh\u00f4ne-Alpes)",
+    "name": "[Insecam] Lyon - Sony IP Cam (Auvergne-Rhône-Alpes)",
     "latitude": 45.74846,
     "longitude": 4.84671,
     "stream_url": "http://92.154.0.63:1024/oneshotimage1?COUNTER",
@@ -1068,7 +1089,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/869519/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:48.879Z"
   },
   {
     "id": "insecam-847294",
@@ -1084,8 +1105,8 @@
     "city": "Geneva",
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/847294/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:48.874Z"
   },
   {
     "id": "insecam-805685",
@@ -1102,7 +1123,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/805685/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.000Z"
   },
   {
     "id": "insecam-238235",
@@ -1119,7 +1140,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/238235/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:48.918Z"
   },
   {
     "id": "insecam-1011663",
@@ -1136,7 +1157,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011663/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:48.987Z"
   },
   {
     "id": "insecam-1011595",
@@ -1153,7 +1174,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011595/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:48.946Z"
   },
   {
     "id": "insecam-1011035",
@@ -1170,7 +1191,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011035/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:48.923Z"
   },
   {
     "id": "insecam-405713",
@@ -1186,8 +1207,8 @@
     "city": "Lausanne",
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/405713/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:48.912Z"
   },
   {
     "id": "insecam-575132",
@@ -1204,7 +1225,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/575132/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.021Z"
   },
   {
     "id": "insecam-750288",
@@ -1221,7 +1242,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/750288/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.031Z"
   },
   {
     "id": "insecam-1010697",
@@ -1238,7 +1259,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1010697/",
     "status": "down",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.656Z"
   },
   {
     "id": "insecam-1011004",
@@ -1255,7 +1276,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011004/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.101Z"
   },
   {
     "id": "insecam-1011534",
@@ -1272,7 +1293,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011534/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.177Z"
   },
   {
     "id": "insecam-898540",
@@ -1289,7 +1310,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/898540/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.246Z"
   },
   {
     "id": "insecam-1010996",
@@ -1306,7 +1327,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1010996/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.077Z"
   },
   {
     "id": "insecam-1007750",
@@ -1323,7 +1344,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1007750/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.633Z"
   },
   {
     "id": "insecam-1010868",
@@ -1340,7 +1361,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1010868/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.067Z"
   },
   {
     "id": "insecam-1011326",
@@ -1357,7 +1378,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011326/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.037Z"
   },
   {
     "id": "insecam-1010131",
@@ -1374,7 +1395,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1010131/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.840Z"
   },
   {
     "id": "insecam-1010929",
@@ -1391,7 +1412,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1010929/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.050Z"
   },
   {
     "id": "insecam-1011828",
@@ -1408,7 +1429,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011828/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.041Z"
   },
   {
     "id": "insecam-635278",
@@ -1424,8 +1445,8 @@
     "city": "Le Touquet Paris Pla",
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/635278/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:50.114Z"
   },
   {
     "id": "insecam-1011809",
@@ -1442,7 +1463,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011809/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.193Z"
   },
   {
     "id": "insecam-1011330",
@@ -1459,7 +1480,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011330/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.143Z"
   },
   {
     "id": "insecam-1011277",
@@ -1476,7 +1497,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011277/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.122Z"
   },
   {
     "id": "insecam-672740",
@@ -1492,8 +1513,8 @@
     "city": "Meudon",
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/672740/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:49.053Z"
   },
   {
     "id": "insecam-934936",
@@ -1510,7 +1531,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/934936/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.083Z"
   },
   {
     "id": "insecam-634383",
@@ -1527,7 +1548,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/634383/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.388Z"
   },
   {
     "id": "insecam-1011460",
@@ -1544,7 +1565,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011460/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.045Z"
   },
   {
     "id": "insecam-897502",
@@ -1561,7 +1582,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/897502/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.325Z"
   },
   {
     "id": "insecam-934332",
@@ -1578,7 +1599,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/934332/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.094Z"
   },
   {
     "id": "insecam-928754",
@@ -1594,8 +1615,8 @@
     "city": "Paris",
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/928754/",
-    "status": "down",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "operational",
+    "last_checked": "2026-09-20T10:28:49.073Z"
   },
   {
     "id": "insecam-760550",
@@ -1611,8 +1632,8 @@
     "city": "Paris",
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/760550/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:49.125Z"
   },
   {
     "id": "insecam-800182",
@@ -1628,8 +1649,8 @@
     "city": "Paris",
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/800182/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:49.136Z"
   },
   {
     "id": "insecam-1011608",
@@ -1646,7 +1667,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011608/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.169Z"
   },
   {
     "id": "insecam-242029",
@@ -1663,7 +1684,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/242029/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.542Z"
   },
   {
     "id": "insecam-1011560",
@@ -1680,7 +1701,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011560/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.174Z"
   },
   {
     "id": "insecam-887421",
@@ -1696,8 +1717,8 @@
     "city": "Paris",
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/887421/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:49.108Z"
   },
   {
     "id": "insecam-1011611",
@@ -1714,7 +1735,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011611/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.253Z"
   },
   {
     "id": "insecam-812820",
@@ -1731,7 +1752,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/812820/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.198Z"
   },
   {
     "id": "insecam-1011605",
@@ -1748,7 +1769,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011605/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.250Z"
   },
   {
     "id": "insecam-240804",
@@ -1765,7 +1786,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/240804/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.450Z"
   },
   {
     "id": "insecam-1004901",
@@ -1781,8 +1802,8 @@
     "city": "Paris",
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1004901/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:50.275Z"
   },
   {
     "id": "insecam-846497",
@@ -1799,7 +1820,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/846497/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.937Z"
   },
   {
     "id": "insecam-237638",
@@ -1815,8 +1836,8 @@
     "city": "Paris",
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/237638/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:50.284Z"
   },
   {
     "id": "insecam-846492",
@@ -1833,7 +1854,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/846492/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.650Z"
   },
   {
     "id": "insecam-1011617",
@@ -1850,7 +1871,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1011617/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.719Z"
   },
   {
     "id": "insecam-1010839",
@@ -1867,7 +1888,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1010839/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.426Z"
   },
   {
     "id": "insecam-246664",
@@ -1884,7 +1905,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/246664/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.479Z"
   },
   {
     "id": "insecam-188504",
@@ -1901,7 +1922,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/188504/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.415Z"
   },
   {
     "id": "insecam-1000013",
@@ -1918,7 +1939,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/1000013/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.397Z"
   },
   {
     "id": "insecam-946153",
@@ -1935,7 +1956,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/946153/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.361Z"
   },
   {
     "id": "insecam-902541",
@@ -1952,7 +1973,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/902541/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.802Z"
   },
   {
     "id": "insecam-886960",
@@ -1969,7 +1990,7 @@
     "country": "France",
     "insecam_url": "http://www.insecam.org/en/view/886960/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.854Z"
   },
   {
     "id": "insecam-636880",
@@ -1986,7 +2007,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/636880/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.630Z"
   },
   {
     "id": "insecam-1010791",
@@ -2003,7 +2024,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1010791/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.488Z"
   },
   {
     "id": "insecam-849282",
@@ -2020,7 +2041,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/849282/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.589Z"
   },
   {
     "id": "insecam-1010842",
@@ -2037,7 +2058,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1010842/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.381Z"
   },
   {
     "id": "insecam-266901",
@@ -2053,8 +2074,8 @@
     "city": "Bern",
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/266901/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:49.308Z"
   },
   {
     "id": "insecam-497885",
@@ -2071,7 +2092,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/497885/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.898Z"
   },
   {
     "id": "insecam-237567",
@@ -2088,7 +2109,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/237567/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.401Z"
   },
   {
     "id": "insecam-455554",
@@ -2105,7 +2126,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/455554/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.364Z"
   },
   {
     "id": "insecam-878014",
@@ -2121,8 +2142,8 @@
     "city": "Chippis",
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/878014/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:50.471Z"
   },
   {
     "id": "insecam-1011594",
@@ -2139,7 +2160,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011594/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.391Z"
   },
   {
     "id": "insecam-789619",
@@ -2155,8 +2176,8 @@
     "city": "Fribourg",
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/789619/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:49.375Z"
   },
   {
     "id": "insecam-1011503",
@@ -2173,7 +2194,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011503/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.462Z"
   },
   {
     "id": "insecam-167968",
@@ -2190,7 +2211,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/167968/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.492Z"
   },
   {
     "id": "insecam-167969",
@@ -2207,7 +2228,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/167969/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.467Z"
   },
   {
     "id": "insecam-883012",
@@ -2223,8 +2244,8 @@
     "city": "La Chaux De Fonds",
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/883012/",
-    "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "status": "down",
+    "last_checked": "2026-09-20T10:28:49.539Z"
   },
   {
     "id": "insecam-881797",
@@ -2241,7 +2262,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/881797/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.504Z"
   },
   {
     "id": "insecam-540044",
@@ -2258,7 +2279,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/540044/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.690Z"
   },
   {
     "id": "insecam-818703",
@@ -2275,7 +2296,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/818703/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.495Z"
   },
   {
     "id": "insecam-635324",
@@ -2292,7 +2313,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/635324/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:50.068Z"
   },
   {
     "id": "insecam-931675",
@@ -2309,7 +2330,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/931675/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.475Z"
   },
   {
     "id": "insecam-1011122",
@@ -2326,7 +2347,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011122/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.653Z"
   },
   {
     "id": "insecam-1011358",
@@ -2343,7 +2364,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011358/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.822Z"
   },
   {
     "id": "insecam-1011107",
@@ -2360,7 +2381,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011107/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:50.174Z"
   },
   {
     "id": "insecam-417259",
@@ -2377,7 +2398,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/417259/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.553Z"
   },
   {
     "id": "insecam-371870",
@@ -2394,7 +2415,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/371870/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.530Z"
   },
   {
     "id": "insecam-1011050",
@@ -2411,7 +2432,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011050/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.592Z"
   },
   {
     "id": "insecam-1011715",
@@ -2428,7 +2449,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011715/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.724Z"
   },
   {
     "id": "insecam-579030",
@@ -2445,7 +2466,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/579030/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.956Z"
   },
   {
     "id": "insecam-239274",
@@ -2462,7 +2483,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/239274/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:51Z"
+    "last_checked": "2026-09-20T10:28:49.550Z"
   },
   {
     "id": "insecam-1010836",
@@ -2479,7 +2500,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1010836/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.658Z"
   },
   {
     "id": "insecam-1011545",
@@ -2496,7 +2517,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/1011545/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.671Z"
   },
   {
     "id": "insecam-789458",
@@ -2513,7 +2534,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/789458/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.755Z"
   },
   {
     "id": "insecam-238770",
@@ -2530,7 +2551,7 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/238770/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:49.642Z"
   },
   {
     "id": "insecam-579026",
@@ -2547,6 +2568,6 @@
     "country": "Switzerland",
     "insecam_url": "http://www.insecam.org/en/view/579026/",
     "status": "operational",
-    "last_checked": "2026-09-20T10:12:52Z"
+    "last_checked": "2026-09-20T10:28:50.004Z"
   }
 ]

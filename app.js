@@ -428,13 +428,17 @@ function focusCamera(cam) {
 // Trigger re-scan of streams
 async function triggerReScan() {
   const indicator = document.getElementById('scan-indicator');
-  if (indicator) indicator.classList.remove('hidden');
+  if (indicator) {
+    indicator.classList.remove('hidden');
+    const label = indicator.querySelector('span');
+    if (label) label.textContent = `PROBING ${allCameras.length || 179} CCTV FLUX STREAMS...`;
+  }
 
   try {
     const res = await fetch('/api/cron', { method: 'POST' });
     if (res.ok) {
       const data = await res.json();
-      if (data.cameras) {
+      if (data.cameras && data.cameras.length > 0) {
         allCameras = data.cameras;
         updateStats({
           total: data.summary.total,
@@ -443,10 +447,28 @@ async function triggerReScan() {
         });
         renderMapMarkers();
         renderSidebarList();
+        if (indicator) indicator.classList.add('hidden');
+        return;
       }
     }
   } catch (err) {
-    console.error('Re-scan error:', err);
+    console.warn('Direct /api/cron probe encountered error, refreshing via fallback:', err);
+  }
+
+  // Resilient fallback: re-fetch /api/cameras with cache-busting timestamp
+  try {
+    const fallbackRes = await fetch('/api/cameras?t=' + Date.now());
+    if (fallbackRes.ok) {
+      const data = await fallbackRes.json();
+      if (data.cameras && data.cameras.length > 0) {
+        allCameras = data.cameras;
+        updateStats(data);
+        renderMapMarkers();
+        renderSidebarList();
+      }
+    }
+  } catch (e) {
+    console.error('Fallback reload failed:', e);
   } finally {
     if (indicator) indicator.classList.add('hidden');
   }
