@@ -36,7 +36,10 @@
               required
             />
           </div>
-          <span class="form-hint">Default development passkey: <code>eyefinder-admin-2024</code></span>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+            <span class="form-hint">Default: <code>eyefinder-admin-2024</code></span>
+            <button type="button" id="btn-autofill-passkey" class="admin-btn admin-btn-small" style="font-size: 9px; padding: 2px 6px;">PASTE DEFAULT</button>
+          </div>
         </div>
 
         <div id="login-error" class="login-error-msg hidden"></div>
@@ -45,6 +48,20 @@
           <span>AUTHENTICATE OPERATOR</span>
           <span class="btn-arrow">→</span>
         </button>
+
+        <button type="button" id="btn-toggle-custom-passkey" class="admin-btn admin-btn-secondary full-width" style="margin-top: 8px;">
+          <span>⚙️ SET / USE CUSTOM PASSKEY</span>
+        </button>
+
+        <div id="custom-passkey-panel" class="custom-passkey-box hidden" style="margin-top: 10px; padding: 12px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 3px;">
+          <label class="form-label" for="new-custom-passkey">SET YOUR PERSONAL PASSWORD</label>
+          <input type="text" id="new-custom-passkey" class="admin-input" placeholder="Type your personal password here..." style="margin: 6px 0; background: var(--bg-primary); border: 1px solid var(--border-active);" />
+          <div style="display: flex; gap: 8px; margin-top: 4px;">
+            <button type="button" id="btn-save-custom-passkey" class="admin-btn admin-btn-primary admin-btn-small" style="flex: 1;">SAVE PASSWORD</button>
+            <button type="button" id="btn-reset-default-passkey" class="admin-btn admin-btn-secondary admin-btn-small" style="flex: 1;">RESET TO DEFAULT</button>
+          </div>
+          <div id="custom-passkey-status" class="form-hint" style="margin-top: 6px;"></div>
+        </div>
       </form>
 
       <div class="login-footer">
