@@ -588,28 +588,34 @@ button, input, select {
   font-family: var(--font-sans) !important;
 }
 
-/* Custom Marker Icons */
+/* Custom Marker Icons (Leaflet-safe: absolute positioning & no transform transition on container) */
 .custom-cam-marker {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform var(--transition-fast);
+  background: transparent !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  /* CRITICAL: Leaflet controls marker position via translate3d() on .leaflet-marker-icon.
+     Never override position or add transitions on transform to .custom-cam-marker.
+     Adding transition: transform causes markers to lag, drift, and wander when zooming! */
 }
 
 .custom-cam-marker:hover {
-  transform: scale(1.25);
   z-index: 10000 !important;
+}
+
+.custom-cam-marker:hover .marker-inner {
+  transform: scale(1.4);
 }
 
 .marker-inner {
   width: 14px;
   height: 14px;
   border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  transition: transform var(--transition-fast);
+  pointer-events: auto;
 }
 
 .marker-live {

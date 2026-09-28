@@ -263,6 +263,11 @@ function initMap() {
       popupRefreshTimer = null;
     }
   });
+
+  // Ensure map is properly calibrated to viewport dimensions
+  setTimeout(() => {
+    if (map) map.invalidateSize();
+  }, 100);
 }
 
 function escapeHtml(str) {
@@ -603,6 +608,7 @@ function setupAppEvents() {
     btnToggleFeeds.addEventListener('click', () => {
       isFeedsDrawerOpen = !isFeedsDrawerOpen;
       drawer.classList.toggle('open', isFeedsDrawerOpen);
+      setTimeout(() => { if (map) map.invalidateSize(); }, 250);
     });
   }
 
@@ -610,8 +616,13 @@ function setupAppEvents() {
     btnCloseDrawer.addEventListener('click', () => {
       isFeedsDrawerOpen = false;
       drawer.classList.remove('open');
+      setTimeout(() => { if (map) map.invalidateSize(); }, 250);
     });
   }
+
+  window.addEventListener('resize', () => {
+    if (map) map.invalidateSize();
+  });
 
   // Lock Button
   const btnLock = document.getElementById('btn-lock');
