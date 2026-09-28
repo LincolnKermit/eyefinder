@@ -118,34 +118,52 @@
 
     <!-- Tab 1: Visitor Telemetry & Analytics -->
     <section id="tab-telemetry" class="admin-tab-content active">
-      <div class="telemetry-grid">
+      <div class="telemetry-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
         
         <!-- Primary KPI Cards -->
         <div class="kpi-card">
           <div class="kpi-header">
-            <span class="kpi-title">TOTAL PAGE VIEWS</span>
-            <span class="kpi-icon">👁️</span>
+            <span class="kpi-title">TOTAL CONNECTIONS</span>
+            <span class="kpi-icon">⚡</span>
           </div>
-          <div class="kpi-value" id="kpi-views">0</div>
-          <div class="kpi-meta">Aggregate visitor page requests</div>
+          <div class="kpi-value" id="kpi-connections">0</div>
+          <div class="kpi-meta"><span id="kpi-views">0</span> pageviews logged</div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-header">
-            <span class="kpi-title">UNIQUE VISITORS</span>
+            <span class="kpi-title">UNIQUE VISITOR IPS</span>
             <span class="kpi-icon">👤</span>
           </div>
           <div class="kpi-value" id="kpi-uniques">0</div>
-          <div class="kpi-meta">Daily hashed anonymous sessions</div>
+          <div class="kpi-meta">Distinct network endpoints</div>
         </div>
 
         <div class="kpi-card">
           <div class="kpi-header">
-            <span class="kpi-title">REGISTERED CAMERAS</span>
+            <span class="kpi-title">BLOCKED ATTEMPTS</span>
+            <span class="kpi-icon">🛡️</span>
+          </div>
+          <div class="kpi-value status-down-text" id="kpi-blocked">0</div>
+          <div class="kpi-meta">401 unauthorized / locked hits</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">TOP TRAFFIC SOURCE</span>
+            <span class="kpi-icon">🔗</span>
+          </div>
+          <div class="kpi-value" style="font-size: 18px; word-break: break-all;" id="kpi-top-ref">Direct</div>
+          <div class="kpi-meta" id="kpi-top-ref-meta">Primary entry origin</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">REGISTERED FEEDS</span>
             <span class="kpi-icon">📹</span>
           </div>
           <div class="kpi-value" id="kpi-cams">0</div>
-          <div class="kpi-meta">France &amp; Switzerland OSINT streams</div>
+          <div class="kpi-meta">France &amp; Switzerland streams</div>
         </div>
 
         <div class="kpi-card">
@@ -158,79 +176,129 @@
         </div>
       </div>
 
-      <!-- Breakdown Panels -->
-      <div class="panels-split">
-        <!-- Left: Device & Region Breakdown -->
+      <!-- Comprehensive Connection Audit & Traffic Logs Table -->
+      <div class="admin-card" style="margin-top: 16px;">
+        <div class="card-header" style="flex-wrap: wrap; gap: 10px;">
+          <div class="card-header-left">
+            <span class="status-pulse-dot"></span>
+            <span class="card-title">INCOMING CONNECTION AUDIT LOGS</span>
+            <span class="card-subtitle" id="conn-logs-count">0 recorded</span>
+          </div>
+          <div class="toolbar-right" style="gap: 8px; flex-wrap: wrap;">
+            <input 
+              type="text" 
+              id="log-search-input" 
+              class="admin-input" 
+              placeholder="Filter IP, UA, Referrer, Path..." 
+              style="width: 220px; padding: 5px 10px; font-size: 11px;"
+            />
+            <select id="log-filter-status" class="admin-select" style="font-size: 11px; padding: 5px 8px;">
+              <option value="all">All Statuses</option>
+              <option value="200">200 OK</option>
+              <option value="401">401 Blocked / Auth</option>
+              <option value="404">404 Not Found</option>
+            </select>
+            <button id="btn-export-logs-csv" class="admin-btn admin-btn-secondary" style="font-size: 11px; padding: 5px 10px;" title="Export logs as CSV">
+              <span>📥 EXPORT CSV</span>
+            </button>
+            <button id="btn-clear-logs" class="admin-btn admin-btn-secondary" style="font-size: 11px; padding: 5px 10px; border-color: rgba(255,59,92,0.4); color:#ff5577;" title="Clear connection logs">
+              <span>🗑️ CLEAR</span>
+            </button>
+            <button id="btn-toggle-autorefresh" class="admin-btn admin-btn-secondary" style="font-size: 11px; padding: 5px 10px; border-color: var(--status-green); color: var(--status-green);">
+              <span>⚡ AUTO (5s): ON</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container" style="max-height: 440px; overflow-y: auto;">
+          <table class="admin-table" id="connection-logs-table">
+            <thead>
+              <tr>
+                <th style="width: 85px;">TIME</th>
+                <th style="width: 140px;">IP ADDRESS</th>
+                <th style="width: 85px;">STATUS</th>
+                <th style="width: 160px;">REQUEST</th>
+                <th style="width: 160px;">REDIRECTED FROM</th>
+                <th style="width: 160px;">BROWSER &amp; OS</th>
+                <th>USER-AGENT DETAILS</th>
+              </tr>
+            </thead>
+            <tbody id="connection-logs-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Analytical Breakdown Grid -->
+      <div class="panels-split" style="margin-top: 16px;">
+        <!-- Card 1: Browser Distribution -->
         <div class="admin-card">
           <div class="card-header">
-            <span class="card-title">DEVICE &amp; PLATFORM DISTRIBUTION</span>
-            <button id="btn-refresh-metrics" class="icon-refresh-btn" title="Refresh metrics">⟳</button>
+            <span class="card-title">BROWSER DISTRIBUTION</span>
+            <span class="card-subtitle">User-Agent analysis</span>
           </div>
-          <div class="device-bars">
-            <div class="device-bar-item">
-              <div class="device-info">
-                <span>🖥️ Desktop</span>
-                <span id="metric-desktop-count">0 (0%)</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill fill-desktop" id="bar-desktop" style="width: 0%;"></div>
-              </div>
-            </div>
-
-            <div class="device-bar-item">
-              <div class="device-info">
-                <span>📱 Mobile</span>
-                <span id="metric-mobile-count">0 (0%)</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill fill-mobile" id="bar-mobile" style="width: 0%;"></div>
-              </div>
-            </div>
-
-            <div class="device-bar-item">
-              <div class="device-info">
-                <span>📟 Tablet</span>
-                <span id="metric-tablet-count">0 (0%)</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-fill fill-tablet" id="bar-tablet" style="width: 0%;"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="card-header">
-            <span class="card-title">FILTER / THEATER OF OPERATIONS USAGE</span>
-          </div>
-          <div class="filters-usage-grid" id="filters-usage-container">
+          <div class="device-bars" id="browser-bars-container">
             <!-- Dynamically populated -->
           </div>
         </div>
 
-        <!-- Right: Top Viewed Cameras -->
+        <!-- Card 2: Operating Systems -->
         <div class="admin-card">
           <div class="card-header">
-            <span class="card-title">TOP INTERACTED CAMERA FLUX</span>
-            <span class="card-subtitle">Highest stream opens</span>
+            <span class="card-title">OPERATING SYSTEMS &amp; DEVICES</span>
+            <span class="card-subtitle">Platforms breakdown</span>
+          </div>
+          <div class="device-bars" id="os-bars-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <div class="panels-split" style="margin-top: 16px;">
+        <!-- Card 3: Traffic Sources / Referrers -->
+        <div class="admin-card">
+          <div class="card-header">
+            <span class="card-title">TRAFFIC SOURCES (REDIRECT FROM)</span>
+            <span class="card-subtitle">Where visitors originate</span>
+          </div>
+          <div class="device-bars" id="referrer-bars-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Card 4: Top Endpoints -->
+        <div class="admin-card">
+          <div class="card-header">
+            <span class="card-title">TOP REQUESTED ENDPOINTS</span>
+            <span class="card-subtitle">Routes &amp; Resources</span>
+          </div>
+          <div class="device-bars" id="endpoints-bars-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Cameras & Filter Breakdown -->
+      <div class="panels-split" style="margin-top: 16px;">
+        <div class="admin-card">
+          <div class="card-header">
+            <span class="card-title">TOP INTERACTED CAMERA FEEDS</span>
+            <span class="card-subtitle">Most viewed feeds</span>
           </div>
           <div class="top-cameras-list" id="top-cameras-container">
             <div class="empty-state">No camera interactions recorded yet.</div>
           </div>
         </div>
-      </div>
 
-      <!-- Live OSINT Activity Stream -->
-      <div class="admin-card activity-card">
-        <div class="card-header">
-          <div class="card-header-left">
-            <span class="status-pulse-dot"></span>
-            <span class="card-title">REAL-TIME VISITOR AUDIT FEED</span>
+        <div class="admin-card">
+          <div class="card-header">
+            <span class="card-title">FILTER SELECTION FREQUENCY</span>
+            <span class="card-subtitle">User preference audit</span>
           </div>
-          <span class="card-subtitle">Privacy-Preserving (Zero Plain PII / Masked IP)</span>
-        </div>
-        <div class="activity-feed-terminal" id="activity-feed-terminal">
-          <!-- Dynamically populated -->
+          <div class="filters-usage-grid" id="filters-usage-container">
+            <!-- Dynamically populated -->
+          </div>
         </div>
       </div>
     </section>

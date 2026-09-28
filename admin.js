@@ -292,6 +292,7 @@
   function initDashboard() {
     setupTabs();
     startAdminClock();
+    setupTelemetryEvents();
     loadTelemetry();
     loadCameras();
     setupCameraTableEvents();
@@ -311,21 +312,40 @@
     setInterval(update, 1000);
   }
 
+  // Telemetry state
+  let cachedTelemetryData = null;
+  let cachedConnectionLogs = [];
+  let autoRefreshActive = true;
+  let autoRefreshTimer = null;
+  let isTelemetryLoading = false;
+  let telemetryEventsInitialized = false;
+
   // TAB 1: Load Visitor Telemetry & Metrics
-  async function loadTelemetry() {
+  async function loadTelemetry(isSilent = false) {
+    if (isTelemetryLoading) return;
+    isTelemetryLoading = true;
+
     let data = null;
     try {
-      const res = await apiFetch('/api/metrics');
+      const res = await apiFetch('/api/metrics?limit=300');
       if (res.ok) {
         data = await res.json().catch(() => null);
       }
     } catch (e) {}
 
-    // Fallback: local client telemetry if server API is unavailable
+    // Fallback: local client telemetry if server API is offline or Vercel static
     if (!data) {
       data = {
         total_page_views: 42,
         unique_visitors: 18,
+        total_connections: 56,
+        unique_ips: 18,
+        blocked_attempts: 0,
+        browser_breakdown: { 'Chrome': 28, 'Firefox': 14, 'Safari': 10, 'Edge': 4 },
+        os_breakdown: { 'Windows': 30, 'macOS': 16, 'Linux': 6, 'iOS': 4 },
+        referrer_breakdown: { 'direct': 38, 'google.com': 12, 'github.com': 6 },
+        endpoint_breakdown: { '/api/cameras': 32, '/': 18, '/api/metrics': 6 },
+        status_breakdown: { '200': 52, '401': 4 },
         device_breakdown: {
           desktop: window.innerWidth > 900 ? 1 : 0,
           mobile: window.innerWidth <= 768 ? 1 : 0,
@@ -340,41 +360,84 @@
             details: 'Admin Dashboard Accessed',
             ip: '127.0.***.***'
           }
+        ],
+        connection_logs: [
+          {
+            timestamp: new Date().toISOString(),
+            ip: '127.0.0.1',
+            method: 'GET',
+            path: '/admin.html',
+            status: 200,
+            authenticated: true,
+            duration_ms: 12,
+            browser: 'Chrome 122',
+            os: 'Linux',
+            device: 'desktop',
+            is_bot: false,
+            referrer: 'direct',
+            referrer_category: 'direct',
+            user_agent: navigator.userAgent
+          }
         ]
       };
     }
 
+    cachedTelemetryData = data;
+    cachedConnectionLogs = data.connection_logs || [];
+
     try {
-      // Render KPIs
+      // 1. Primary KPI Counters
+      const kpiConn = document.getElementById('kpi-connections');
+      if (kpiConn) kpiConn.textContent = data.total_connections || data.total_page_views || 0;
+
       const kpiViews = document.getElementById('kpi-views');
       if (kpiViews) kpiViews.textContent = data.total_page_views || 0;
 
       const kpiUniques = document.getElementById('kpi-uniques');
-      if (kpiUniques) kpiUniques.textContent = data.unique_visitors || 0;
+      if (kpiUniques) kpiUniques.textContent = data.unique_ips || data.unique_visitors || 0;
 
-      // Render Device breakdown
-      const devices = data.device_breakdown || { desktop: 0, mobile: 0, tablet: 0 };
-      const totalDev = (devices.desktop || 0) + (devices.mobile || 0) + (devices.tablet || 0) || 1;
+      const kpiBlocked = document.getElementById('kpi-blocked');
+      if (kpiBlocked) kpiBlocked.textContent = data.blocked_attempts || 0;
 
-      const deskPct = Math.round(((devices.desktop || 0) / totalDev) * 100);
-      const mobPct = Math.round(((devices.mobile || 0) / totalDev) * 100);
-      const tabPct = Math.round(((devices.tablet || 0) / totalDev) * 100);
+      // Top referrer KPI
+      const kpiTopRef = document.getElementById('kpi-top-ref');
+      const kpiTopRefMeta = document.getElementById('kpi-top-ref-meta');
+      if (kpiTopRef && data.referrer_breakdown) {
+        const refEntries = normalizeDistribution(data.referrer_breakdown);
+        if (refEntries.length > 0 && refEntries[0].count > 0) {
+          const topItem = refEntries[0];
+          const totalRef = refEntries.reduce((s, it) => s + it.count, 0) || 1;
+          const refPct = Math.round((topItem.count / totalRef) * 100);
+          kpiTopRef.textContent = (topItem.label.toLowerCase() === 'direct') ? 'Direct / None' : topItem.label;
+          if (kpiTopRefMeta) kpiTopRefMeta.textContent = `${topItem.count} hits (${refPct}% of traffic)`;
+        } else {
+          kpiTopRef.textContent = 'Direct / None';
+          if (kpiTopRefMeta) kpiTopRefMeta.textContent = 'No external referrers';
+        }
+      }
 
-      const dCount = document.getElementById('metric-desktop-count');
-      const mCount = document.getElementById('metric-mobile-count');
-      const tCount = document.getElementById('metric-tablet-count');
-      if (dCount) dCount.textContent = `${devices.desktop || 0} (${deskPct}%)`;
-      if (mCount) mCount.textContent = `${devices.mobile || 0} (${mobPct}%)`;
-      if (tCount) tCount.textContent = `${devices.tablet || 0} (${tabPct}%)`;
+      // 2. Analytical Breakdown Cards
+      renderBarDistribution('browser-bars-container', data.browser_breakdown, ['var(--status-green)', '#38bdf8', '#a855f7', '#f59e0b', '#ec4899']);
+      renderBarDistribution('os-bars-container', data.os_breakdown, ['#38bdf8', 'var(--status-green)', '#ec4899', '#f59e0b', '#a855f7']);
+      renderBarDistribution('referrer-bars-container', data.referrer_breakdown, ['#f59e0b', 'var(--status-green)', '#38bdf8', '#a855f7', '#06b6d4']);
+      renderBarDistribution('endpoints-bars-container', data.endpoint_breakdown, ['#a855f7', 'var(--status-green)', '#38bdf8', '#f59e0b', '#ec4899']);
 
-      const barDesk = document.getElementById('bar-desktop');
-      const barMob = document.getElementById('bar-mobile');
-      const barTab = document.getElementById('bar-tablet');
-      if (barDesk) barDesk.style.width = `${deskPct}%`;
-      if (barMob) barMob.style.width = `${mobPct}%`;
-      if (barTab) barTab.style.width = `${tabPct}%`;
+      // 3. Top Cameras
+      const topContainer = document.getElementById('top-cameras-container');
+      if (topContainer) {
+        if (data.top_cameras && data.top_cameras.length > 0) {
+          topContainer.innerHTML = data.top_cameras.map((c, i) => `
+            <div class="top-camera-item">
+              <span class="top-cam-name">#${i + 1} ${escapeHtml(c.name)}</span>
+              <span class="top-cam-count">${c.count} views</span>
+            </div>
+          `).join('');
+        } else {
+          topContainer.innerHTML = '<div class="empty-state" style="padding: 12px; font-size: 11px; color: var(--text-muted);">No camera interactions recorded yet.</div>';
+        }
+      }
 
-      // Render Filter usage
+      // 4. Filter Usage Grid
       const filterContainer = document.getElementById('filters-usage-container');
       if (filterContainer && data.filter_usage) {
         filterContainer.innerHTML = Object.entries(data.filter_usage)
@@ -386,47 +449,324 @@
           `).join('');
       }
 
-      // Render Top Cameras
-      const topContainer = document.getElementById('top-cameras-container');
-      if (topContainer) {
-        if (data.top_cameras && data.top_cameras.length > 0) {
-          topContainer.innerHTML = data.top_cameras.map((c, i) => `
-            <div class="top-camera-item">
-              <span class="top-cam-name">#${i + 1} ${escapeHtml(c.name)}</span>
-              <span class="top-cam-count">${c.count} views</span>
-            </div>
-          `).join('');
-        } else {
-          topContainer.innerHTML = '<div class="empty-state">No camera interactions recorded yet.</div>';
-        }
-      }
+      // 5. Connection Audit Logs Table
+      renderConnectionLogs();
 
-      // Render Activity Terminal
-      const terminal = document.getElementById('activity-feed-terminal');
-      if (terminal && data.recent_activity) {
-        terminal.innerHTML = data.recent_activity.map(ev => {
-          const time = new Date(ev.timestamp).toLocaleTimeString();
-          return `
-            <div class="terminal-entry">
-              <span class="term-time">${time}</span>
-              <span class="term-badge term-badge-${escapeHtml(ev.type)}">${escapeHtml(ev.type)}</span>
-              <span class="term-details">${escapeHtml(ev.details || '')}</span>
-              <span class="term-ip">${escapeHtml(ev.ip)}</span>
-            </div>
-          `;
-        }).join('');
-      }
     } catch (err) {
       console.error('Failed to load telemetry:', err);
+    } finally {
+      isTelemetryLoading = false;
     }
   }
 
-  const btnRefreshMetrics = document.getElementById('btn-refresh-metrics');
-  if (btnRefreshMetrics) {
-    btnRefreshMetrics.addEventListener('click', () => {
-      loadTelemetry();
-      showToast('Metrics refreshed.');
+  // Helper to normalize breakdown distributions (handles array of objects or key-value object)
+  function normalizeDistribution(raw) {
+    if (!raw) return [];
+    if (Array.isArray(raw)) {
+      return raw.map(item => {
+        if (!item || typeof item !== 'object') return { label: String(item), count: 0 };
+        const label = item.name || item.browser || item.os || item.domain || item.path || item.endpoint || item.label || 'Unknown';
+        const count = Number(item.count || 0);
+        return { label, count };
+      }).sort((a, b) => b.count - a.count);
+    }
+    if (typeof raw === 'object') {
+      return Object.entries(raw).map(([label, count]) => ({
+        label,
+        count: Number(count || 0)
+      })).sort((a, b) => b.count - a.count);
+    }
+    return [];
+  }
+
+  // Render horizontal bar distribution helper
+  function renderBarDistribution(containerId, rawData, palette = ['var(--status-green)', '#38bdf8', '#a855f7', '#f59e0b', '#ec4899']) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const entries = normalizeDistribution(rawData);
+    if (entries.length === 0) {
+      container.innerHTML = '<div class="empty-state" style="padding: 12px; font-size: 11px; color: var(--text-muted);">No records logged yet.</div>';
+      return;
+    }
+
+    const total = entries.reduce((sum, it) => sum + it.count, 0) || 1;
+    const topItems = entries.slice(0, 6);
+
+    container.innerHTML = topItems.map((item, idx) => {
+      const pct = Math.round((item.count / total) * 100);
+      const color = palette[idx % palette.length];
+      const displayName = (item.label.toLowerCase() === 'direct') ? 'Direct / Bookmark' : item.label;
+      return `
+        <div class="device-bar-item">
+          <div class="device-info">
+            <span style="font-weight: 600; color: var(--text-bright);">${escapeHtml(displayName)}</span>
+            <span style="color: var(--text-muted);">${item.count} <span style="color: ${color}; font-weight: 700;">(${pct}%)</span></span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: ${pct}%; background: ${color};"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Render connection audit logs table with search & status filter
+  function renderConnectionLogs() {
+    const tbody = document.getElementById('connection-logs-tbody');
+    const countEl = document.getElementById('conn-logs-count');
+    if (!tbody) return;
+
+    const searchVal = (document.getElementById('log-search-input')?.value || '').toLowerCase().trim();
+    const statusVal = document.getElementById('log-filter-status')?.value || 'all';
+
+    const filtered = cachedConnectionLogs.filter(log => {
+      // Status filter
+      if (statusVal !== 'all') {
+        const statusStr = String(log.status || 200);
+        if (statusVal === '401') {
+          if (statusStr !== '401' && statusStr !== '403') return false;
+        } else if (statusStr !== statusVal) {
+          return false;
+        }
+      }
+
+      const ua = log.userAgent || log.user_agent || '';
+      const ref = log.referrer_domain || log.referrer || '';
+      const ip = log.ip || '';
+      const path = log.path || '';
+      const method = log.method || 'GET';
+      const browser = log.browser || '';
+      const os = log.os || '';
+
+      // Search filter across ip, path, user_agent, browser, os, referrer
+      if (searchVal) {
+        const match = 
+          ip.toLowerCase().includes(searchVal) ||
+          path.toLowerCase().includes(searchVal) ||
+          method.toLowerCase().includes(searchVal) ||
+          ua.toLowerCase().includes(searchVal) ||
+          browser.toLowerCase().includes(searchVal) ||
+          os.toLowerCase().includes(searchVal) ||
+          ref.toLowerCase().includes(searchVal);
+        if (!match) return false;
+      }
+
+      return true;
     });
+
+    if (countEl) {
+      countEl.textContent = `${filtered.length} shown / ${cachedConnectionLogs.length} total`;
+    }
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 11px;">
+            No connection audit logs matching current filter.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = filtered.slice(0, 150).map(log => {
+      const dateObj = new Date(log.timestamp);
+      const time = isNaN(dateObj) ? 'Just now' : dateObj.toLocaleTimeString();
+      const date = isNaN(dateObj) ? '' : dateObj.toISOString().slice(0, 10);
+
+      // Status badge styling
+      let statusClass = 'status-code-2xx';
+      const statusNum = Number(log.status) || 200;
+      if (statusNum >= 300 && statusNum < 400) statusClass = 'status-code-3xx';
+      else if (statusNum >= 400 && statusNum < 500) statusClass = 'status-code-4xx';
+      else if (statusNum >= 500) statusClass = 'status-code-5xx';
+
+      // Method badge styling
+      const methodStr = (log.method || 'GET').toUpperCase();
+      let methodClass = 'log-method-get';
+      if (methodStr === 'POST') methodClass = 'log-method-post';
+      else if (methodStr === 'DELETE') methodClass = 'log-method-delete';
+      else if (methodStr === 'HEAD') methodClass = 'log-method-head';
+
+      // Referrer formatting
+      const refDomain = log.referrer_domain || (log.referrer && log.referrer !== 'Direct / None' ? log.referrer : 'Direct');
+      const rawRef = log.referrer || '';
+      let refHtml = `<span class="ref-tag ref-direct" title="Direct access / bookmark">Direct / None</span>`;
+      if (refDomain && refDomain.toLowerCase() !== 'direct' && refDomain !== 'Direct / None') {
+        const escapedDomain = escapeHtml(refDomain);
+        if (refDomain.includes('google') || refDomain.includes('bing') || refDomain.includes('duckduckgo') || refDomain.includes('yahoo')) {
+          refHtml = `<span class="ref-tag ref-search" title="Search Engine: ${escapedDomain}">🔍 ${escapedDomain}</span>`;
+        } else if (rawRef.startsWith('http')) {
+          const safeRef = sanitizeUrl(rawRef);
+          refHtml = `<a href="${safeRef}" target="_blank" rel="noopener noreferrer" class="ref-tag ref-external" title="External: ${escapedDomain}">🔗 ${escapedDomain}</a>`;
+        } else {
+          refHtml = `<span class="ref-tag ref-external" title="External: ${escapedDomain}">🔗 ${escapedDomain}</span>`;
+        }
+      }
+
+      // Badges
+      const isBot = Boolean(log.isBot || log.is_bot);
+      const isAuth = log.authStatus === 'admin' || log.authStatus === 'authenticated' || Boolean(log.authenticated);
+      const duration = log.durationMs !== undefined ? log.durationMs : (log.duration_ms || 0);
+      const userAgentStr = log.userAgent || log.user_agent || '';
+
+      const isBotBadge = isBot ? '<span style="font-size:9px; background:rgba(245,158,11,0.2); color:#f59e0b; padding:1px 4px; border-radius:2px; margin-left:4px; font-weight:700;">BOT</span>' : '';
+      const authBadge = isAuth ? '<span style="font-size:9px; background:rgba(0,255,102,0.2); color:var(--status-green); padding:1px 4px; border-radius:2px; margin-left:4px; font-weight:700;">AUTH</span>' : '';
+
+      return `
+        <tr>
+          <td style="white-space: nowrap; font-size: 11px; color: var(--text-muted);" title="${date} ${time}">
+            ${time}
+          </td>
+          <td style="white-space: nowrap;">
+            <code style="font-size: 11px; color: var(--text-bright);">${escapeHtml(log.ip || '127.0.0.1')}</code>
+            <button class="btn-copy-ip" data-ip="${escapeHtml(log.ip || '127.0.0.1')}" title="Copy IP address">📋</button>
+          </td>
+          <td style="white-space: nowrap;">
+            <span class="status-code-badge ${statusClass}">${statusNum}</span>
+            ${authBadge}
+          </td>
+          <td style="max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <span class="log-method ${methodClass}">${methodStr}</span>
+            <span class="log-path" title="${escapeHtml(log.path || '/')}">${escapeHtml(log.path || '/')}</span>
+            <span class="log-duration">${duration}ms</span>
+          </td>
+          <td>
+            ${refHtml}
+          </td>
+          <td style="white-space: nowrap; font-size: 11px;">
+            <div style="font-weight: 600; color: var(--text-bright);">${escapeHtml(log.browser || 'Unknown')}</div>
+            <div style="font-size: 10px; color: var(--text-muted);">${escapeHtml(log.os || 'Unknown')}${isBotBadge}</div>
+          </td>
+          <td>
+            <div class="ua-preview" title="${escapeHtml(userAgentStr)}">${escapeHtml(userAgentStr || 'N/A')}</div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Setup all Telemetry tab controls (Auto-refresh, Search, Filters, CSV export, Clear logs, Copy IP)
+  function setupTelemetryEvents() {
+    if (telemetryEventsInitialized) return;
+    telemetryEventsInitialized = true;
+
+    // Search and filter inputs
+    const searchInput = document.getElementById('log-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        renderConnectionLogs();
+      });
+    }
+
+    const filterStatus = document.getElementById('log-filter-status');
+    if (filterStatus) {
+      filterStatus.addEventListener('change', () => {
+        renderConnectionLogs();
+      });
+    }
+
+    // Refresh button
+    const btnRefreshMetrics = document.getElementById('btn-refresh-metrics');
+    if (btnRefreshMetrics) {
+      btnRefreshMetrics.addEventListener('click', () => {
+        loadTelemetry();
+        showToast('Metrics refreshed.');
+      });
+    }
+
+    // Export CSV
+    const btnExportCsv = document.getElementById('btn-export-logs-csv');
+    if (btnExportCsv) {
+      btnExportCsv.addEventListener('click', async () => {
+        try {
+          showToast('Generating traffic audit CSV export...');
+          const res = await apiFetch('/api/metrics?export=csv');
+          if (!res.ok) throw new Error('Failed to generate CSV export');
+          const blob = await res.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `eyefinder-traffic-audit-${new Date().toISOString().slice(0, 10)}.csv`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          window.URL.revokeObjectURL(url);
+          showToast('Traffic audit log CSV downloaded.');
+        } catch (err) {
+          console.error('CSV export failed:', err);
+          showToast('Failed to export CSV.', true);
+        }
+      });
+    }
+
+    // Clear Logs
+    const btnClearLogs = document.getElementById('btn-clear-logs');
+    if (btnClearLogs) {
+      btnClearLogs.addEventListener('click', async () => {
+        if (!confirm('Are you sure you want to permanently clear all connection logs?')) return;
+        try {
+          const res = await apiFetch('/api/metrics', {
+            method: 'POST',
+            body: { action: 'clear_logs' }
+          });
+          if (res.ok) {
+            showToast('Connection logs cleared.');
+            loadTelemetry();
+          } else {
+            showToast('Failed to clear logs on server.', true);
+          }
+        } catch (e) {
+          showToast('Network error while clearing logs.', true);
+        }
+      });
+    }
+
+    // Auto-refresh toggle
+    const btnToggleAuto = document.getElementById('btn-toggle-autorefresh');
+    if (btnToggleAuto) {
+      btnToggleAuto.addEventListener('click', () => {
+        autoRefreshActive = !autoRefreshActive;
+        if (autoRefreshActive) {
+          btnToggleAuto.style.borderColor = 'var(--status-green)';
+          btnToggleAuto.style.color = 'var(--status-green)';
+          btnToggleAuto.innerHTML = '<span>⚡ AUTO (5s): ON</span>';
+          showToast('Auto-refresh activated (5s interval).');
+        } else {
+          btnToggleAuto.style.borderColor = 'var(--border-color)';
+          btnToggleAuto.style.color = 'var(--text-muted)';
+          btnToggleAuto.innerHTML = '<span>⏸️ AUTO: OFF</span>';
+          showToast('Auto-refresh paused.');
+        }
+      });
+    }
+
+    // Copy IP button click delegation on table
+    const logsTbody = document.getElementById('connection-logs-tbody');
+    if (logsTbody) {
+      logsTbody.addEventListener('click', (e) => {
+        const copyBtn = e.target.closest('.btn-copy-ip');
+        if (copyBtn) {
+          const ip = copyBtn.dataset.ip;
+          if (ip) {
+            navigator.clipboard.writeText(ip).then(() => {
+              showToast(`IP ${ip} copied to clipboard.`);
+            }).catch(() => {
+              showToast(`IP: ${ip}`);
+            });
+          }
+        }
+      });
+    }
+
+    // 5-second recurring timer for active tab
+    if (!autoRefreshTimer) {
+      autoRefreshTimer = setInterval(() => {
+        if (autoRefreshActive && activeTab === 'telemetry' && adminToken) {
+          loadTelemetry(true);
+        }
+      }, 5000);
+    }
   }
 
   // TAB 2: Camera CRUD & Table

@@ -8,6 +8,7 @@ const cronHandler = require('./api/cron');
 const adminHandler = require('./api/admin');
 const metricsHandler = require('./api/metrics');
 const authHandler = require('./api/auth');
+const { logConnection } = require('./lib/metrics');
 
 const PORT = process.env.PORT || 3000;
 
@@ -91,10 +92,41 @@ function parseBody(req, limitBytes = 2 * 1024 * 1024) {
 }
 
 const server = http.createServer(async (req, res) => {
+  const startTime = Date.now();
   enhanceResponse(res);
   const parsedUrl = url.parse(req.url, true);
   const pathname = parsedUrl.pathname;
   req.query = parsedUrl.query;
+
+  // Log every connection upon response completion
+  res.on('finish', () => {
+    try {
+      const forwarded = req.headers['x-forwarded-for'];
+      const clientIp = forwarded
+        ? forwarded.split(',')[0].trim()
+        : (req.headers['x-real-ip'] || req.socket.remoteAddress || '127.0.0.1');
+
+      let authStatus = 'public';
+      if (res.statusCode === 401) {
+        authStatus = 'blocked';
+      } else if (pathname.startsWith('/api/admin')) {
+        authStatus = 'admin';
+      } else if (req.headers['authorization'] || req.headers['x-access-token']) {
+        authStatus = 'authenticated';
+      }
+
+      logConnection({
+        ip: clientIp,
+        method: req.method,
+        path: pathname,
+        statusCode: res.statusCode,
+        userAgent: req.headers['user-agent'] || '',
+        referrer: req.headers['referer'] || req.headers['referrer'] || '',
+        durationMs: Date.now() - startTime,
+        authStatus
+      });
+    } catch (e) {}
+  });
 
   // Auto-parse body for mutating HTTP methods
   if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(req.method)) {
