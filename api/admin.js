@@ -5,7 +5,9 @@ const {
   getClientIp,
   sanitizeCameraPayload,
   isSafeUrl,
-  ADMIN_SECRET
+  ADMIN_SECRET,
+  getSiteSettings,
+  updateSiteSettings
 } = require('../lib/security');
 const { getCameras, upsertCameras, updateCameraStatus, saveAllCameras, deleteCamera } = require('../lib/db');
 const { checkCameraHealth } = require('../lib/scraper');
@@ -247,6 +249,22 @@ module.exports = async function handler(req, res) {
       success: true,
       importedCount: validated.length
     });
+  }
+
+  // 12. Site Access Settings: GET & PUT /api/admin/settings
+  if (pathname === '/api/admin/settings' || subAction === 'settings') {
+    if (req.method === 'PUT' || req.method === 'POST') {
+      const { private_mode, visitor_passkey } = req.body || {};
+      const updates = {};
+      if (typeof private_mode === 'boolean') updates.private_mode = private_mode;
+      if (typeof visitor_passkey === 'string' && visitor_passkey.trim()) {
+        updates.visitor_passkey = visitor_passkey.trim().slice(0, 100);
+      }
+      const updated = updateSiteSettings(updates);
+      return sendJson(res, 200, { success: true, settings: updated });
+    }
+    const settings = getSiteSettings();
+    return sendJson(res, 200, { success: true, settings });
   }
 
   return sendJson(res, 404, { error: 'Admin route not found' });

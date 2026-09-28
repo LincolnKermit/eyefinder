@@ -5,6 +5,104 @@ let allCameras = [];
 let activeFilter = 'all';
 let searchQuery = '';
 
+// Access Control & Passkey Hashes
+const DEFAULT_ADMIN_HASH = '849f50b3c48b66ab0649f74eea7e21f70c81bd6951823176084bcbced215ea90'; // eyefinder-admin-2024
+const DEFAULT_VISITOR_HASH = 'a92f5e71d54b05874363556c1de8295453d15c9e7f1432c66a3136ef839adf49'; // eyefinder-2024
+
+async function sha256Hex(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuf = await crypto.subtle.digest('SHA-256', data);
+  const hashArr = Array.from(new Uint8Array(hashBuf));
+  return hashArr.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function getStoredAccessToken() {
+  return localStorage.getItem('eyefinder_access_token') || sessionStorage.getItem('eyefinder_access_token') || '';
+}
+
+function setStoredAccessToken(token, remember = true) {
+  if (remember) {
+    localStorage.setItem('eyefinder_access_token', token);
+  } else {
+    sessionStorage.setItem('eyefinder_access_token', token);
+  }
+}
+
+function clearStoredAccessToken() {
+  localStorage.removeItem('eyefinder_access_token');
+  sessionStorage.removeItem('eyefinder_access_token');
+}
+
+async function verifyPasskey(passkey) {
+  if (!passkey) return { valid: false };
+
+  // 1. Try server-side verification
+  try {
+    const res = await fetch('/api/auth/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ passkey })
+    });
+    if (res.ok) {
+      const data = await res.json().catch(() => null);
+      if (data && data.success) {
+        return { valid: true, role: data.role || 'visitor', token: passkey };
+      }
+    } else if (res.status === 401 || res.status === 429) {
+      const data = await res.json().catch(() => null);
+      return { valid: false, error: (data && data.error) || 'Code d\'accès incorrect.' };
+    }
+  } catch (e) {}
+
+  // 2. Client-side hash verification (offline or static fallback)
+  try {
+    const hash = await sha256Hex(passkey);
+    const customAdminHash = localStorage.getItem('eyefinder_custom_admin_hash');
+    if (hash === DEFAULT_ADMIN_HASH || (customAdminHash && hash === customAdminHash)) {
+      return { valid: true, role: 'admin', token: passkey };
+    }
+    if (hash === DEFAULT_VISITOR_HASH) {
+      return { valid: true, role: 'visitor', token: passkey };
+    }
+  } catch (e) {}
+
+  return { valid: false, error: 'Code d\'accès invalide. Accès refusé.' };
+}
+
+function showAccessGate(errorMsg = '') {
+  const modal = document.getElementById('access-gate-modal');
+  if (modal) {
+    modal.classList.remove('unlocked');
+    modal.style.display = 'flex';
+  }
+  const errorEl = document.getElementById('gate-error');
+  if (errorEl) {
+    if (errorMsg) {
+      errorEl.textContent = errorMsg;
+      errorEl.classList.remove('hidden');
+    } else {
+      errorEl.classList.add('hidden');
+    }
+  }
+  const input = document.getElementById('gate-passkey-input');
+  if (input) {
+    input.value = '';
+    setTimeout(() => input.focus(), 150);
+  }
+  if (markersLayer) markersLayer.clearLayers();
+  allCameras = [];
+  updateStats();
+}
+
+function hideAccessGate() {
+  const modal = document.getElementById('access-gate-modal');
+  if (modal) {
+    modal.classList.add('unlocked');
+    modal.style.display = 'none';
+  }
+}
+
 // Initialize Leaflet Map with ESRI World Dark Gray free tiles (no API key required)
 function initMap() {
   map = L.map('map', {
@@ -409,10 +507,29 @@ function createPopupContent(cam) {
   `;
 }
 
-// Fetch cameras from API with automatic fallback to static seed data
+// Fetch cameras from API with access authorization
 async function loadCameras() {
+  const token = getStoredAccessToken();
+  if (!token) {
+    showAccessGate();
+    return;
+  }
+
   try {
-    const res = await fetch('/api/cameras');
+    const res = await fetch('/api/cameras', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'x-access-token': token
+      }
+    });
+
+    if (res.status === 401) {
+      console.warn('Access denied: passkey required.');
+      clearStoredAccessToken();
+      showAccessGate('Session expirée ou code révoqué. Veuillez saisir le mot de passe.');
+      return;
+    }
+
     if (res.ok) {
       const data = await res.json();
       if (data.cameras && data.cameras.length > 0) {
@@ -424,12 +541,24 @@ async function loadCameras() {
       }
     }
   } catch (err) {
-    console.warn('API /api/cameras unavailable, loading static fallback seed:', err);
+    console.warn('API /api/cameras unavailable, attempting authenticated fallback:', err);
   }
 
-  // Fallback to static seed.json if serverless API is initializing or offline
+  // Fallback to static seed.json ONLY IF user holds a valid passkey
   try {
-    const seedRes = await fetch('/seed.json');
+    const seedRes = await fetch('/seed.json', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'x-access-token': token
+      }
+    });
+
+    if (seedRes.status === 401) {
+      clearStoredAccessToken();
+      showAccessGate('Accès restreint.');
+      return;
+    }
+
     if (seedRes.ok) {
       const seedData = await seedRes.json();
       allCameras = filterArchived(seedData.cameras);
@@ -1085,13 +1214,103 @@ function setupEvents() {
   });
 }
 
+function setupAccessGate() {
+  const gateForm = document.getElementById('gate-form');
+  const gateInput = document.getElementById('gate-passkey-input');
+  const gateError = document.getElementById('gate-error');
+  const btnTogglePw = document.getElementById('btn-toggle-gate-pw');
+  const gateRemember = document.getElementById('gate-remember-me');
+  const btnLockDesktop = document.getElementById('btn-lock-desktop');
+  const btnLockMobile = document.getElementById('btn-lock-mobile');
+
+  if (btnTogglePw && gateInput) {
+    btnTogglePw.addEventListener('click', () => {
+      const isPw = gateInput.type === 'password';
+      gateInput.type = isPw ? 'text' : 'password';
+      btnTogglePw.textContent = isPw ? '🔒' : '👁';
+    });
+  }
+
+  if (gateForm && gateInput) {
+    gateForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const passkey = gateInput.value.trim();
+      if (!passkey) return;
+
+      const submitBtn = document.getElementById('btn-unlock-gate');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>VÉRIFICATION...</span>';
+      }
+
+      if (gateError) gateError.classList.add('hidden');
+
+      const result = await verifyPasskey(passkey);
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>DÉVERROUILLER L\'ACCÈS</span><span class="gate-btn-arrow">🔓</span>';
+      }
+
+      if (result.valid) {
+        const remember = gateRemember ? gateRemember.checked : true;
+        setStoredAccessToken(passkey, remember);
+
+        if (result.role === 'admin') {
+          localStorage.setItem('eyefinder_admin_token', passkey);
+          updateAdminHeaderStatus();
+        }
+
+        hideAccessGate();
+        await loadCameras();
+        showToastNotification(`Terminal déverrouillé [Accès ${result.role === 'admin' ? 'Administrateur' : 'Visiteur'}].`);
+      } else {
+        if (gateError) {
+          gateError.textContent = result.error || 'Code d\'accès incorrect. Accès refusé.';
+          gateError.classList.remove('hidden');
+        }
+        gateInput.select();
+      }
+    });
+  }
+
+  // Lock buttons
+  const handleLock = () => {
+    clearStoredAccessToken();
+    showAccessGate();
+    showToastNotification('Session fermée. Terminal verrouillé.');
+  };
+
+  if (btnLockDesktop) btnLockDesktop.addEventListener('click', handleLock);
+  if (btnLockMobile) btnLockMobile.addEventListener('click', handleLock);
+}
+
 // Initialize on DOM load
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   closeMapEditModal();
   initMap();
   setupEvents();
+  setupAccessGate();
   startClock();
-  loadCameras();
   updateAdminHeaderStatus();
   Telemetry.init();
+
+  const token = getStoredAccessToken();
+  if (!token) {
+    showAccessGate();
+  } else {
+    // Validate stored token
+    const res = await verifyPasskey(token);
+    if (res.valid) {
+      hideAccessGate();
+      if (res.role === 'admin') {
+        localStorage.setItem('eyefinder_admin_token', token);
+        updateAdminHeaderStatus();
+      }
+      loadCameras();
+    } else {
+      clearStoredAccessToken();
+      showAccessGate('Session expirée. Veuillez vous ré-authentifier.');
+    }
+  }
 });

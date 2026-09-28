@@ -7,6 +7,7 @@ const camerasHandler = require('./api/cameras');
 const cronHandler = require('./api/cron');
 const adminHandler = require('./api/admin');
 const metricsHandler = require('./api/metrics');
+const authHandler = require('./api/auth');
 
 const PORT = process.env.PORT || 3000;
 
@@ -128,7 +129,35 @@ const server = http.createServer(async (req, res) => {
     return metricsHandler(req, res);
   }
 
-  // 5. Serve static files with path traversal prevention
+  // 5. API: Auth & Access Gate
+  if (pathname.startsWith('/api/auth')) {
+    return authHandler(req, res);
+  }
+
+  // 5. Protected datasets: seed.json, cameras.json, backups when private mode is enabled
+  const sensitiveFiles = [
+    '/seed.json', '/public/seed.json',
+    '/data/cameras.json',
+    '/backups/cameras.json', '/backups/cameras.geojson', '/backups/cameras.csv', '/backups/cameras.kml',
+    '/public/backups/cameras.json', '/public/backups/cameras.geojson', '/public/backups/cameras.csv', '/public/backups/cameras.kml'
+  ];
+  if (sensitiveFiles.includes(pathname)) {
+    try {
+      const { getSiteSettings, verifyAccessPasskey, extractAuthToken } = require('./lib/security');
+      const settings = getSiteSettings();
+      if (settings.private_mode) {
+        const token = extractAuthToken(req) || (req.query && req.query.token);
+        const auth = verifyAccessPasskey(token);
+        if (!auth || !auth.valid) {
+          res.statusCode = 401;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+          return res.end(JSON.stringify({ error: 'Accès restreint. Mot de passe requis.', locked: true }));
+        }
+      }
+    } catch (e) {}
+  }
+
+  // 6. Serve static files with path traversal prevention
   const safeBase = path.resolve(__dirname);
   const targetFile = pathname === '/' ? 'index.html' : '.' + pathname;
   const filePath = path.resolve(safeBase, targetFile);

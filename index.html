@@ -16,6 +16,57 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Tactical Access Gate Lock Screen (Visible by default) -->
+  <div id="access-gate-modal" class="access-gate-modal">
+    <div class="gate-box">
+      <div class="gate-header">
+        <div class="gate-brand">
+          <span class="gate-crosshair">⌖</span>
+          <span class="gate-title">EYEFINDER</span>
+          <span class="gate-badge">ACCÈS PRIVÉ</span>
+        </div>
+      </div>
+      <div class="gate-body">
+        <div class="gate-icon-wrap">
+          <span class="gate-lock-icon">🔒</span>
+        </div>
+        <h2 class="gate-heading">TERMINAL DE SURVEILLANCE RESTREINT</h2>
+        <p class="gate-subtext">Ce système OSINT et la cartographie des flux CCTV en direct sont réservés aux utilisateurs autorisés. Veuillez renseigner votre code d'accès.</p>
+        
+        <form id="gate-form" class="gate-form" autocomplete="off">
+          <div class="gate-input-wrap">
+            <input 
+              type="password" 
+              id="gate-passkey-input" 
+              class="gate-input" 
+              placeholder="Entrez le mot de passe d'accès..." 
+              required 
+              autofocus
+              autocomplete="current-password"
+            />
+            <button type="button" id="btn-toggle-gate-pw" class="gate-pw-toggle" title="Afficher/Masquer">👁</button>
+          </div>
+          
+          <div id="gate-error" class="gate-error hidden"></div>
+          
+          <div class="gate-actions">
+            <label class="gate-remember">
+              <input type="checkbox" id="gate-remember-me" checked />
+              <span>Mémoriser sur cet appareil</span>
+            </label>
+            <button type="submit" id="btn-unlock-gate" class="gate-submit-btn">
+              <span>DÉVERROUILLER L'ACCÈS</span>
+              <span class="gate-btn-arrow">🔓</span>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="gate-footer">
+        <span>EyeFinder Security Shield • Chiffrement SHA-256 • Accès Restreint</span>
+      </div>
+    </div>
+  </div>
+
   <div id="app">
     <!-- Top OSINT Navigation / Status Bar -->
     <header id="header">
@@ -53,6 +104,9 @@
         </div>
 
         <div class="hud-mobile-actions">
+          <button id="btn-lock-mobile" class="action-btn-icon" title="Verrouiller le terminal">
+            <span>🔒</span>
+          </button>
           <a href="/backups/standalone_map.html" target="_blank" class="action-btn-icon" title="Carte de secours autonome (Offline Map)">
             <span class="backup-icon">🚨</span>
           </a>
@@ -98,6 +152,11 @@
           <span class="admin-icon">⛊</span>
           <span>ADMIN</span>
         </a>
+
+        <button id="btn-lock-desktop" class="action-btn desktop-only" title="Verrouiller la session">
+          <span>🔒</span>
+          <span>LOCK</span>
+        </button>
 
         <button id="btn-sidebar-desktop" class="action-btn desktop-only sidebar-toggle-btn" title="Toggle camera feed sidebar">
           <span class="toggle-icon">☰</span>

@@ -33,6 +33,22 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    const { getSiteSettings, verifyAccessPasskey, extractAuthToken } = require('../lib/security');
+    const settings = getSiteSettings();
+    if (settings.private_mode) {
+      const token = extractAuthToken(req) || (req.query && req.query.token);
+      const auth = verifyAccessPasskey(token);
+      if (!auth || !auth.valid) {
+        return sendJson(res, 401, {
+          success: false,
+          locked: true,
+          error: 'Accès restreint. Mot de passe d\'accès requis.'
+        });
+      }
+    }
+  } catch (secErr) {}
+
+  try {
     let getCameras, isUsingSupabase;
     try {
       const db = require('../lib/db');
