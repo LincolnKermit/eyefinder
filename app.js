@@ -278,6 +278,7 @@ function createPopupContent(cam) {
         <video 
           class="popup-video" 
           autoplay muted loop playsinline controls
+          poster="${escapeHtml(cam.preview_image || '')}"
           style="object-fit: cover;"
         >
           <source src="${sanitizeUrl(cam.stream_url)}" type="video/mp4">
@@ -339,6 +340,16 @@ function createPopupContent(cam) {
     `;
   }
 
+  const portalLabel = cam.insecam_url && cam.insecam_url.includes('insecam.org')
+    ? 'INSECAM ↗'
+    : (cam.insecam_url && cam.insecam_url.includes('dir-est.fr')
+      ? 'DIR-EST ↗'
+      : (cam.insecam_url && cam.insecam_url.includes('centre-est')
+        ? 'DIR-CE ↗'
+        : (cam.insecam_url && cam.insecam_url.includes('massif-central')
+          ? 'DIR-MC ↗'
+          : 'PORTAIL ↗')));
+
   const actionButtons = ytId ? `
     <a href="https://www.youtube.com/watch?v=${encodeURIComponent(ytId)}" target="_blank" rel="noopener noreferrer" class="popup-btn">
       OUVRIR SUR YOUTUBE ↗
@@ -346,10 +357,10 @@ function createPopupContent(cam) {
   ` : (cam.insecam_url ? `
     <div class="popup-actions" style="display: flex; gap: 8px;">
       <a href="${sanitizeUrl(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1;">
-        CCTV FLUX ↗
+        ${isVideo ? 'VIDEO FLUX ↗' : 'FLUX STREAM ↗'}
       </a>
       <a href="${sanitizeUrl(cam.insecam_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1; background: var(--bg-primary); border-color: var(--border-active);">
-        INSECAM ↗
+        ${portalLabel}
       </a>
     </div>
   ` : `
