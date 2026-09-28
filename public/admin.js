@@ -724,6 +724,129 @@
         }
       });
     }
+
+    // Export GeoJSON
+    const btnExportGeo = document.getElementById('btn-export-geojson');
+    if (btnExportGeo) {
+      btnExportGeo.addEventListener('click', async () => {
+        try {
+          const res = await fetch('/backups/cameras.geojson');
+          if (res.ok) {
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `eyefinder-cameras-${new Date().toISOString().slice(0, 10)}.geojson`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('GeoJSON exported successfully.');
+            return;
+          }
+          throw new Error('Static backup not found');
+        } catch (err) {
+          // Fallback generate from allCameras in memory
+          const geojson = {
+            type: 'FeatureCollection',
+            features: allCameras.map(c => ({
+              type: 'Feature',
+              geometry: { type: 'Point', coordinates: [c.longitude, c.latitude] },
+              properties: { ...c }
+            }))
+          };
+          const blob = new Blob([JSON.stringify(geojson, null, 2)], { type: 'application/geo+json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `eyefinder-cameras-${new Date().toISOString().slice(0, 10)}.geojson`;
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast('GeoJSON generated and exported.');
+        }
+      });
+    }
+
+    // Export KML
+    const btnExportKml = document.getElementById('btn-export-kml');
+    if (btnExportKml) {
+      btnExportKml.addEventListener('click', async () => {
+        try {
+          const res = await fetch('/backups/cameras.kml');
+          if (res.ok) {
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `eyefinder-cameras-${new Date().toISOString().slice(0, 10)}.kml`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('KML exported successfully.');
+            return;
+          }
+          throw new Error('Static backup not found');
+        } catch (err) {
+          let kml = '<?xml version="1.0" encoding="UTF-8"?>\\n<kml xmlns="http://www.opengis.net/kml/2.2">\\n<Document>\\n<name>EyeFinder Cameras</name>\\n';
+          allCameras.forEach(c => {
+            kml += `<Placemark><name>${escapeHtml(c.name)}</name><description>${escapeHtml(c.source || '')} - ${escapeHtml(c.city || '')}</description><Point><coordinates>${c.longitude},${c.latitude},0</coordinates></Point></Placemark>\\n`;
+          });
+          kml += '</Document>\\n</kml>';
+          const blob = new Blob([kml], { type: 'application/vnd.google-earth.kml+xml' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `eyefinder-cameras-${new Date().toISOString().slice(0, 10)}.kml`;
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast('KML generated and exported.');
+        }
+      });
+    }
+
+    // Export CSV
+    const btnExportCsv = document.getElementById('btn-export-csv');
+    if (btnExportCsv) {
+      btnExportCsv.addEventListener('click', async () => {
+        try {
+          const res = await fetch('/backups/cameras.csv');
+          if (res.ok) {
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `eyefinder-cameras-${new Date().toISOString().slice(0, 10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('CSV exported successfully.');
+            return;
+          }
+          throw new Error('Static backup not found');
+        } catch (err) {
+          const headers = ['id','name','latitude','longitude','city','country','source','status','stream_url','preview_image'];
+          const rows = [headers.join(',')];
+          allCameras.forEach(c => {
+            rows.push([
+              c.id,
+              `"${(c.name || '').replace(/"/g, '""')}"`,
+              c.latitude,
+              c.longitude,
+              `"${(c.city || '').replace(/"/g, '""')}"`,
+              `"${(c.country || '').replace(/"/g, '""')}"`,
+              `"${(c.source || '').replace(/"/g, '""')}"`,
+              c.status,
+              `"${(c.stream_url || '').replace(/"/g, '""')}"`,
+              `"${(c.preview_image || '').replace(/"/g, '""')}"`
+            ].join(','));
+          });
+          const blob = new Blob([rows.join('\\r\\n')], { type: 'text/csv' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `eyefinder-cameras-${new Date().toISOString().slice(0, 10)}.csv`;
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast('CSV generated and exported.');
+        }
+      });
+    }
   }
 
   // Modals Setup (Add/Edit Camera & Import JSON)

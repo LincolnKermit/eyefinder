@@ -270,13 +270,25 @@
           </div>
         </div>
 
-        <div class="toolbar-right">
+        <div class="toolbar-right" style="flex-wrap: wrap; gap: 6px;">
           <button id="btn-add-camera" class="admin-btn admin-btn-primary">
             <span>+ ADD CAMERA</span>
+          </button>
+          <button id="btn-export-geojson" class="admin-btn admin-btn-secondary" title="Télécharger GeoJSON pour uMap, geojson.io, QGIS">
+            <span>🗺️ GEOJSON</span>
+          </button>
+          <button id="btn-export-kml" class="admin-btn admin-btn-secondary" title="Télécharger KML pour Google Earth & Google My Maps">
+            <span>📍 KML</span>
+          </button>
+          <button id="btn-export-csv" class="admin-btn admin-btn-secondary" title="Télécharger CSV pour Google My Maps / Excel">
+            <span>📊 CSV</span>
           </button>
           <button id="btn-export-json" class="admin-btn admin-btn-secondary" title="Download clean dataset as JSON">
             <span>💾 EXPORT JSON</span>
           </button>
+          <a href="/backups/standalone_map.html" target="_blank" class="admin-btn admin-btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;" title="Ouvrir la carte de secours autonome">
+            <span>🚨 CARTE SECOURS</span>
+          </a>
           <button id="btn-import-json" class="admin-btn admin-btn-secondary" title="Import cameras from JSON">
             <span>📥 IMPORT JSON</span>
           </button>
