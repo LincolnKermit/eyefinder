@@ -649,6 +649,99 @@ button, input, select {
   background: #161a24 !important;
 }
 
+/* Dark Leaflet Controls & Tile Layers */
+.leaflet-bar {
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+}
+
+.leaflet-bar a {
+  background-color: var(--bg-surface-elevated) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: #1b212f !important;
+  color: #fff !important;
+}
+
+.leaflet-bar a:last-child {
+  border-bottom: none !important;
+}
+
+.leaflet-control-layers {
+  background: var(--bg-surface-elevated) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 12px !important;
+  padding: 6px 10px !important;
+}
+
+.leaflet-control-layers-toggle {
+  background-color: var(--bg-surface-elevated) !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--border-subtle) !important;
+  width: 32px !important;
+  height: 32px !important;
+  background-size: 18px 18px !important;
+  filter: invert(0.9) brightness(1.2);
+}
+
+.leaflet-control-layers-expanded {
+  background: rgba(15, 18, 26, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--border-hover) !important;
+  padding: 10px 14px !important;
+}
+
+.leaflet-control-layers label {
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0;
+  transition: color 0.15s ease;
+}
+
+.leaflet-control-layers label:hover {
+  color: var(--text-primary);
+}
+
+.leaflet-control-attribution {
+  background: rgba(10, 11, 14, 0.8) !important;
+  backdrop-filter: blur(6px) !important;
+  color: var(--text-tertiary) !important;
+  font-size: 10px !important;
+  padding: 2px 8px !important;
+  border-radius: 4px 0 0 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.leaflet-control-attribution a {
+  color: var(--text-secondary) !important;
+  text-decoration: none !important;
+}
+
+.leaflet-control-attribution a:hover {
+  text-decoration: underline !important;
+}
+
+/* OpenStreetMap Tactical Dark Filter */
+.osm-dark-tiles {
+  filter: invert(100%) hue-rotate(180deg) brightness(92%) contrast(90%);
+}
+
 .popup-container {
   padding: 14px;
 }

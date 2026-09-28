@@ -483,6 +483,28 @@ const standaloneMapHtml = `<!DOCTYPE html>
       color: var(--text-muted);
     }
     .stats-footer span { color: var(--accent-green); font-weight: 700; }
+    .osm-dark-tiles {
+      filter: invert(100%) hue-rotate(180deg) brightness(92%) contrast(90%);
+    }
+    .leaflet-control-layers {
+      background: rgba(18, 22, 31, 0.95) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 6px !important;
+      color: #fff !important;
+      font-family: var(--font-mono) !important;
+      font-size: 11px !important;
+      padding: 6px 10px !important;
+    }
+    .leaflet-control-layers-toggle {
+      filter: invert(0.9) brightness(1.2);
+    }
+    .leaflet-control-layers label {
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .leaflet-control-layers label:hover {
+      color: var(--accent-green);
+    }
   </style>
 </head>
 <body>
@@ -524,11 +546,43 @@ const standaloneMapHtml = `<!DOCTYPE html>
       zoomControl: true
     });
 
-    // CartoDB Dark Matter tiles (fallback to OSM if blocked)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://openstreetmap.org">OSM</a>',
-      maxZoom: 19
-    }).addTo(map);
+    // 1. ESRI World Dark Gray Canvas (Default: Premium Dark Mode, No Watermark, No API Key Required)
+    const esriDarkBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '&copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> &copy; OpenStreetMap contributors',
+      maxZoom: 19,
+      maxNativeZoom: 16
+    });
+
+    const esriDarkRef = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '',
+      maxZoom: 19,
+      maxNativeZoom: 16,
+      opacity: 0.85
+    });
+
+    const darkCanvasGroup = L.layerGroup([esriDarkBase, esriDarkRef]).addTo(map);
+
+    // 2. OpenStreetMap with Dark Tactical CSS Filter (100% Free & Open Source, No API Key)
+    const osmDarkLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
+      maxZoom: 19,
+      className: 'osm-dark-tiles'
+    });
+
+    // 3. ESRI Satellite Imagery with Reference Labels (Satellite Hybrid)
+    const satelliteBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '&copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a>, Maxar',
+      maxZoom: 19,
+      maxNativeZoom: 18
+    });
+    const satelliteGroup = L.layerGroup([satelliteBase, esriDarkRef]);
+
+    const baseMaps = {
+      '🌙 Dark Canvas (Esri)': darkCanvasGroup,
+      '🗺️ OpenStreetMap (Dark)': osmDarkLayer,
+      '🛰️ Satellite (Hybrid)': satelliteGroup
+    };
+    L.control.layers(baseMaps, null, { position: 'bottomright', collapsed: true }).addTo(map);
 
     let activeFilter = 'all';
     let searchQuery = '';

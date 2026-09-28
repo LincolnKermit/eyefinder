@@ -189,14 +189,57 @@ function initMap() {
     zoomControl: false
   });
 
+  // 1. ESRI World Dark Gray Canvas (Default: Premium Dark Mode, No Watermark, No API Key Required)
+  const esriDarkBase = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    {
+      attribution: '&copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> &copy; OpenStreetMap contributors',
+      maxZoom: 19,
+      maxNativeZoom: 16
+    }
+  );
+
+  const esriDarkRef = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+    {
+      attribution: '',
+      maxZoom: 19,
+      maxNativeZoom: 16,
+      opacity: 0.85
+    }
+  );
+
+  // Combined Dark Tactical Canvas (Default Base)
+  const darkCanvasGroup = L.layerGroup([esriDarkBase, esriDarkRef]).addTo(map);
+
+  // 2. OpenStreetMap with Dark Tactical CSS Filter (100% Free & Open Source, No API Key)
+  const osmDarkLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
+    maxZoom: 19,
+    className: 'osm-dark-tiles'
+  });
+
+  // 3. ESRI Satellite Imagery with Reference Labels (Satellite Hybrid)
+  const satelliteBase = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {
+      attribution: '&copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics',
+      maxZoom: 19,
+      maxNativeZoom: 18
+    }
+  );
+  const satelliteGroup = L.layerGroup([satelliteBase, esriDarkRef]);
+
+  // Basemap switcher
+  const baseMaps = {
+    '🌙 Dark Canvas (Esri)': darkCanvasGroup,
+    '🗺️ OpenStreetMap (Dark)': osmDarkLayer,
+    '🛰️ Satellite (Hybrid)': satelliteGroup
+  };
+  L.control.layers(baseMaps, null, { position: 'bottomright', collapsed: true }).addTo(map);
+
   // Custom Zoom Control at bottom right
   L.control.zoom({ position: 'bottomright' }).addTo(map);
-
-  // CartoDB Dark Matter free dark basemap
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
-    maxZoom: 19
-  }).addTo(map);
 
   markersLayer = L.layerGroup().addTo(map);
 
