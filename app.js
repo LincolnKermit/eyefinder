@@ -64,6 +64,9 @@ function initMap() {
         feedImg.src = baseSrc + (baseSrc.includes('?') ? '&' : '?') + 't=' + Date.now();
       }, intervalMs);
     }
+    if (e.popup && e.popup._source && e.popup._source.camData) {
+      Telemetry.send('camera_view', e.popup._source.camData.name);
+    }
   });
 
   map.on('popupclose', () => {
@@ -241,15 +244,15 @@ function createPopupContent(cam) {
       </div>
       ${cam.insecam_url ? `
       <div class="popup-actions" style="display: flex; gap: 8px;">
-        <a href="${encodeURI(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1;">
+        <a href="${sanitizeUrl(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1;">
           CCTV FLUX ↗
         </a>
-        <a href="${encodeURI(cam.insecam_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1; background: var(--bg-primary); border-color: var(--border-active);">
+        <a href="${sanitizeUrl(cam.insecam_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1; background: var(--bg-primary); border-color: var(--border-active);">
           INSECAM ↗
         </a>
       </div>
       ` : `
-      <a href="${encodeURI(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn">
+      <a href="${sanitizeUrl(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn">
         ACCESS CCTV FLUX ↗
       </a>
       `}
@@ -511,6 +514,62 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+// Strict URL protocol validator to prevent javascript: or data: injection XSS
+function sanitizeUrl(rawUrl) {
+  if (!rawUrl || typeof rawUrl !== 'string') return '#';
+  const trimmed = rawUrl.trim();
+  if (/^https?:\/\//i.test(trimmed)) {
+    return encodeURI(trimmed);
+  }
+  return '#';
+}
+
+// Privacy-preserving visitor telemetry tracker
+const Telemetry = {
+  sessionId: null,
+  deviceType: 'desktop',
+
+  init() {
+    try {
+      let sid = localStorage.getItem('eyefinder_sid');
+      if (!sid) {
+        sid = 's_' + Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+        localStorage.setItem('eyefinder_sid', sid);
+      }
+      this.sessionId = sid;
+
+      const ua = navigator.userAgent;
+      if (/tablet|ipad|playbook|silk/i.test(ua)) {
+        this.deviceType = 'tablet';
+      } else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|NetFront/i.test(ua)) {
+        this.deviceType = 'mobile';
+      } else {
+        this.deviceType = 'desktop';
+      }
+
+      this.send('pageview', window.location.pathname);
+    } catch (e) {}
+  },
+
+  send(type, details) {
+    try {
+      const payload = {
+        type,
+        sessionId: this.sessionId,
+        device: this.deviceType,
+        details: String(details || '').slice(0, 100)
+      };
+
+      fetch('/api/metrics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true
+      }).catch(() => {});
+    } catch (e) {}
+  }
+};
+
 // Event Listeners setup
 function setupEvents() {
   // Search input
@@ -530,6 +589,8 @@ function setupEvents() {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeFilter = btn.dataset.filter;
+
+      Telemetry.send('filter', activeFilter);
 
       // Pan & zoom map to selected theater of operations
       if (activeFilter === 'france') {
@@ -616,4 +677,5 @@ window.addEventListener('DOMContentLoaded', () => {
   setupEvents();
   startClock();
   loadCameras();
+  Telemetry.init();
 });

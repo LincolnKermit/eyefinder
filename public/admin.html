@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0b0e">
+  <meta name="referrer" content="no-referrer">
+  <title>EyeFinder // Admin Tactical Console</title>
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+  <!-- Authentication Gate Modal (Shown when not authenticated) -->
+  <div id="login-modal" class="admin-modal-backdrop active">
+    <div class="admin-login-box">
+      <div class="login-header">
+        <span class="crosshair">⛊</span>
+        <h2 class="login-title">EYEFINDER SECURITY GATE</h2>
+        <span class="badge-tag">ADMIN ACCESS ONLY</span>
+      </div>
+      <p class="login-desc">Enter admin security passkey to manage cameras, inspect real-time visitor telemetry, and review security controls.</p>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <label for="passkey-input" class="form-label">ADMIN SECURITY KEY</label>
+          <div class="input-with-icon">
+            <span class="input-icon">🔑</span>
+            <input 
+              type="password" 
+              id="passkey-input" 
+              class="admin-input" 
+              placeholder="Enter admin passkey..." 
+              autocomplete="current-password" 
+              required
+            />
+          </div>
+          <span class="form-hint">Default development passkey: <code>eyefinder-admin-2024</code></span>
+        </div>
+
+        <div id="login-error" class="login-error-msg hidden"></div>
+
+        <button type="submit" id="btn-login-submit" class="admin-btn admin-btn-primary full-width">
+          <span>AUTHENTICATE OPERATOR</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <span class="security-shield">🛡️ Protected by IP Rate Limiting &amp; Timing-Safe Comparison</span>
+        <a href="/" class="return-link">← Return to Public Map</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Application HUD (Rendered upon authentication) -->
+  <div id="admin-app" class="admin-app hidden">
+    
+    <!-- Top HUD Navigation -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <a href="/" class="admin-brand-link">
+          <span class="crosshair">⌖</span>
+          <span class="brand-title">EYEFINDER</span>
+          <span class="badge-tag tag-admin">ADMIN CONSOLE</span>
+        </a>
+        <div class="security-badge">
+          <span class="status-pulse-dot"></span>
+          <span>LEVEL 1 OPERATOR // ENCRYPTED SESSION</span>
+        </div>
+      </div>
+
+      <div class="admin-topbar-right">
+        <div class="hud-clock" id="admin-utc-clock">00:00:00 UTC</div>
+        <a href="/" class="admin-btn admin-btn-secondary" title="Return to Live OSINT Map">
+          <span>⌖ LIVE MAP</span>
+        </a>
+        <button id="btn-logout" class="admin-btn admin-btn-danger" title="Terminate Operator Session">
+          <span>⏻ LOGOUT</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Admin Navigation Tabs -->
+    <nav class="admin-tabs">
+      <button class="tab-btn active" data-tab="telemetry">
+        <span class="tab-icon">📊</span>
+        <span>VISITOR TELEMETRY</span>
+      </button>
+      <button class="tab-btn" data-tab="cameras">
+        <span class="tab-icon">📹</span>
+        <span>CAMERA MANAGEMENT</span>
+        <span class="tab-badge" id="badge-total-cams">0</span>
+      </button>
+      <button class="tab-btn" data-tab="security">
+        <span class="tab-icon">🛡️</span>
+        <span>SECURITY AUDIT &amp; HARDENING</span>
+      </button>
+    </nav>
+
+    <!-- Tab 1: Visitor Telemetry & Analytics -->
+    <section id="tab-telemetry" class="admin-tab-content active">
+      <div class="telemetry-grid">
+        
+        <!-- Primary KPI Cards -->
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">TOTAL PAGE VIEWS</span>
+            <span class="kpi-icon">👁️</span>
+          </div>
+          <div class="kpi-value" id="kpi-views">0</div>
+          <div class="kpi-meta">Aggregate visitor page requests</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">UNIQUE VISITORS</span>
+            <span class="kpi-icon">👤</span>
+          </div>
+          <div class="kpi-value" id="kpi-uniques">0</div>
+          <div class="kpi-meta">Daily hashed anonymous sessions</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">REGISTERED CAMERAS</span>
+            <span class="kpi-icon">📹</span>
+          </div>
+          <div class="kpi-value" id="kpi-cams">0</div>
+          <div class="kpi-meta">France &amp; Switzerland OSINT streams</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">OPERATIONAL RATIO</span>
+            <span class="kpi-icon">⚡</span>
+          </div>
+          <div class="kpi-value status-live-text" id="kpi-health">0%</div>
+          <div class="kpi-meta" id="kpi-health-sub">0 up / 0 down</div>
+        </div>
+      </div>
+
+      <!-- Breakdown Panels -->
+      <div class="panels-split">
+        <!-- Left: Device & Region Breakdown -->
+        <div class="admin-card">
+          <div class="card-header">
+            <span class="card-title">DEVICE &amp; PLATFORM DISTRIBUTION</span>
+            <button id="btn-refresh-metrics" class="icon-refresh-btn" title="Refresh metrics">⟳</button>
+          </div>
+          <div class="device-bars">
+            <div class="device-bar-item">
+              <div class="device-info">
+                <span>🖥️ Desktop</span>
+                <span id="metric-desktop-count">0 (0%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill fill-desktop" id="bar-desktop" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="device-bar-item">
+              <div class="device-info">
+                <span>📱 Mobile</span>
+                <span id="metric-mobile-count">0 (0%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill fill-mobile" id="bar-mobile" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="device-bar-item">
+              <div class="device-info">
+                <span>📟 Tablet</span>
+                <span id="metric-tablet-count">0 (0%)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill fill-tablet" id="bar-tablet" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="card-header">
+            <span class="card-title">FILTER / THEATER OF OPERATIONS USAGE</span>
+          </div>
+          <div class="filters-usage-grid" id="filters-usage-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Right: Top Viewed Cameras -->
+        <div class="admin-card">
+          <div class="card-header">
+            <span class="card-title">TOP INTERACTED CAMERA FLUX</span>
+            <span class="card-subtitle">Highest stream opens</span>
+          </div>
+          <div class="top-cameras-list" id="top-cameras-container">
+            <div class="empty-state">No camera interactions recorded yet.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live OSINT Activity Stream -->
+      <div class="admin-card activity-card">
+        <div class="card-header">
+          <div class="card-header-left">
+            <span class="status-pulse-dot"></span>
+            <span class="card-title">REAL-TIME VISITOR AUDIT FEED</span>
+          </div>
+          <span class="card-subtitle">Privacy-Preserving (Zero Plain PII / Masked IP)</span>
+        </div>
+        <div class="activity-feed-terminal" id="activity-feed-terminal">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: Camera Management -->
+    <section id="tab-cameras" class="admin-tab-content">
+      <div class="cameras-toolbar">
+        <div class="toolbar-left">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input 
+              type="text" 
+              id="admin-search" 
+              placeholder="Search by name, city, country, or URL..." 
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="filter-dropdowns">
+            <select id="filter-status" class="admin-select">
+              <option value="all">All Statuses</option>
+              <option value="operational">Operational Only</option>
+              <option value="down">Offline Only</option>
+            </select>
+
+            <select id="filter-region" class="admin-select">
+              <option value="all">All Regions</option>
+              <option value="france">France Only</option>
+              <option value="swiss">Switzerland Only</option>
+            </select>
+
+            <select id="filter-type" class="admin-select">
+              <option value="all">All Stream Types</option>
+              <option value="live">Live Video</option>
+              <option value="picture">Picture (60s)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="toolbar-right">
+          <button id="btn-add-camera" class="admin-btn admin-btn-primary">
+            <span>+ ADD CAMERA</span>
+          </button>
+          <button id="btn-export-json" class="admin-btn admin-btn-secondary" title="Download clean dataset as JSON">
+            <span>💾 EXPORT JSON</span>
+          </button>
+          <button id="btn-import-json" class="admin-btn admin-btn-secondary" title="Import cameras from JSON">
+            <span>📥 IMPORT JSON</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Camera Table Container -->
+      <div class="table-container">
+        <table class="admin-table" id="cameras-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">TYPE</th>
+              <th>NAME &amp; LOCATION</th>
+              <th>COORDINATES</th>
+              <th>SOURCE</th>
+              <th>STATUS</th>
+              <th>LAST CHECK</th>
+              <th style="text-align: right; width: 230px;">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="cameras-tbody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div class="table-pagination">
+        <div class="pagination-info" id="pagination-info">Showing 0 of 0 cameras</div>
+        <div class="pagination-controls">
+          <button id="btn-prev-page" class="admin-btn admin-btn-small">← PREV</button>
+          <span class="page-number" id="current-page-num">1</span>
+          <button id="btn-next-page" class="admin-btn admin-btn-small">NEXT →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Security Audit & Hardening Status -->
+    <section id="tab-security" class="admin-tab-content">
+      <div class="security-overview-card">
+        <div class="sec-card-header">
+          <span class="sec-icon">🛡️</span>
+          <div>
+            <h3 class="sec-title">EYEFINDER SECURITY POSTURE &amp; AUDIT MATRIX</h3>
+            <p class="sec-desc">Comprehensive vulnerability defense audit across OWASP Top 10, common CVEs, and OSINT camera stream safety.</p>
+          </div>
+        </div>
+
+        <div class="audit-matrix-grid">
+          <!-- Defense 1: SSRF -->
+          <div class="audit-item status-pass">
+            <div class="audit-header">
+              <span class="audit-badge badge-pass">PASS</span>
+              <span class="audit-title">SSRF MITIGATION (A10)</span>
+            </div>
+            <p class="audit-detail">Active filter strictly blocks loopback (127.0.0.1, ::1), RFC 1918 private subnets (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), cloud metadata services (169.254.169.254), and non-web ports.</p>
+          </div>
+
+          <!-- Defense 2: XSS -->
+          <div class="audit-item status-pass">
+            <div class="audit-header">
+              <span class="audit-badge badge-pass">PASS</span>
+              <span class="audit-title">XSS &amp; PROTOCOL INJECTION (A03)</span>
+            </div>
+            <p class="audit-detail">All DOM text is escaped with <code>escapeHtml()</code>. Stream links and popups enforce <code>sanitizeUrl()</code> rejecting <code>javascript:</code>, <code>data:</code>, and malicious pseudo-schemes.</p>
+          </div>
+
+          <!-- Defense 3: Headers & CSP -->
+          <div class="audit-item status-pass">
+            <div class="audit-header">
+              <span class="audit-badge badge-pass">PASS</span>
+              <span class="audit-title">SECURITY HEADERS &amp; CSP (A05)</span>
+            </div>
+            <p class="audit-detail">Enforced HTTP headers: <code>Content-Security-Policy</code>, <code>X-Content-Type-Options: nosniff</code>, <code>X-Frame-Options: SAMEORIGIN</code>, <code>Referrer-Policy: no-referrer</code>, and <code>Permissions-Policy</code>.</p>
+          </div>
+
+          <!-- Defense 4: Auth & Timing -->
+          <div class="audit-item status-pass">
+            <div class="audit-header">
+              <span class="audit-badge badge-pass">PASS</span>
+              <span class="audit-title">BROKEN ACCESS CONTROL (A01)</span>
+            </div>
+            <p class="audit-detail">Mutating camera routes (POST, PUT, DELETE) and admin analytics require cryptographically timing-safe Bearer authentication. Unauthenticated writes are rejected with 401.</p>
+          </div>
+
+          <!-- Defense 5: Rate Limiting & DoS -->
+          <div class="audit-item status-pass">
+            <div class="audit-header">
+              <span class="audit-badge badge-pass">PASS</span>
+              <span class="audit-title">BRUTE-FORCE &amp; DOS DEFENSE (A04)</span>
+            </div>
+            <p class="audit-detail">Admin authentication enforces IP-based rate limiting (5 attempts max / 15 min lock). Inbound HTTP request bodies are strictly capped at 2MB with 413 handling.</p>
+          </div>
+
+          <!-- Defense 6: Dependencies -->
+          <div class="audit-item status-pass">
+            <div class="audit-header">
+              <span class="audit-badge badge-pass">PASS</span>
+              <span class="audit-title">DEPENDENCY CVE AUDIT (A06)</span>
+            </div>
+            <p class="audit-detail">NPM audit reports 0 vulnerabilities. Vulnerable packages eliminated. Minimalist zero-vulnerability runtime footprint.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Interactive SSRF Security Probe Validator -->
+      <div class="admin-card ssrf-tester-card">
+        <div class="card-header">
+          <span class="card-title">INTERACTIVE SSRF SECURITY FILTER VALIDATOR</span>
+          <span class="card-subtitle">Test any URL against the backend defensive filter</span>
+        </div>
+        <div class="ssrf-tester-box">
+          <p class="tester-instructions">
+            Enter a test URL to evaluate the server's SSRF firewall rules. 
+            Try testing <code>http://127.0.0.1:8080/admin</code> or <code>http://169.254.169.254/latest/meta-data</code> to observe the immediate defensive block.
+          </p>
+          <div class="tester-input-group">
+            <input 
+              type="text" 
+              id="ssrf-test-input" 
+              class="admin-input" 
+              placeholder="e.g. http://127.0.0.1:8080 or http://169.254.169.254/latest/meta-data"
+              value="http://127.0.0.1:8080"
+            />
+            <button id="btn-test-ssrf" class="admin-btn admin-btn-primary">
+              <span>TEST SSRF FILTER</span>
+            </button>
+          </div>
+          <div id="ssrf-test-result" class="tester-result hidden"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Add / Edit Camera Modal -->
+  <div id="camera-modal" class="admin-modal-backdrop">
+    <div class="admin-dialog">
+      <div class="dialog-header">
+        <h3 id="dialog-title" class="dialog-title">ADD NEW CCTV STREAM</h3>
+        <button id="btn-close-dialog" class="dialog-close-btn">✕</button>
+      </div>
+      
+      <form id="camera-form" class="dialog-body">
+        <input type="hidden" id="cam-form-id" />
+
+        <div class="form-row">
+          <div class="form-group flex-2">
+            <label class="form-label" for="form-name">CAMERA NAME *</label>
+            <input type="text" id="form-name" class="admin-input" placeholder="e.g. Lyon - Place Bellecour Nord" required />
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label" for="form-source">SOURCE</label>
+            <input type="text" id="form-source" class="admin-input" placeholder="e.g. Grand Lyon / Insecam" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="form-city">CITY</label>
+            <input type="text" id="form-city" class="admin-input" placeholder="e.g. Lyon" />
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label" for="form-country">COUNTRY</label>
+            <input type="text" id="form-country" class="admin-input" placeholder="e.g. France" value="France" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="form-lat">LATITUDE * (-90 to 90)</label>
+            <input type="number" step="any" id="form-lat" class="admin-input" placeholder="45.7578" required />
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label" for="form-lon">LONGITUDE * (-180 to 180)</label>
+            <input type="number" step="any" id="form-lon" class="admin-input" placeholder="4.8320" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="form-url">STREAM / SNAPSHOT URL * (SSRF Checked)</label>
+          <div class="input-with-action">
+            <input type="url" id="form-url" class="admin-input" placeholder="http://... or https://..." required />
+            <button type="button" id="btn-probe-form-url" class="admin-btn admin-btn-secondary">⚡ TEST PROBE</button>
+          </div>
+          <span id="form-probe-status" class="form-hint"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label">STREAM TYPE</label>
+            <select id="form-stream-type" class="admin-select">
+              <option value="live">Live Video Flux (Dark Green)</option>
+              <option value="picture">Picture Refresh 60s (Light Green)</option>
+              <option value="mjpeg">Live MJPEG Stream</option>
+            </select>
+          </div>
+          <div class="form-group flex-1">
+            <label class="form-label">INITIAL STATUS</label>
+            <select id="form-status" class="admin-select">
+              <option value="operational">Operational</option>
+              <option value="down">Offline / Down</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="form-error-msg" class="dialog-error hidden"></div>
+
+        <div class="dialog-footer">
+          <button type="button" id="btn-cancel-dialog" class="admin-btn admin-btn-secondary">CANCEL</button>
+          <button type="submit" id="btn-save-camera" class="admin-btn admin-btn-primary">SAVE CAMERA</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Import JSON Modal -->
+  <div id="import-modal" class="admin-modal-backdrop">
+    <div class="admin-dialog">
+      <div class="dialog-header">
+        <h3 class="dialog-title">IMPORT CAMERAS DATASET</h3>
+        <button id="btn-close-import" class="dialog-close-btn">✕</button>
+      </div>
+      <div class="dialog-body">
+        <p class="dialog-desc">Paste a JSON array of camera objects or choose a local JSON file. Every stream URL will be validated by the SSRF filter.</p>
+        
+        <div class="form-group">
+          <input type="file" id="import-file-input" accept=".json" class="file-picker" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">OR PASTE JSON HERE</label>
+          <textarea id="import-textarea" class="admin-textarea" rows="8" placeholder='[ { "name": "...", "latitude": 45.75, "longitude": 4.83, "stream_url": "..." } ]'></textarea>
+        </div>
+
+        <div id="import-status-msg" class="dialog-error hidden"></div>
+
+        <div class="dialog-footer">
+          <button type="button" id="btn-cancel-import" class="admin-btn admin-btn-secondary">CANCEL</button>
+          <button type="button" id="btn-submit-import" class="admin-btn admin-btn-primary">START IMPORT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="admin-toast" class="admin-toast hidden"></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

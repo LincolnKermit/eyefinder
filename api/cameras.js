@@ -66,23 +66,26 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-      const body = req.body || {};
-      const { name, latitude, longitude, stream_url, source } = body;
+      const { isAuthorizedAdmin, sanitizeCameraPayload, isSafeUrl } = require('../lib/security');
+      if (!isAuthorizedAdmin(req)) {
+        return sendJson(res, 401, { error: 'Unauthorized: Admin authorization required to register cameras' });
+      }
 
-      if (!name || latitude === undefined || longitude === undefined || !stream_url) {
+      const sanitized = sanitizeCameraPayload(req.body);
+      if (!sanitized) {
         return sendJson(res, 400, {
-          error: 'Missing required fields: name, latitude, longitude, stream_url'
+          error: 'Missing or invalid required fields: name, latitude, longitude, stream_url'
         });
+      }
+
+      if (!isSafeUrl(sanitized.stream_url)) {
+        return sendJson(res, 400, { error: 'Forbidden stream URL rejected by SSRF filter' });
       }
 
       const newCamera = {
         id: `cam-${Date.now()}`,
-        name,
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
-        stream_url,
-        source: source || 'User Submitted',
-        status: 'operational',
+        ...sanitized,
+        status: sanitized.status || 'operational',
         last_checked: new Date().toISOString()
       };
 

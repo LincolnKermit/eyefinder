@@ -1,9 +1,8 @@
 {
-  "success": true,
-  "storage": "edge",
   "total": 180,
   "operational": 154,
   "down": 26,
+  "last_updated": "2026-09-28T07:26:28.802Z",
   "cameras": [
     {
       "id": "lyon-criter-218",
