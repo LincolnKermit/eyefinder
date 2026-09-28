@@ -815,13 +815,16 @@ function openMapEditModal(camId) {
   if (urlInput) urlInput.value = cam.stream_url || '';
   if (typeSelect) typeSelect.value = getCameraType(cam) === 'picture' ? 'picture' : 'live';
   if (statusSelect) statusSelect.value = cam.status === 'down' ? 'down' : 'operational';
-
+  modal.style.display = 'flex';
   modal.classList.remove('hidden');
 }
 
 function closeMapEditModal() {
   const modal = document.getElementById('map-edit-modal');
-  if (modal) modal.classList.add('hidden');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.add('hidden');
+  }
 }
 
 async function handleMapEditSubmit(e) {
@@ -902,8 +905,10 @@ function showToastNotification(msg) {
   const toast = document.getElementById('map-toast');
   if (!toast) return;
   toast.textContent = msg;
+  toast.style.display = 'block';
   toast.classList.remove('hidden');
   setTimeout(() => {
+    toast.style.display = 'none';
     toast.classList.add('hidden');
   }, 3200);
 }
@@ -1018,6 +1023,13 @@ function setupEvents() {
   const mapEditForm = document.getElementById('map-edit-form');
   if (mapEditForm) mapEditForm.addEventListener('submit', handleMapEditSubmit);
 
+  const mapEditModal = document.getElementById('map-edit-modal');
+  if (mapEditModal) {
+    mapEditModal.addEventListener('click', (e) => {
+      if (e.target === mapEditModal) closeMapEditModal();
+    });
+  }
+
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeMapEditModal();
   });
@@ -1064,6 +1076,7 @@ function setupEvents() {
 
 // Initialize on DOM load
 window.addEventListener('DOMContentLoaded', () => {
+  closeMapEditModal();
   initMap();
   setupEvents();
   startClock();
