@@ -3,255 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0b0e">
+  <meta name="theme-color" content="#08090c">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>EyeFinder // Real-Time OSINT CCTV Flux</title>
+  <title>Eyefinder</title>
   
-  <!-- Leaflet Open-Source Map CSS -->
+  <!-- Modern Inter Font & Leaflet Map Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   
-  <!-- Custom Styles -->
+  <!-- Premium Dark Theme Styles -->
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <!-- Tactical Access Gate Lock Screen (Visible by default) -->
-  <div id="access-gate-modal" class="access-gate-modal">
-    <div class="gate-box">
-      <div class="gate-header">
-        <div class="gate-brand">
-          <span class="gate-crosshair">⌖</span>
-          <span class="gate-title">EYEFINDER</span>
-          <span class="gate-badge">ACCÈS PRIVÉ</span>
-        </div>
+<body class="theme-dark">
+  <!-- Minimalist Gated Login Screen (The ONLY markup loaded when unauthenticated) -->
+  <div id="login-view" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-dot"></span>
+        <h1 class="brand-name">Eyefinder</h1>
       </div>
-      <div class="gate-body">
-        <div class="gate-icon-wrap">
-          <span class="gate-lock-icon">🔒</span>
+      <p class="login-subtitle">Private System Access</p>
+      
+      <form id="gate-form" class="login-form" autocomplete="off">
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="gate-passkey-input" 
+            class="login-input" 
+            placeholder="Enter access key" 
+            required 
+            autofocus 
+            autocomplete="current-password"
+          />
+          <button type="button" id="btn-toggle-pw" class="pw-toggle" aria-label="Toggle password visibility" tabindex="-1">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
         </div>
-        <h2 class="gate-heading">TERMINAL DE SURVEILLANCE RESTREINT</h2>
-        <p class="gate-subtext">Ce système OSINT et la cartographie des flux CCTV en direct sont réservés aux utilisateurs autorisés. Veuillez renseigner votre code d'accès.</p>
         
-        <form id="gate-form" class="gate-form" autocomplete="off">
-          <div class="gate-input-wrap">
-            <input 
-              type="password" 
-              id="gate-passkey-input" 
-              class="gate-input" 
-              placeholder="Entrez le mot de passe d'accès..." 
-              required 
-              autofocus
-              autocomplete="current-password"
-            />
-            <button type="button" id="btn-toggle-gate-pw" class="gate-pw-toggle" title="Afficher/Masquer">👁</button>
-          </div>
-          
-          <div id="gate-error" class="gate-error hidden"></div>
-          
-          <div class="gate-actions">
-            <label class="gate-remember">
-              <input type="checkbox" id="gate-remember-me" checked />
-              <span>Mémoriser sur cet appareil</span>
-            </label>
-            <button type="submit" id="btn-unlock-gate" class="gate-submit-btn">
-              <span>DÉVERROUILLER L'ACCÈS</span>
-              <span class="gate-btn-arrow">🔓</span>
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="gate-footer">
-        <span>EyeFinder Security Shield • Chiffrement SHA-256 • Accès Restreint</span>
-      </div>
+        <div id="gate-error" class="login-error hidden"></div>
+        
+        <div class="login-footer-row">
+          <label class="remember-label">
+            <input type="checkbox" id="gate-remember-me" checked />
+            <span>Remember on this device</span>
+          </label>
+        </div>
+
+        <button type="submit" id="btn-unlock-gate" class="login-btn">
+          <span>Enter</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
     </div>
   </div>
 
-  <div id="app">
-    <!-- Top OSINT Navigation / Status Bar -->
-    <header id="header">
-      <div class="hud-top-bar">
-        <div class="hud-left">
-          <div class="brand">
-            <span class="crosshair">⌖</span>
-            <span class="brand-title">EYEFINDER</span>
-            <span class="badge-tag">OSINT FLUX</span>
-          </div>
-          <div class="hud-clock" id="utc-clock">00:00:00 UTC</div>
-        </div>
+  <!-- Dynamic Application Mount (100% EMPTY until verified authentication) -->
+  <div id="app-view" class="app-wrapper hidden"></div>
 
-        <div class="hud-stats">
-          <div class="stat-item stat-total-item">
-            <span class="stat-label">TOTAL</span>
-            <span class="stat-value" id="stat-total">0</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">LIVE</span>
-            <span class="stat-value status-live" id="stat-live">0</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">PICTURE</span>
-            <span class="stat-value status-picture" id="stat-picture">0</span>
-          </div>
-          <div class="stat-item stat-down-item">
-            <span class="stat-label">DOWN</span>
-            <span class="stat-value status-down" id="stat-down">0</span>
-          </div>
-          <div class="stat-item db-status">
-            <span class="stat-label">STORAGE</span>
-            <span class="stat-value" id="stat-db">INIT</span>
-          </div>
-        </div>
-
-        <div class="hud-mobile-actions">
-          <button id="btn-lock-mobile" class="action-btn-icon" title="Verrouiller le terminal">
-            <span>🔒</span>
-          </button>
-          <a href="/backups/standalone_map.html" target="_blank" class="action-btn-icon" title="Carte de secours autonome (Offline Map)">
-            <span class="backup-icon">🚨</span>
-          </a>
-          <a href="/admin.html" class="action-btn-icon" title="Secured Admin Dashboard">
-            <span class="admin-icon">⛊</span>
-          </a>
-          <button id="btn-scan-mobile" class="action-btn-icon" title="Run stream health verification">
-            <span class="scan-icon">⚡</span>
-          </button>
-          <button id="btn-drawer-toggle" class="drawer-toggle-btn" title="Open camera feeds list">
-            <span class="drawer-icon">☰</span>
-            <span class="drawer-text">FEEDS</span>
-            <span class="drawer-badge" id="hud-feed-badge">0</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="hud-controls">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="camera-search" placeholder="Search camera or coordinates..." autocomplete="off" autocapitalize="off" spellcheck="false" />
-        </div>
-
-        <div class="filter-group">
-          <button class="filter-btn active" data-filter="all">ALL</button>
-          <button class="filter-btn" data-filter="france">FRANCE</button>
-          <button class="filter-btn" data-filter="swiss">SUISSE</button>
-          <button class="filter-btn" data-filter="live">LIVE</button>
-          <button class="filter-btn" data-filter="picture">PICTURE</button>
-          <button class="filter-btn" data-filter="down">DOWN</button>
-        </div>
-
-        <button id="btn-scan" class="action-btn desktop-only" title="Run stream health verification">
-          <span class="scan-icon">⚡</span>
-          <span>RE-SCAN</span>
-        </button>
-
-        <a href="/backups/standalone_map.html" target="_blank" class="action-btn desktop-only" title="Carte de secours autonome (Offline Map)">
-          <span>🚨 BACKUP MAP</span>
-        </a>
-
-        <a href="/admin.html" class="action-btn desktop-only" title="Secured Admin Dashboard">
-          <span class="admin-icon">⛊</span>
-          <span>ADMIN</span>
-        </a>
-
-        <button id="btn-lock-desktop" class="action-btn desktop-only" title="Verrouiller la session">
-          <span>🔒</span>
-          <span>LOCK</span>
-        </button>
-
-        <button id="btn-sidebar-desktop" class="action-btn desktop-only sidebar-toggle-btn" title="Toggle camera feed sidebar">
-          <span class="toggle-icon">☰</span>
-          <span id="desktop-toggle-text">FEEDS</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- Main Workspace -->
-    <main id="main-container">
-      <!-- Leaflet Map Viewport -->
-      <div id="map"></div>
-
-      <!-- Backdrop overlay for mobile drawer -->
-      <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
-
-      <!-- Collapsible OSINT Side Feed List / Mobile Drawer -->
-      <aside id="cctv-sidebar" class="sidebar">
-        <div class="sidebar-header">
-          <div class="sidebar-header-info">
-            <span class="sidebar-title">DISCOVERED FEEDS</span>
-            <span class="sidebar-count" id="feed-count">0 FEEDS</span>
-          </div>
-          <button id="toggle-sidebar" class="sidebar-close-btn" title="Close Feeds Panel">✕</button>
-        </div>
-        <div class="feed-list" id="feed-list">
-          <!-- Populated dynamically via app.js -->
-        </div>
-      </aside>
-    </main>
-
-    <!-- Scanning Overlay -->
-    <div id="scan-indicator" class="scan-indicator hidden">
-      <div class="scan-bar"></div>
-      <span>PROBING CCTV FLUX STREAMS...</span>
-    </div>
-
-    <!-- Quick Edit Camera Modal (Admin Mode on Map) -->
-    <div id="map-edit-modal" class="map-edit-modal hidden" style="display: none;">
-      <div class="map-edit-box">
-        <div class="map-edit-header">
-          <span class="map-edit-title">MODIFIER LA CAMÉRA (ADMIN)</span>
-          <button id="btn-close-map-edit" class="map-edit-close">✕</button>
-        </div>
-        <form id="map-edit-form" class="map-edit-body">
-          <input type="hidden" id="edit-cam-id" />
-          <div class="edit-form-group">
-            <label class="edit-label">NOM DE LA CAMÉRA</label>
-            <input type="text" id="edit-cam-name" class="map-edit-input" required />
-          </div>
-          <div class="edit-form-row">
-            <div class="edit-form-group flex-1">
-              <label class="edit-label">LATITUDE</label>
-              <input type="number" step="any" id="edit-cam-lat" class="map-edit-input" required />
-            </div>
-            <div class="edit-form-group flex-1">
-              <label class="edit-label">LONGITUDE</label>
-              <input type="number" step="any" id="edit-cam-lon" class="map-edit-input" required />
-            </div>
-          </div>
-          <div class="edit-form-group">
-            <label class="edit-label">URL DU FLUX STREAM</label>
-            <input type="url" id="edit-cam-url" class="map-edit-input" required />
-          </div>
-          <div class="edit-form-row">
-            <div class="edit-form-group flex-1">
-              <label class="edit-label">TYPE DE FLUX</label>
-              <select id="edit-cam-type" class="map-edit-select">
-                <option value="live">Live Video Flux</option>
-                <option value="picture">Picture Refresh 60s</option>
-              </select>
-            </div>
-            <div class="edit-form-group flex-1">
-              <label class="edit-label">STATUT</label>
-              <select id="edit-cam-status" class="map-edit-select">
-                <option value="operational">Operational</option>
-                <option value="down">Offline / Down</option>
-              </select>
-            </div>
-          </div>
-          <div class="map-edit-footer">
-            <button type="button" id="btn-cancel-map-edit" class="action-btn">ANNULER</button>
-            <button type="submit" id="btn-save-map-edit" class="action-btn" style="border-color:var(--status-green); color:var(--status-green);">ENREGISTRER</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- In-map Toast Notification -->
-    <div id="map-toast" class="map-toast hidden" style="display: none;"></div>
-  </div>
+  <!-- Global Toast -->
+  <div id="app-toast" class="app-toast hidden"></div>
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <!-- Main App JS -->
+  <!-- Main Application Script -->
   <script src="app.js"></script>
 </body>
 </html>
