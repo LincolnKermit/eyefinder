@@ -109,9 +109,9 @@ const geoJsonBackup = {
         <p style="margin: 0 0 4px 0;"><b>Ville:</b> ${escapeXml(cam.city || 'N/A')} (${escapeXml(cam.country || 'N/A')})</p>
         <p style="margin: 0 0 4px 0;"><b>Source:</b> ${escapeXml(cam.source || 'N/A')}</p>
         <p style="margin: 0 0 8px 0;"><b>Statut:</b> <span style="color:${cam.status === 'operational' ? '#00ff66' : '#ff3366'}">${cam.status || 'operational'}</span></p>
-        ${cam.preview_image ? `<img src="${escapeXml(cam.preview_image)}" alt="Preview" style="width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;" />` : ''}
+        ${cam.preview_image ? `<img src="${escapeXml(cam.preview_image)}" referrerpolicy="no-referrer" alt="Preview" style="width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;" />` : ''}
         <div>
-          <a href="${escapeXml(cam.stream_url)}" target="_blank" rel="noopener noreferrer" style="color: #00ff66; text-decoration: underline;">Ouvrir le flux (${isVideo ? 'Vidéo' : 'Image'}) ↗</a>
+          <a href="${escapeXml(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="color: #00ff66; text-decoration: underline;">Ouvrir le flux (${isVideo ? 'Vidéo' : 'Image'}) ↗</a>
         </div>
       </div>
     `.trim();
@@ -203,11 +203,11 @@ const kmlPlacemarks = cameras.map(cam => {
       <p style="margin: 0 0 4px 0;"><b>Source:</b> ${escapeXml(cam.source || 'N/A')}</p>
       <p style="margin: 0 0 4px 0;"><b>Statut:</b> ${isOperational ? 'En ligne' : 'Hors-ligne'}</p>
       <p style="margin: 0 0 8px 0;"><b>Coordonnées:</b> ${cam.latitude}, ${cam.longitude}</p>
-      ${cam.preview_image ? `<div style="margin-bottom: 8px;"><img src="${escapeXml(cam.preview_image)}" style="max-width: 280px; height: auto; border: 1px solid #ccc; border-radius: 4px;" /></div>` : ''}
+      ${cam.preview_image ? `<div style="margin-bottom: 8px;"><img src="${escapeXml(cam.preview_image)}" referrerpolicy="no-referrer" style="max-width: 280px; height: auto; border: 1px solid #ccc; border-radius: 4px;" /></div>` : ''}
       <p style="margin: 6px 0 0 0;">
-        <a href="${escapeXml(cam.stream_url)}" target="_blank" style="font-weight: bold; color: #0066cc;">Ouvrir le flux vidéo / image direct ↗</a>
+        <a href="${escapeXml(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="font-weight: bold; color: #0066cc;">Ouvrir le flux vidéo / image direct ↗</a>
       </p>
-      ${cam.insecam_url ? `<p style="margin: 4px 0 0 0;"><a href="${escapeXml(cam.insecam_url)}" target="_blank" style="color: #666;">Portail Source ↗</a></p>` : ''}
+      ${cam.insecam_url ? `<p style="margin: 4px 0 0 0;"><a href="${escapeXml(cam.insecam_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="color: #666;">Portail Source ↗</a></p>` : ''}
     </div>
   ]]>`;
 
@@ -257,6 +257,7 @@ const standaloneMapHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
   <title>EyeFinder - Carte de Secours Autonome (Offline / Standalone Map)</title>
   <!-- Leaflet CSS & JS via CDN -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -536,6 +537,23 @@ const standaloneMapHtml = `<!DOCTYPE html>
   </div>
 
   <script>
+    // Global security: strip Referer header on all navigation and window.open
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (link && link.href) {
+        link.rel = 'noreferrer noopener';
+        link.referrerPolicy = 'no-referrer';
+      }
+    }, true);
+    if (window.open) {
+      const _origWindowOpen = window.open;
+      window.open = function(url, target, features) {
+        var extra = 'noreferrer,noopener';
+        var feat = features ? (features + ',' + extra) : extra;
+        return _origWindowOpen.call(window, url, target, feat);
+      };
+    }
+
     // Embedded cameras database (total 249 cameras)
     const CAMERAS = ${JSON.stringify(cameras)};
 
@@ -668,24 +686,24 @@ const standaloneMapHtml = `<!DOCTYPE html>
       
       let mediaHtml = '';
       if (ytId) {
-        mediaHtml = \`<iframe src="https://www.youtube.com/embed/\${encodeURIComponent(ytId)}?autoplay=0" allowfullscreen></iframe>\`;
+        mediaHtml = \`<iframe src="https://www.youtube.com/embed/\${encodeURIComponent(ytId)}?autoplay=0" referrerpolicy="no-referrer" allowfullscreen></iframe>\`;
       } else if (isNativeVideo && streamUrl) {
         mediaHtml = \`
           <div style="position:relative; width:100%; height:100%;">
-            <video autoplay muted loop playsinline controls poster="\${rawThumb}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-              <source src="\${streamUrl}" type="video/mp4">
+            <video autoplay muted loop playsinline controls referrerpolicy="no-referrer" poster="\${rawThumb}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <source src="\${streamUrl}" type="video/mp4" referrerpolicy="no-referrer">
             </video>
             <div style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#0d1117; flex-direction:column; align-items:center; justify-content:center; padding:10px; text-align:center;">
               <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">Flux vidéo externe</div>
-              <a href="\${streamUrl}" target="_blank" rel="noopener noreferrer" class="popup-btn" style="width:auto; padding:4px 10px;">Ouvrir le flux ↗</a>
+              <a href="\${streamUrl}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="width:auto; padding:4px 10px;">Ouvrir le flux ↗</a>
             </div>
           </div>
         \`;
       } else if (isMjpg && streamUrl) {
-        mediaHtml = \`<img src="\${streamUrl}" alt="\${cam.name}" loading="lazy" onerror="this.onerror=null; \${rawThumb ? 'this.src=\\'' + rawThumb + '\\';' : 'this.style.opacity=0.3;'}" />\`;
+        mediaHtml = \`<img src="\${streamUrl}" referrerpolicy="no-referrer" alt="\${cam.name}" loading="lazy" onerror="this.onerror=null; \${rawThumb ? 'this.src=\\'' + rawThumb + '\\';' : 'this.style.opacity=0.3;'}" />\`;
       } else if (rawThumb || streamUrl) {
         const imgUrl = rawThumb || streamUrl;
-        mediaHtml = \`<img src="\${imgUrl}" alt="\${cam.name}" loading="lazy" onerror="this.style.opacity=0.3;" />\`;
+        mediaHtml = \`<img src="\${imgUrl}" referrerpolicy="no-referrer" alt="\${cam.name}" loading="lazy" onerror="this.style.opacity=0.3;" />\`;
       } else {
         mediaHtml = \`<div style="color:var(--text-muted); font-size:12px; text-align:center; padding:20px;">Flux non disponible</div>\`;
       }
@@ -715,12 +733,12 @@ const standaloneMapHtml = `<!DOCTYPE html>
           </div>
           <div class="popup-actions">
             \${streamUrl ? \`
-              <a href="\${streamUrl}" target="_blank" rel="noopener noreferrer" class="popup-btn">
+              <a href="\${streamUrl}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn">
                 \${isNativeVideo ? 'VIDÉO DIRECT ↗' : (isWebpage ? 'VOIR CAMÉRA ↗' : 'FLUX STREAM ↗')}
               </a>
             \` : ''}
             \${cam.insecam_url ? \`
-              <a href="\${cam.insecam_url}" target="_blank" rel="noopener noreferrer" class="popup-btn secondary">
+              <a href="\${cam.insecam_url}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn secondary">
                 \${portalLabel}
               </a>
             \` : ''}

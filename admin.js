@@ -2,6 +2,26 @@
 (function() {
   'use strict';
 
+  // Enforce strict no-referrer policy globally across all link clicks and window.open
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (link && link.href) {
+        link.rel = 'noreferrer noopener';
+        link.referrerPolicy = 'no-referrer';
+      }
+    }, true);
+
+    if (typeof window !== 'undefined' && window.open) {
+      const _origWindowOpen = window.open;
+      window.open = function(url, target, features) {
+        const extra = 'noreferrer,noopener';
+        const feat = features ? `${features},${extra}` : extra;
+        return _origWindowOpen.call(window, url, target, feat);
+      };
+    }
+  }
+
   let adminToken = sessionStorage.getItem('eyefinder_admin_token') || localStorage.getItem('eyefinder_admin_token') || '';
   let allCameras = [];
   let filteredCameras = [];
@@ -598,7 +618,7 @@
           refHtml = `<span class="ref-tag ref-search" title="Search Engine: ${escapedDomain}">🔍 ${escapedDomain}</span>`;
         } else if (rawRef.startsWith('http')) {
           const safeRef = sanitizeUrl(rawRef);
-          refHtml = `<a href="${safeRef}" target="_blank" rel="noopener noreferrer" class="ref-tag ref-external" title="External: ${escapedDomain}">🔗 ${escapedDomain}</a>`;
+          refHtml = `<a href="${safeRef}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="ref-tag ref-external" title="External: ${escapedDomain}">🔗 ${escapedDomain}</a>`;
         } else {
           refHtml = `<span class="ref-tag ref-external" title="External: ${escapedDomain}">🔗 ${escapedDomain}</span>`;
         }

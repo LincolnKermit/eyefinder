@@ -3,6 +3,26 @@
  * Handles dynamic stealth mounting, passkey verification, interactive map, and feeds.
  */
 
+// Enforce strict no-referrer policy globally across all document clicks and window.open
+if (typeof document !== 'undefined') {
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (link && link.href) {
+      link.rel = 'noreferrer noopener';
+      link.referrerPolicy = 'no-referrer';
+    }
+  }, true);
+
+  if (typeof window !== 'undefined' && window.open) {
+    const _origWindowOpen = window.open;
+    window.open = function(url, target, features) {
+      const extra = 'noreferrer,noopener';
+      const feat = features ? `${features},${extra}` : extra;
+      return _origWindowOpen.call(window, url, target, feat);
+    };
+  }
+}
+
 // Passkey Hashes (SHA-256)
 const DEFAULT_ADMIN_HASH = '849f50b3c48b66ab0649f74eea7e21f70c81bd6951823176084bcbced215ea90'; // eyefinder-admin-2024
 const DEFAULT_VISITOR_HASH = 'a92f5e71d54b05874363556c1de8295453d15c9e7f1432c66a3136ef839adf49'; // eyefinder-2024
@@ -468,6 +488,7 @@ function createPopupContent(cam) {
     mediaHtml = `
       <iframe 
         src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(ytId)}?autoplay=0" 
+        referrerpolicy="no-referrer"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>
       </iframe>
@@ -483,16 +504,17 @@ function createPopupContent(cam) {
           loop 
           playsinline 
           controls 
+          referrerpolicy="no-referrer"
           poster="${escapeHtml(thumb)}"
           style="width:100%; height:100%; object-fit:cover;"
           onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';"
         >
-          <source src="${streamUrl}" type="video/mp4">
+          <source src="${streamUrl}" type="video/mp4" referrerpolicy="no-referrer">
         </video>
         <div class="video-fallback" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#0d1117; flex-direction:column; align-items:center; justify-content:center; padding:12px; text-align:center;">
-          ${thumb ? `<img src="${thumb}" alt="" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0.35;">` : ''}
+          ${thumb ? `<img src="${thumb}" referrerpolicy="no-referrer" alt="" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0.35;">` : ''}
           <div style="position:relative; z-index:1; font-size:12px; color:var(--text-secondary); margin-bottom:8px;">Flux vidéo externe</div>
-          <a href="${streamUrl}" target="_blank" rel="noopener noreferrer" class="popup-btn primary" style="position:relative; z-index:1; width:auto; padding:6px 14px; font-size:11px;">
+          <a href="${streamUrl}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn primary" style="position:relative; z-index:1; width:auto; padding:6px 14px; font-size:11px;">
             Lire le flux direct ↗
           </a>
         </div>
@@ -504,6 +526,7 @@ function createPopupContent(cam) {
     mediaHtml = `
       <img 
         src="${streamUrl}" 
+        referrerpolicy="no-referrer"
         class="popup-feed-img popup-mjpeg-stream" 
         alt="${escapeHtml(cam.name)}" 
         loading="lazy"
@@ -517,6 +540,7 @@ function createPopupContent(cam) {
       <img 
         src="${imgSrc}" 
         data-src="${imgSrc}" 
+        referrerpolicy="no-referrer"
         class="popup-snapshot-img popup-feed-img" 
         alt="${escapeHtml(cam.name)}" 
         loading="lazy" 
@@ -653,7 +677,7 @@ function renderDrawerList() {
     const thumb = sanitizeUrl(rawThumb);
     return `
       <div class="feed-card" data-cam-id="${escapeHtml(cam.id)}">
-        <img class="feed-thumb" src="${thumb}" alt="" loading="lazy" onerror="this.style.opacity='0.2';" />
+        <img class="feed-thumb" src="${thumb}" referrerpolicy="no-referrer" alt="" loading="lazy" onerror="this.style.opacity='0.2';" />
         <div class="feed-info">
           <div class="feed-name">${escapeHtml(cam.name)}</div>
           <div class="feed-meta">
