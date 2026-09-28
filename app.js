@@ -77,8 +77,50 @@ function initMap() {
   });
 }
 
+// Helper to check if current visitor has admin token
+function getAdminToken() {
+  try {
+    return sessionStorage.getItem('eyefinder_admin_token') || localStorage.getItem('eyefinder_admin_token') || '';
+  } catch (e) {
+    return '';
+  }
+}
+
+function isAdmin() {
+  return Boolean(getAdminToken());
+}
+
+// Helper to filter out cameras archived/deleted by the admin
+function filterArchived(cameras) {
+  if (!Array.isArray(cameras)) return [];
+  try {
+    const raw = localStorage.getItem('eyefinder_archived_cameras');
+    if (!raw) return cameras;
+    const archived = JSON.parse(raw);
+    if (!Array.isArray(archived) || !archived.length) return cameras;
+    const set = new Set(archived.map(String));
+    return cameras.filter(c => !set.has(String(c.id)));
+  } catch (e) {
+    return cameras;
+  }
+}
+
+// Helper to extract YouTube video ID from cam metadata or URL (supports /live/, /watch?v=, youtu.be, shorts)
+function getYouTubeId(cam) {
+  if (!cam) return null;
+  if (cam.youtube_id) return cam.youtube_id;
+  const urlsToTest = [cam.stream_url, cam.preview_image, cam.source, cam.insecam_url];
+  for (const raw of urlsToTest) {
+    if (!raw || typeof raw !== 'string') continue;
+    const match = raw.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|live|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+    if (match && match[1]) return match[1];
+  }
+  return null;
+}
+
 // Helper to determine if a camera is a refreshing snapshot or live video stream
 function isPictureCamera(cam) {
+  if (getYouTubeId(cam)) return false;
   if (cam.is_snapshot) return true;
   if (cam.is_mjpeg || (cam.stream_url && (cam.stream_url.includes('mjpg') || cam.stream_url.includes('faststream')))) {
     return false;
@@ -121,21 +163,16 @@ function createPinIcon(cam) {
   });
 }
 
-// Helper to extract YouTube video ID from cam metadata or URL
-function getYouTubeId(cam) {
-  if (cam.youtube_id) return cam.youtube_id;
-  if (!cam.stream_url) return null;
-  const match = cam.stream_url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
-  return match ? match[1] : null;
-}
-
 // Helper to resolve an HTTPS-compatible image/stream preview URL to eliminate SSL_ERROR_RX_RECORD_TOO_LONG
 function getSecureMediaUrl(cam) {
-  if (!cam || !cam.stream_url) return '';
-  const url = cam.stream_url;
+  if (!cam) return '';
+  const url = cam.preview_image || cam.stream_url;
+  if (!url) return '';
 
-  // Already HTTPS or YouTube embed
-  if (url.startsWith('https://') || getYouTubeId(cam)) {
+  if (getYouTubeId(cam)) return url;
+
+  // Video files (.mp4, .webm, .m3u8, .mov)
+  if (url.match(/\.(mp4|webm|m3u8|mov)(\?.*)?$/i)) {
     return url;
   }
 
@@ -152,9 +189,49 @@ function getSecureMediaUrl(cam) {
   // Clean counter parameters
   snapshotUrl = snapshotUrl.replace(/[\?&]COUNTER/g, '');
 
+  // If already HTTPS and standard web port, direct access works
+  if (snapshotUrl.startsWith('https://') && !snapshotUrl.includes(':8080') && !snapshotUrl.includes(':8081') && !snapshotUrl.includes(':8082')) {
+    return snapshotUrl;
+  }
+
   // Route via Cloudflare-backed secure HTTPS image proxy to bypass mixed-content blocks and SSL_ERROR_RX_RECORD_TOO_LONG
-  return `https://images.weserv.nl/?url=${encodeURIComponent(snapshotUrl)}`;
+  return `https://images.weserv.nl/?url=${encodeURIComponent(snapshotUrl)}&default=1`;
 }
+
+// Tactical stream fallback handler: replaces black screens with a clean radar card and direct link
+window.handleStreamPreviewError = function(img) {
+  if (!img) return;
+  const container = img.closest('.snapshot-container') || img.parentElement;
+  const rawSrc = img.getAttribute('data-raw-src') || img.src || '#';
+  const camName = img.getAttribute('alt') || 'CCTV Flux';
+
+  // If testing on HTTP localhost, attempt raw direct connection once
+  const triedDirect = img.getAttribute('data-tried-direct');
+  if (!triedDirect && window.location.protocol === 'http:' && rawSrc && !rawSrc.startsWith('https://images.weserv.nl') && !rawSrc.startsWith('#')) {
+    img.setAttribute('data-tried-direct', 'true');
+    img.src = rawSrc;
+    return;
+  }
+
+  const fallbackCardHtml = `
+    <div class="stream-fallback-card">
+      <div class="fallback-radar-scan"></div>
+      <div class="fallback-status-tag">FLUX SÉCURISÉ / IP DIRECT</div>
+      <div class="fallback-icon">📡</div>
+      <div class="fallback-cam-name" title="${escapeHtml(camName)}">${escapeHtml(camName)}</div>
+      <div class="fallback-note">Le flux direct nécessite une connexion IP directe ou les cookies de la caméra.</div>
+      <a href="${sanitizeUrl(rawSrc)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="fallback-flux-btn">
+        ▶ ACCÉDER AU FLUX CAMÉRA ↗
+      </a>
+    </div>
+  `;
+
+  if (container) {
+    container.innerHTML = fallbackCardHtml;
+  } else {
+    img.outerHTML = fallbackCardHtml;
+  }
+};
 
 // Build popup HTML for a camera
 function createPopupContent(cam) {
@@ -172,19 +249,41 @@ function createPopupContent(cam) {
 
   const ytId = getYouTubeId(cam);
   const secureMediaSrc = getSecureMediaUrl(cam);
+  const isVideo = cam.stream_url && cam.stream_url.match(/\.(mp4|webm|m3u8)(\?.*)?$/i);
 
   let mediaHtml = '';
   if (ytId) {
     mediaHtml = `
-      <iframe 
-        class="popup-video" 
-        src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(ytId)}?autoplay=1&mute=1&playsinline=1" 
-        title="${escapeHtml(cam.name)}" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="no-referrer"
-        allowfullscreen>
-      </iframe>
+      <div class="youtube-preview-container">
+        <iframe 
+          class="youtube-frame" 
+          src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(ytId)}?autoplay=1&mute=1&playsinline=1" 
+          title="${escapeHtml(cam.name)}" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+        <div class="youtube-fallback-bar">
+          <span class="yt-live-dot">● YT LIVE STREAM</span>
+          <a href="https://www.youtube.com/watch?v=${encodeURIComponent(ytId)}" target="_blank" rel="noopener noreferrer" class="yt-direct-link">
+            OUVRIR SUR YOUTUBE ↗
+          </a>
+        </div>
+      </div>
+    `;
+  } else if (!isDown && isVideo) {
+    mediaHtml = `
+      <div class="snapshot-container">
+        <video 
+          class="popup-video" 
+          autoplay muted loop playsinline controls
+          style="object-fit: cover;"
+        >
+          <source src="${sanitizeUrl(cam.stream_url)}" type="video/mp4">
+        </video>
+        <div class="snapshot-tag">● VIDEO STREAM</div>
+      </div>
     `;
   } else if (!isDown && cam.stream_url) {
     mediaHtml = `
@@ -197,17 +296,67 @@ function createPopupContent(cam) {
           alt="${escapeHtml(cam.name)}" 
           referrerpolicy="no-referrer"
           loading="lazy"
+          onerror="window.handleStreamPreviewError && window.handleStreamPreviewError(this)"
         />
         <div class="snapshot-tag">${isPic ? '⟳ REFRESH 60S' : '● LIVE PREVIEW'}</div>
       </div>
     `;
   } else {
     mediaHtml = `
-      <div class="popup-video" style="display:flex;align-items:center;justify-content:center;background:#1a1012;color:var(--status-red);font-size:11px;font-weight:700;letter-spacing:0.08em;border:1px dashed var(--status-red);">
-        OFFLINE / PROBE TIMEOUT
+      <div class="stream-fallback-card">
+        <div class="fallback-status-tag" style="color:var(--status-red); border-color:var(--status-red); background:rgba(255,71,87,0.1);">■ FLUX HORS LIGNE</div>
+        <div class="fallback-icon">📡</div>
+        <div class="fallback-cam-name" title="${escapeHtml(cam.name)}">${escapeHtml(cam.name)}</div>
+        <div class="fallback-note">La caméra ne répond pas aux sondes ICMP/HTTP.</div>
+        ${cam.stream_url ? `
+        <a href="${sanitizeUrl(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="fallback-flux-btn" style="border-color:var(--status-red); color:var(--status-red);">
+          TENTER CONNEXION DIRECTE ↗
+        </a>` : ''}
       </div>
     `;
   }
+
+  // In-map admin operator controls if logged in
+  let adminControlsHtml = '';
+  if (isAdmin()) {
+    adminControlsHtml = `
+      <div class="popup-admin-controls">
+        <div class="admin-controls-badge">
+          <span>⚡ CONTRÔLES ADMIN</span>
+        </div>
+        <div class="admin-popup-btns">
+          <button type="button" class="btn-map-action btn-archive-cam" data-cam-id="${escapeHtml(cam.id)}" title="Archiver / Supprimer définitivement cette caméra">
+            🗑️ ARCHIVER
+          </button>
+          <button type="button" class="btn-map-action btn-toggle-status" data-cam-id="${escapeHtml(cam.id)}" data-cam-status="${escapeHtml(cam.status || 'operational')}" title="Basculer statut opérationnel">
+            ⟳ ${cam.status === 'down' ? 'RÉACTIVER' : 'HORS LIGNE'}
+          </button>
+          <button type="button" class="btn-map-action btn-edit-cam" data-cam-id="${escapeHtml(cam.id)}" title="Modifier les coordonnées et informations">
+            ✏️ MODIFIER
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  const actionButtons = ytId ? `
+    <a href="https://www.youtube.com/watch?v=${encodeURIComponent(ytId)}" target="_blank" rel="noopener noreferrer" class="popup-btn">
+      OUVRIR SUR YOUTUBE ↗
+    </a>
+  ` : (cam.insecam_url ? `
+    <div class="popup-actions" style="display: flex; gap: 8px;">
+      <a href="${sanitizeUrl(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1;">
+        CCTV FLUX ↗
+      </a>
+      <a href="${sanitizeUrl(cam.insecam_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1; background: var(--bg-primary); border-color: var(--border-active);">
+        INSECAM ↗
+      </a>
+    </div>
+  ` : `
+    <a href="${sanitizeUrl(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn">
+      ACCESS CCTV FLUX ↗
+    </a>
+  `);
 
   return `
     <div class="popup-card">
@@ -222,7 +371,7 @@ function createPopupContent(cam) {
         <div class="meta-row">
           <span class="meta-label">TYPE</span>
           <span class="meta-val" style="color: ${type === 'live' ? 'var(--color-live-text)' : (type === 'picture' ? 'var(--color-picture)' : 'var(--status-red)')}; font-weight: 700;">
-            ${type === 'live' ? (cam.is_mjpeg ? 'LIVE IP MJPEG' : 'LIVE CAMERA (VIDEO)') : (type === 'picture' ? 'PERIODIC PICTURE' : 'OFFLINE')}
+            ${ytId ? 'YOUTUBE LIVE STREAM' : (type === 'live' ? (cam.is_mjpeg ? 'LIVE IP MJPEG' : 'LIVE CAMERA (VIDEO)') : (type === 'picture' ? 'PERIODIC PICTURE' : 'OFFLINE'))}
           </span>
         </div>
         <div class="meta-row">
@@ -242,20 +391,9 @@ function createPopupContent(cam) {
           <span class="meta-val">${timeFormatted}</span>
         </div>
       </div>
-      ${cam.insecam_url ? `
-      <div class="popup-actions" style="display: flex; gap: 8px;">
-        <a href="${sanitizeUrl(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1;">
-          CCTV FLUX ↗
-        </a>
-        <a href="${sanitizeUrl(cam.insecam_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn" style="flex: 1; background: var(--bg-primary); border-color: var(--border-active);">
-          INSECAM ↗
-        </a>
-      </div>
-      ` : `
-      <a href="${sanitizeUrl(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn">
-        ACCESS CCTV FLUX ↗
-      </a>
-      `}
+
+      ${actionButtons}
+      ${adminControlsHtml}
     </div>
   `;
 }
@@ -267,7 +405,7 @@ async function loadCameras() {
     if (res.ok) {
       const data = await res.json();
       if (data.cameras && data.cameras.length > 0) {
-        allCameras = data.cameras;
+        allCameras = filterArchived(data.cameras);
         updateStats(data);
         renderMapMarkers();
         renderSidebarList();
@@ -283,7 +421,7 @@ async function loadCameras() {
     const seedRes = await fetch('/seed.json');
     if (seedRes.ok) {
       const seedData = await seedRes.json();
-      allCameras = seedData.cameras;
+      allCameras = filterArchived(seedData.cameras);
       updateStats(seedData);
       renderMapMarkers();
       renderSidebarList();
@@ -294,11 +432,11 @@ async function loadCameras() {
 }
 
 // Update telemetry counters
-function updateStats(data) {
-  const total = data.total || allCameras.length;
+function updateStats(data = {}) {
+  const total = allCameras.length;
   const liveCount = allCameras.filter(c => c.status === 'operational' && getCameraType(c) === 'live').length;
   const pictureCount = allCameras.filter(c => c.status === 'operational' && getCameraType(c) === 'picture').length;
-  const downCount = data.down !== undefined ? data.down : allCameras.filter(c => c.status === 'down').length;
+  const downCount = allCameras.filter(c => c.status === 'down').length;
 
   const totalEl = document.getElementById('stat-total');
   if (totalEl) totalEl.textContent = total;
@@ -313,7 +451,7 @@ function updateStats(data) {
   if (downEl) downEl.textContent = downCount;
 
   const dbEl = document.getElementById('stat-db');
-  if (dbEl) dbEl.textContent = (data.storage === 'supabase' ? 'SUPABASE' : 'EDGE').toUpperCase();
+  if (dbEl && data && data.storage) dbEl.textContent = (data.storage === 'supabase' ? 'SUPABASE' : 'EDGE').toUpperCase();
 
   const hudBadge = document.getElementById('hud-feed-badge');
   if (hudBadge) hudBadge.textContent = total;
@@ -570,6 +708,220 @@ const Telemetry = {
   }
 };
 
+// Admin In-Map Actions
+async function archiveCamera(camId) {
+  const cam = allCameras.find(c => String(c.id) === String(camId));
+  const camName = cam ? cam.name : camId;
+
+  if (!confirm(`Archiver / Supprimer définitivement la caméra "${camName}" de la carte ?`)) {
+    return;
+  }
+
+  // 1. Save to local archived list to persist across reloads
+  try {
+    const raw = localStorage.getItem('eyefinder_archived_cameras');
+    const archived = raw ? JSON.parse(raw) : [];
+    if (!archived.includes(String(camId))) {
+      archived.push(String(camId));
+      localStorage.setItem('eyefinder_archived_cameras', JSON.stringify(archived));
+    }
+  } catch (e) {}
+
+  // 2. Remove locally and re-render
+  allCameras = allCameras.filter(c => String(c.id) !== String(camId));
+  if (map) map.closePopup();
+  renderMapMarkers();
+  renderSidebarList();
+  updateStats();
+  showToastNotification(`Caméra "${camName}" archivée.`);
+
+  // 3. Sync deletion to server API if admin token exists
+  const token = getAdminToken();
+  if (token) {
+    try {
+      await fetch('/api/admin/cameras/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'X-Admin-Key': token
+        },
+        body: JSON.stringify({ id: camId })
+      });
+    } catch (err) {
+      console.warn('API delete camera error (persisted locally):', err);
+    }
+  }
+}
+
+async function toggleCameraStatusOnMap(camId, currentStatus) {
+  const newStatus = currentStatus === 'down' ? 'operational' : 'down';
+  const cam = allCameras.find(c => String(c.id) === String(camId));
+  if (!cam) return;
+
+  cam.status = newStatus;
+  cam.last_checked = new Date().toISOString();
+
+  renderMapMarkers();
+  renderSidebarList();
+  updateStats();
+  showToastNotification(`Statut basculé: ${newStatus.toUpperCase()}`);
+
+  setTimeout(() => {
+    markersLayer.eachLayer(layer => {
+      if (layer.camData && String(layer.camData.id) === String(camId)) {
+        layer.openPopup();
+      }
+    });
+  }, 100);
+
+  const token = getAdminToken();
+  if (token) {
+    try {
+      await fetch('/api/admin/cameras/status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'X-Admin-Key': token
+        },
+        body: JSON.stringify({ id: camId, status: newStatus })
+      });
+    } catch (err) {
+      console.warn('API status toggle error:', err);
+    }
+  }
+}
+
+function openMapEditModal(camId) {
+  const cam = allCameras.find(c => String(c.id) === String(camId));
+  if (!cam) return;
+
+  const modal = document.getElementById('map-edit-modal');
+  if (!modal) return;
+
+  const idInput = document.getElementById('edit-cam-id');
+  const nameInput = document.getElementById('edit-cam-name');
+  const latInput = document.getElementById('edit-cam-lat');
+  const lonInput = document.getElementById('edit-cam-lon');
+  const urlInput = document.getElementById('edit-cam-url');
+  const typeSelect = document.getElementById('edit-cam-type');
+  const statusSelect = document.getElementById('edit-cam-status');
+
+  if (idInput) idInput.value = cam.id;
+  if (nameInput) nameInput.value = cam.name || '';
+  if (latInput) latInput.value = cam.latitude;
+  if (lonInput) lonInput.value = cam.longitude;
+  if (urlInput) urlInput.value = cam.stream_url || '';
+  if (typeSelect) typeSelect.value = getCameraType(cam) === 'picture' ? 'picture' : 'live';
+  if (statusSelect) statusSelect.value = cam.status === 'down' ? 'down' : 'operational';
+
+  modal.classList.remove('hidden');
+}
+
+function closeMapEditModal() {
+  const modal = document.getElementById('map-edit-modal');
+  if (modal) modal.classList.add('hidden');
+}
+
+async function handleMapEditSubmit(e) {
+  e.preventDefault();
+  const id = document.getElementById('edit-cam-id')?.value;
+  const name = document.getElementById('edit-cam-name')?.value.trim();
+  const latitude = parseFloat(document.getElementById('edit-cam-lat')?.value);
+  const longitude = parseFloat(document.getElementById('edit-cam-lon')?.value);
+  const stream_url = document.getElementById('edit-cam-url')?.value.trim();
+  const type = document.getElementById('edit-cam-type')?.value;
+  const status = document.getElementById('edit-cam-status')?.value;
+
+  if (!id || !name || isNaN(latitude) || isNaN(longitude) || !stream_url) {
+    alert('Champs obligatoires invalides.');
+    return;
+  }
+
+  const camIndex = allCameras.findIndex(c => String(c.id) === String(id));
+  if (camIndex === -1) return;
+
+  const updatedCam = {
+    ...allCameras[camIndex],
+    name,
+    latitude,
+    longitude,
+    stream_url,
+    status,
+    is_snapshot: type === 'picture',
+    last_checked: new Date().toISOString()
+  };
+
+  allCameras[camIndex] = updatedCam;
+
+  closeMapEditModal();
+  renderMapMarkers();
+  renderSidebarList();
+  updateStats();
+  showToastNotification(`Caméra "${name}" modifiée.`);
+
+  map.flyTo([latitude, longitude], 13, { duration: 0.8 });
+  setTimeout(() => {
+    markersLayer.eachLayer(layer => {
+      if (layer.camData && String(layer.camData.id) === String(id)) {
+        layer.setLatLng([latitude, longitude]);
+        layer.openPopup();
+      }
+    });
+  }, 900);
+
+  const token = getAdminToken();
+  if (token) {
+    try {
+      await fetch('/api/admin/cameras/edit', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'X-Admin-Key': token
+        },
+        body: JSON.stringify({
+          id,
+          name,
+          latitude,
+          longitude,
+          stream_url,
+          status,
+          city: updatedCam.city || '',
+          country: updatedCam.country || 'Global'
+        })
+      });
+    } catch (err) {
+      console.warn('API camera update error:', err);
+    }
+  }
+}
+
+function showToastNotification(msg) {
+  const toast = document.getElementById('map-toast');
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.remove('hidden');
+  setTimeout(() => {
+    toast.classList.add('hidden');
+  }, 3200);
+}
+
+function updateAdminHeaderStatus() {
+  if (!isAdmin()) return;
+  const brandTitle = document.querySelector('.brand-title');
+  if (brandTitle && !document.getElementById('admin-badge-indicator')) {
+    const badge = document.createElement('span');
+    badge.id = 'admin-badge-indicator';
+    badge.className = 'badge-tag';
+    badge.style.borderColor = 'var(--status-green)';
+    badge.style.color = 'var(--status-green)';
+    badge.textContent = 'ADMIN ON';
+    brandTitle.parentNode.insertBefore(badge, brandTitle.nextSibling);
+  }
+}
+
 // Event Listeners setup
 function setupEvents() {
   // Search input
@@ -656,6 +1008,45 @@ function setupEvents() {
     });
   }
 
+  // Map Quick-Edit Modal Listeners
+  const closeEditBtn = document.getElementById('btn-close-map-edit');
+  if (closeEditBtn) closeEditBtn.addEventListener('click', closeMapEditModal);
+
+  const cancelEditBtn = document.getElementById('btn-cancel-map-edit');
+  if (cancelEditBtn) cancelEditBtn.addEventListener('click', closeMapEditModal);
+
+  const mapEditForm = document.getElementById('map-edit-form');
+  if (mapEditForm) mapEditForm.addEventListener('submit', handleMapEditSubmit);
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMapEditModal();
+  });
+
+  // Popup in-map admin action buttons event delegation
+  document.addEventListener('click', (e) => {
+    const archiveBtn = e.target.closest('.btn-archive-cam');
+    if (archiveBtn) {
+      const camId = archiveBtn.dataset.camId;
+      if (camId) archiveCamera(camId);
+      return;
+    }
+
+    const toggleBtn = e.target.closest('.btn-toggle-status');
+    if (toggleBtn) {
+      const camId = toggleBtn.dataset.camId;
+      const status = toggleBtn.dataset.camStatus;
+      if (camId) toggleCameraStatusOnMap(camId, status);
+      return;
+    }
+
+    const editBtn = e.target.closest('.btn-edit-cam');
+    if (editBtn) {
+      const camId = editBtn.dataset.camId;
+      if (camId) openMapEditModal(camId);
+      return;
+    }
+  });
+
   // Window resize & orientation change handling
   window.addEventListener('resize', () => {
     if (map) map.invalidateSize();
@@ -677,5 +1068,6 @@ window.addEventListener('DOMContentLoaded', () => {
   setupEvents();
   startClock();
   loadCameras();
+  updateAdminHeaderStatus();
   Telemetry.init();
 });

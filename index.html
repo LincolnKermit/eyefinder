@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0a0b0e">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="referrer" content="no-referrer">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>EyeFinder // Real-Time OSINT CCTV Flux</title>
   
   <!-- Leaflet Open-Source Map CSS -->
@@ -127,6 +127,60 @@
       <div class="scan-bar"></div>
       <span>PROBING CCTV FLUX STREAMS...</span>
     </div>
+
+    <!-- Quick Edit Camera Modal (Admin Mode on Map) -->
+    <div id="map-edit-modal" class="map-edit-modal hidden">
+      <div class="map-edit-box">
+        <div class="map-edit-header">
+          <span class="map-edit-title">MODIFIER LA CAMÉRA (ADMIN)</span>
+          <button id="btn-close-map-edit" class="map-edit-close">✕</button>
+        </div>
+        <form id="map-edit-form" class="map-edit-body">
+          <input type="hidden" id="edit-cam-id" />
+          <div class="edit-form-group">
+            <label class="edit-label">NOM DE LA CAMÉRA</label>
+            <input type="text" id="edit-cam-name" class="map-edit-input" required />
+          </div>
+          <div class="edit-form-row">
+            <div class="edit-form-group flex-1">
+              <label class="edit-label">LATITUDE</label>
+              <input type="number" step="any" id="edit-cam-lat" class="map-edit-input" required />
+            </div>
+            <div class="edit-form-group flex-1">
+              <label class="edit-label">LONGITUDE</label>
+              <input type="number" step="any" id="edit-cam-lon" class="map-edit-input" required />
+            </div>
+          </div>
+          <div class="edit-form-group">
+            <label class="edit-label">URL DU FLUX STREAM</label>
+            <input type="url" id="edit-cam-url" class="map-edit-input" required />
+          </div>
+          <div class="edit-form-row">
+            <div class="edit-form-group flex-1">
+              <label class="edit-label">TYPE DE FLUX</label>
+              <select id="edit-cam-type" class="map-edit-select">
+                <option value="live">Live Video Flux</option>
+                <option value="picture">Picture Refresh 60s</option>
+              </select>
+            </div>
+            <div class="edit-form-group flex-1">
+              <label class="edit-label">STATUT</label>
+              <select id="edit-cam-status" class="map-edit-select">
+                <option value="operational">Operational</option>
+                <option value="down">Offline / Down</option>
+              </select>
+            </div>
+          </div>
+          <div class="map-edit-footer">
+            <button type="button" id="btn-cancel-map-edit" class="action-btn">ANNULER</button>
+            <button type="submit" id="btn-save-map-edit" class="action-btn" style="border-color:var(--status-green); color:var(--status-green);">ENREGISTRER</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- In-map Toast Notification -->
+    <div id="map-toast" class="map-toast hidden"></div>
   </div>
 
   <!-- Leaflet JS -->

@@ -2,7 +2,7 @@
 (function() {
   'use strict';
 
-  let adminToken = sessionStorage.getItem('eyefinder_admin_token') || '';
+  let adminToken = sessionStorage.getItem('eyefinder_admin_token') || localStorage.getItem('eyefinder_admin_token') || '';
   let allCameras = [];
   let filteredCameras = [];
   let currentPage = 1;
@@ -179,6 +179,7 @@
 
       if (serverAuthenticated || hashAuthenticated) {
         sessionStorage.setItem('eyefinder_admin_token', adminToken);
+        localStorage.setItem('eyefinder_admin_token', adminToken);
         showApp();
         initDashboard();
         showToast('Operator Authenticated. Level 1 Active.');
@@ -256,6 +257,7 @@
   if (btnLogout) {
     btnLogout.addEventListener('click', () => {
       sessionStorage.removeItem('eyefinder_admin_token');
+      localStorage.removeItem('eyefinder_admin_token');
       adminToken = '';
       window.location.reload();
     });
