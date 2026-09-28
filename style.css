@@ -896,3 +896,192 @@ button, input, select {
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   5. Secret Service / OSINT Loading Screen Overlay
+   ========================================================================== */
+
+.loading-screen-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  background-color: #040507; /* Darker than UI (#08090c) - Deep obsidian black-slate */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.65s ease;
+  pointer-events: all;
+  user-select: none;
+}
+
+.loading-screen-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.osint-emblem-box {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ambient sonar pulse ring */
+.osint-emblem-box::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 229, 117, 0.1);
+  animation: osint-pulse-wave 2.8s ease-out infinite;
+  pointer-events: none;
+}
+
+.osint-emblem-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 25px rgba(0, 229, 117, 0.12));
+}
+
+/* Clockwise continuous rotation for outer track */
+.osint-rotate-cw {
+  transform-origin: 120px 120px;
+  animation: osint-spin-cw 20s linear infinite;
+}
+
+/* Counter-clockwise rotation for inner reticle */
+.osint-rotate-ccw {
+  transform-origin: 120px 120px;
+  animation: osint-spin-ccw 13s linear infinite;
+}
+
+/* 360-degree radar scanner sweep */
+.osint-radar-sweep {
+  transform-origin: 120px 120px;
+  animation: osint-spin-cw 2.6s linear infinite;
+}
+
+/* Breathing optic pupil core */
+.osint-optic-core {
+  transform-origin: 120px 120px;
+  animation: osint-pulse-core 2s ease-in-out infinite alternate;
+}
+
+/* Eyelid aperture micro-breathing */
+.osint-eye-frame {
+  transform-origin: 120px 120px;
+  animation: osint-focus-eye 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes osint-spin-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes osint-spin-ccw {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes osint-pulse-core {
+  0% {
+    transform: scale(0.92);
+    filter: drop-shadow(0 0 4px #00e575);
+  }
+  100% {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 14px #00e575) drop-shadow(0 0 24px rgba(56, 189, 248, 0.5));
+  }
+}
+
+@keyframes osint-focus-eye {
+  0% {
+    opacity: 0.88;
+  }
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(0, 229, 117, 0.35));
+  }
+}
+
+@keyframes osint-pulse-wave {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+/* Tactical Loading Meta & Telemetry */
+.osint-loading-meta {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.osint-agency-title {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: #f4f5f7;
+  text-transform: uppercase;
+}
+
+.osint-agency-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: #00e575;
+  text-transform: uppercase;
+  opacity: 0.88;
+}
+
+.osint-progress-bar-wrap {
+  width: 190px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+  position: relative;
+}
+
+.osint-progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #38bdf8, #00e575);
+  box-shadow: 0 0 10px #00e575;
+  animation: osint-bar-load 1.6s ease-out forwards;
+}
+
+@keyframes osint-bar-load {
+  0% { width: 8%; }
+  40% { width: 55%; }
+  80% { width: 88%; }
+  100% { width: 100%; }
+}
+
+.osint-telemetry-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #64748b;
+  letter-spacing: 0.12em;
+  min-height: 16px;
+  margin-top: 4px;
+}

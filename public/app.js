@@ -92,8 +92,109 @@ function mountAppInterface() {
   const appView = document.getElementById('app-view');
   if (!appView) return;
 
-  // Premium, minimalistic, uncrowded interface
+  // Premium, minimalistic, uncrowded interface with Secret Service OSINT loading screen
   appView.innerHTML = `
+    <!-- Secret Service / OSINT Loading Screen Overlay -->
+    <div id="osint-loading-screen" class="loading-screen-overlay">
+      <div class="osint-emblem-box">
+        <svg class="osint-emblem-svg" viewBox="0 0 240 240" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="optic-gradient" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="25%" stop-color="#38bdf8"/>
+              <stop offset="65%" stop-color="#00e575"/>
+              <stop offset="100%" stop-color="#005a2b"/>
+            </radialGradient>
+            <radialGradient id="radar-gradient" cx="0%" cy="0%" r="100%">
+              <stop offset="0%" stop-color="#00e575" stop-opacity="0.32"/>
+              <stop offset="50%" stop-color="#00e575" stop-opacity="0.08"/>
+              <stop offset="100%" stop-color="#00e575" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow-optic" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="3.5" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Outer Fixed Compass / Azimuth Ring -->
+          <circle cx="120" cy="120" r="114" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <circle cx="120" cy="120" r="106" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+          
+          <!-- Cardinal Marks -->
+          <text x="120" y="14" fill="rgba(0,229,117,0.75)" font-size="7" font-family="monospace" text-anchor="middle" font-weight="700">N // 000°</text>
+          <text x="228" y="123" fill="rgba(255,255,255,0.4)" font-size="7" font-family="monospace" text-anchor="middle">E</text>
+          <text x="120" y="233" fill="rgba(255,255,255,0.4)" font-size="7" font-family="monospace" text-anchor="middle">S</text>
+          <text x="12" y="123" fill="rgba(255,255,255,0.4)" font-size="7" font-family="monospace" text-anchor="middle">W</text>
+
+          <!-- Compass Hash Ticks -->
+          <line x1="120" y1="16" x2="120" y2="24" stroke="rgba(0,229,117,0.6)" stroke-width="1.5"/>
+          <line x1="120" y1="216" x2="120" y2="224" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+          <line x1="16" y1="120" x2="24" y2="120" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+          <line x1="216" y1="120" x2="224" y2="120" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+
+          <!-- Rotating Outer Target Ring (Clockwise) -->
+          <g class="osint-rotate-cw">
+            <circle cx="120" cy="120" r="95" fill="none" stroke="rgba(0,229,117,0.3)" stroke-width="1.5" stroke-dasharray="24 16 6 16 48 16"/>
+            <circle cx="120" cy="120" r="88" fill="none" stroke="rgba(56,189,248,0.2)" stroke-width="1" stroke-dasharray="8 8"/>
+            <path d="M 120 28 L 120 34 M 120 206 L 120 212 M 28 120 L 34 120 M 206 120 L 212 120" stroke="rgba(0,229,117,0.5)" stroke-width="1.5"/>
+          </g>
+
+          <!-- Rotating Inner Calibration Track (Counter-Clockwise) -->
+          <g class="osint-rotate-ccw">
+            <circle cx="120" cy="120" r="76" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="12 12"/>
+            <path d="M 66 120 L 72 120 M 168 120 L 174 120 M 120 66 L 120 72 M 120 168 L 120 174" stroke="#38bdf8" stroke-width="2"/>
+            <polygon points="120,44 116,52 124,52" fill="#00e575"/>
+            <polygon points="120,196 116,188 124,188" fill="#38bdf8"/>
+          </g>
+
+          <!-- Radar Sweep Group -->
+          <g class="osint-radar-sweep">
+            <path d="M 120 120 L 120 35 A 85 85 0 0 1 180 60 Z" fill="url(#radar-gradient)"/>
+            <line x1="120" y1="120" x2="180" y2="60" stroke="#00e575" stroke-width="1.8" filter="url(#glow-optic)"/>
+          </g>
+
+          <!-- Concentric Range Circles -->
+          <circle cx="120" cy="120" r="62" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+          <circle cx="120" cy="120" r="46" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="4 4"/>
+          <circle cx="120" cy="120" r="32" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+          <!-- Tactical Surveillance Eye Geometry -->
+          <g class="osint-eye-frame">
+            <path d="M 68 120 Q 120 72 172 120 Q 120 168 68 120 Z" fill="rgba(6,9,14,0.85)" stroke="#00e575" stroke-width="2" filter="url(#glow-optic)"/>
+            <path d="M 76 120 Q 120 82 164 120 Q 120 158 76 120 Z" fill="none" stroke="rgba(56,189,248,0.4)" stroke-width="1"/>
+            
+            <path d="M 62 116 L 68 120 L 62 124" fill="none" stroke="#00e575" stroke-width="1.5"/>
+            <path d="M 178 116 L 172 120 L 178 124" fill="none" stroke="#00e575" stroke-width="1.5"/>
+            
+            <circle cx="120" cy="120" r="23" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="6 3"/>
+            <circle cx="120" cy="120" r="18" fill="rgba(0,229,117,0.08)" stroke="#00e575" stroke-width="1"/>
+
+            <g class="osint-optic-core">
+              <circle cx="120" cy="120" r="11" fill="url(#optic-gradient)" filter="url(#glow-optic)"/>
+              <circle cx="120" cy="120" r="3.5" fill="#ffffff"/>
+            </g>
+
+            <line x1="102" y1="120" x2="108" y2="120" stroke="#ffffff" stroke-width="1.2"/>
+            <line x1="132" y1="120" x2="138" y2="120" stroke="#ffffff" stroke-width="1.2"/>
+            <line x1="120" y1="102" x2="120" y2="108" stroke="#ffffff" stroke-width="1.2"/>
+            <line x1="120" y1="132" x2="120" y2="138" stroke="#ffffff" stroke-width="1.2"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="osint-loading-meta">
+        <div class="osint-agency-title">EYEFINDER</div>
+        <div class="osint-agency-sub">OPTICAL SURVEILLANCE & RECON // OSINT GRID</div>
+        <div class="osint-progress-bar-wrap">
+          <div class="osint-progress-bar-fill"></div>
+        </div>
+        <div id="osint-telemetry" class="osint-telemetry-text">INITIALIZING OPTICAL SENSORS...</div>
+      </div>
+    </div>
+
     <header class="app-header">
       <div class="header-left">
         <div class="header-brand">
@@ -160,6 +261,10 @@ function mountAppInterface() {
 }
 
 function unmountAppInterface() {
+  if (telemetryTimer) {
+    clearInterval(telemetryTimer);
+    telemetryTimer = null;
+  }
   const appView = document.getElementById('app-view');
   if (appView) {
     appView.innerHTML = '';
@@ -758,14 +863,64 @@ function lockSession(errorMsg = '') {
   }
 }
 
+let loadingStartTime = 0;
+let telemetryTimer = null;
+
+function startLoadingTelemetry() {
+  loadingStartTime = Date.now();
+  const telEl = document.getElementById('osint-telemetry');
+  if (!telEl) return;
+
+  const messages = [
+    'INITIALIZING OPTICAL SENSORS...',
+    'CONNECTING TO SATELLITE RELAY...',
+    'CALIBRATING GEOSPATIAL COORDINATES...',
+    'SYNCHRONIZING FEED NETWORK...'
+  ];
+  let idx = 0;
+  telEl.textContent = messages[0];
+
+  if (telemetryTimer) clearInterval(telemetryTimer);
+  telemetryTimer = setInterval(() => {
+    idx = (idx + 1) % messages.length;
+    if (telEl) telEl.textContent = messages[idx];
+  }, 260);
+}
+
+function finishLoadingScreen() {
+  if (telemetryTimer) {
+    clearInterval(telemetryTimer);
+    telemetryTimer = null;
+  }
+  const telEl = document.getElementById('osint-telemetry');
+  if (telEl) telEl.textContent = 'OPTICAL GRID DEPLOYED // READY';
+
+  const elapsed = Date.now() - loadingStartTime;
+  // Ensure the tactical animation is smoothly visible (at least 950ms)
+  const remaining = Math.max(0, 950 - elapsed);
+
+  setTimeout(() => {
+    const screen = document.getElementById('osint-loading-screen');
+    if (screen) {
+      screen.classList.add('fade-out');
+      setTimeout(() => {
+        if (map) map.invalidateSize();
+        screen.remove();
+      }, 700);
+    }
+  }, remaining);
+}
+
 async function unlockSession(passkey, role = 'visitor') {
   userRole = role;
   const loginView = document.getElementById('login-view');
   if (loginView) loginView.classList.add('hidden');
 
   mountAppInterface();
+  startLoadingTelemetry();
   initMap();
   await loadCameras();
+  finishLoadingScreen();
 }
 
 // --------------------------------------------------------------------------
