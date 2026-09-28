@@ -692,6 +692,7 @@ const standaloneMapHtml = `<!DOCTYPE html>
       let visible = 0;
 
       const q = searchQuery.toLowerCase().trim();
+      const seenCoords = {};
 
       CAMERAS.forEach(cam => {
         if (activeFilter === 'operational' && cam.status !== 'operational') return;
@@ -705,7 +706,23 @@ const standaloneMapHtml = `<!DOCTYPE html>
           if (!matchName && !matchCity && !matchSource) return;
         }
 
-        const marker = L.marker([cam.latitude, cam.longitude], {
+        if (typeof cam.latitude !== 'number' || typeof cam.longitude !== 'number') return;
+
+        let lat = cam.latitude;
+        let lng = cam.longitude;
+        const coordKey = lat.toFixed(4) + ',' + lng.toFixed(4);
+        if (seenCoords[coordKey] !== undefined) {
+          seenCoords[coordKey]++;
+          const index = seenCoords[coordKey];
+          const angle = index * 2.39996;
+          const radius = 0.00035 * Math.sqrt(index);
+          lat += radius * Math.cos(angle);
+          lng += (radius * Math.sin(angle)) / Math.max(0.1, Math.cos(lat * Math.PI / 180));
+        } else {
+          seenCoords[coordKey] = 0;
+        }
+
+        const marker = L.marker([lat, lng], {
           icon: createMarkerIcon(cam)
         });
 

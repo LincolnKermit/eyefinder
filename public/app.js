@@ -372,6 +372,7 @@ function renderMapMarkers() {
   markersLayer.clearLayers();
 
   const query = searchQuery.toLowerCase().trim();
+  const seenCoords = {};
 
   allCameras.forEach(cam => {
     // Filter matching
@@ -390,7 +391,21 @@ function renderMapMarkers() {
 
     if (typeof cam.latitude !== 'number' || typeof cam.longitude !== 'number') return;
 
-    const marker = L.marker([cam.latitude, cam.longitude], {
+    let lat = cam.latitude;
+    let lng = cam.longitude;
+    const coordKey = `${lat.toFixed(4)},${lng.toFixed(4)}`;
+    if (seenCoords[coordKey] !== undefined) {
+      seenCoords[coordKey]++;
+      const index = seenCoords[coordKey];
+      const angle = index * 2.39996; // Golden angle (~137.5 deg)
+      const radius = 0.00035 * Math.sqrt(index); // ~35m to 50m fan out
+      lat += radius * Math.cos(angle);
+      lng += (radius * Math.sin(angle)) / Math.max(0.1, Math.cos(lat * Math.PI / 180));
+    } else {
+      seenCoords[coordKey] = 0;
+    }
+
+    const marker = L.marker([lat, lng], {
       icon: createMarkerIcon(cam)
     });
 
@@ -493,8 +508,9 @@ async function loadCameras() {
 
     if (res.ok) {
       const data = await res.json();
-      if (data && data.cameras) {
-        allCameras = data.cameras;
+      const cams = Array.isArray(data) ? data : (data && data.cameras ? data.cameras : []);
+      if (cams.length) {
+        allCameras = cams;
         updateHeaderCounters();
         renderMapMarkers();
         renderDrawerList();
@@ -520,8 +536,9 @@ async function loadCameras() {
     }
     if (seedRes.ok) {
       const seedData = await seedRes.json();
-      if (seedData && seedData.cameras) {
-        allCameras = seedData.cameras;
+      const cams = Array.isArray(seedData) ? seedData : (seedData && seedData.cameras ? seedData.cameras : []);
+      if (cams.length) {
+        allCameras = cams;
         updateHeaderCounters();
         renderMapMarkers();
         renderDrawerList();
