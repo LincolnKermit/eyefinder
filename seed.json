@@ -235,7 +235,7 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:47.991Z",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "country": "France",
     "city": "Aix-les-Bains"
   },
@@ -250,7 +250,7 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.004Z",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "country": "France",
     "city": "Vallorcine"
   },
@@ -265,7 +265,7 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:48.359Z",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "country": "France",
     "city": "Aix-les-Bains"
   },
@@ -280,7 +280,7 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:47.944Z",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "country": "France",
     "city": "Arbusigny"
   },
@@ -295,7 +295,7 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:47.952Z",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "country": "France",
     "city": "Hauteluce"
   },
@@ -310,7 +310,7 @@
     "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
     "status": "operational",
     "last_checked": "2026-09-20T10:28:47.933Z",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "country": "France",
     "city": "Doussard (Annecy)"
   },
@@ -952,7 +952,7 @@
     "stream_url": "https://www.earthcam.com/usa/newyork/timessquare/?cam=tsrobo1",
     "source": "EarthCam Public Feeds",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:48.938Z",
     "country": "United States",
     "city": "New York"
@@ -1004,7 +1004,7 @@
     "stream_url": "https://www.sensibleweather.com",
     "source": "Open City Webcams",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:48.982Z",
     "country": "United States",
     "city": "San Francisco"
@@ -1017,7 +1017,7 @@
     "stream_url": "https://www.camscape.com/camera/london-tower-bridge-webcam/",
     "source": "Camscape Feeds",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:48.867Z",
     "country": "United Kingdom",
     "city": "London"
@@ -1030,7 +1030,7 @@
     "stream_url": "https://www.earthcam.com/world/uk/london/piccadillycircus/?cam=piccadillycircus",
     "source": "EarthCam Feeds",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:49.357Z",
     "country": "United Kingdom",
     "city": "London"
@@ -1043,23 +1043,25 @@
     "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/ile-de-france/paris/tour-eiffel.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:48.686Z",
     "country": "France",
-    "city": "Paris"
+    "city": "Paris",
+    "preview_image": "https://embed.skylinewebcams.com/img/837.jpg"
   },
   {
     "id": "cam-paris-concorde",
-    "name": "Paris - Place de la Concorde",
+    "name": "Paris - Tour Eiffel & Trocadéro Panorama (Live 4K)",
     "latitude": 48.8656,
     "longitude": 2.3212,
-    "stream_url": "https://www.viewsurf.com/univers/ville/vue/16769-france-ile-de-france-paris-place-de-la-concorde",
-    "source": "Viewsurf Open Feeds",
+    "stream_url": "https://www.youtube.com/watch?v=kYv9lJ1x15o",
+    "source": "Paris Live Stream",
     "status": "operational",
     "is_snapshot": false,
     "last_checked": "2026-09-20T10:28:48.905Z",
     "country": "France",
-    "city": "Paris"
+    "city": "Paris",
+    "youtube_id": "kYv9lJ1x15o"
   },
   {
     "id": "cam-tokyo-shibuya",
@@ -1072,7 +1074,8 @@
     "is_snapshot": false,
     "last_checked": "2026-09-20T10:28:48.964Z",
     "country": "Japan",
-    "city": "Tokyo"
+    "city": "Tokyo",
+    "youtube_id": "HpdO5Kq3o8Y"
   },
   {
     "id": "cam-tokyo-shinjuku",
@@ -1085,7 +1088,8 @@
     "is_snapshot": false,
     "last_checked": "2026-09-20T10:28:48.972Z",
     "country": "Japan",
-    "city": "Tokyo"
+    "city": "Tokyo",
+    "youtube_id": "6afT4b_aXvI"
   },
   {
     "id": "cam-amsterdam-dam",
@@ -1095,10 +1099,11 @@
     "stream_url": "https://www.skylinewebcams.com/en/webcam/netherlands/north-holland/amsterdam/dam-square.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:48.793Z",
     "country": "Netherlands",
-    "city": "Amsterdam"
+    "city": "Amsterdam",
+    "preview_image": "https://cdn.skylinewebcams.com/live340.jpg"
   },
   {
     "id": "cam-berlin-brandenburg",
@@ -1108,7 +1113,7 @@
     "stream_url": "https://www.berlin.de/webcams/brandenburger-tor/",
     "source": "Berlin Open Portal",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:48.928Z",
     "country": "Germany",
     "city": "Berlin"
@@ -1121,10 +1126,11 @@
     "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/colosseo.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:48.802Z",
     "country": "Italy",
-    "city": "Rome"
+    "city": "Rome",
+    "preview_image": "https://embed.skylinewebcams.com/img/181.jpg"
   },
   {
     "id": "cam-venice-san-marco",
@@ -1134,10 +1140,11 @@
     "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/piazza-san-marco.html",
     "source": "SkylineWebcams",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:48.798Z",
     "country": "Italy",
-    "city": "Venice"
+    "city": "Venice",
+    "preview_image": "https://embed.skylinewebcams.com/img/522.jpg"
   },
   {
     "id": "cam-dublin-temple-bar",
@@ -1147,7 +1154,7 @@
     "stream_url": "https://www.earthcam.com/world/ireland/dublin/?cam=templebar",
     "source": "EarthCam Feeds",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:49.057Z",
     "country": "Ireland",
     "city": "Dublin"
@@ -1160,7 +1167,7 @@
     "stream_url": "https://www.sydneyoperahouse.com/our-story/live-webcam",
     "source": "Sydney Open Stream",
     "status": "down",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:49.735Z",
     "country": "Australia",
     "city": "Sydney"
@@ -1199,7 +1206,7 @@
     "stream_url": "https://www.earthcam.com/world/czechrepublic/prague/?cam=pragueoldtown",
     "source": "EarthCam Feeds",
     "status": "operational",
-    "is_snapshot": false,
+    "is_snapshot": true,
     "last_checked": "2026-09-20T10:28:49.118Z",
     "country": "Czech Republic",
     "city": "Prague"
@@ -1215,7 +1222,8 @@
     "is_snapshot": false,
     "last_checked": "2026-09-20T10:28:48.563Z",
     "country": "Test Station",
-    "city": "Offline Simulation"
+    "city": "Offline Simulation",
+    "is_mjpeg": true
   },
   {
     "id": "bpnl-valvert",
@@ -1330,7 +1338,7 @@
     "stream_url": "http://92.154.0.63:1024/oneshotimage1?COUNTER",
     "preview_image": "http://92.154.0.63:1024/oneshotimage1?COUNTER",
     "is_snapshot": true,
-    "is_mjpeg": false,
+    "is_mjpeg": true,
     "refresh_interval": 60,
     "source": "Insecam (Sony)",
     "city": "Paris (1er)",
@@ -1755,7 +1763,7 @@
     "stream_url": "http://89.90.206.214:80/cgi-bin/snapshot.cgi?chn=0&u=admin&p=&q=0&COUNTER",
     "preview_image": "http://89.90.206.214:80/cgi-bin/snapshot.cgi?chn=0&u=admin&p=&q=0&COUNTER",
     "is_snapshot": true,
-    "is_mjpeg": false,
+    "is_mjpeg": true,
     "refresh_interval": 60,
     "source": "Insecam (Defeway)",
     "city": "Meudon",
@@ -1857,7 +1865,7 @@
     "stream_url": "http://82.65.143.75:80/mjpeg.cgi",
     "preview_image": "http://82.65.143.75:80/mjpeg.cgi",
     "is_snapshot": true,
-    "is_mjpeg": false,
+    "is_mjpeg": true,
     "refresh_interval": 60,
     "source": "Insecam (DLink-DCS-932)",
     "city": "Paris (2e)",
@@ -2367,7 +2375,7 @@
     "stream_url": "http://46.14.251.37:2000/oneshotimage1?COUNTER",
     "preview_image": "http://46.14.251.37:2000/oneshotimage1?COUNTER",
     "is_snapshot": true,
-    "is_mjpeg": false,
+    "is_mjpeg": true,
     "refresh_interval": 60,
     "source": "Insecam (Sony)",
     "city": "Bubikon",
@@ -2384,7 +2392,7 @@
     "stream_url": "http://213.221.146.11:8080/oneshotimage1?COUNTER",
     "preview_image": "http://213.221.146.11:8080/oneshotimage1?COUNTER",
     "is_snapshot": true,
-    "is_mjpeg": false,
+    "is_mjpeg": true,
     "refresh_interval": 60,
     "source": "Insecam (Sony)",
     "city": "Chippis",

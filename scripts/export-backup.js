@@ -607,11 +607,37 @@ const standaloneMapHtml = `<!DOCTYPE html>
     document.getElementById('count-down').textContent = downTotal;
     document.getElementById('stats-total').textContent = CAMERAS.length;
 
+    function extractYt(url, explicitId) {
+      if (explicitId) return explicitId;
+      if (!url) return '';
+      const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/i);
+      return m ? m[1] : '';
+    }
+
+    function isMp4(url) {
+      if (!url) return false;
+      const clean = url.split('?')[0].toLowerCase();
+      return clean.endsWith('.mp4') || clean.endsWith('.webm');
+    }
+
+    function isMjpeg(url, cam) {
+      if (cam && cam.is_mjpeg) return true;
+      if (!url) return false;
+      const l = url.toLowerCase();
+      return l.includes('mjpg') || l.includes('mjpeg') || l.includes('faststream') || l.includes('.cgi') || l.includes('oneshotimage') || l.includes('getdata');
+    }
+
+    function isWp(url) {
+      if (!url) return false;
+      const l = url.toLowerCase();
+      return l.includes('skylinewebcams.com') || l.includes('viewsurf.com') || l.includes('earthcam.com') || l.includes('camscape.com') || l.includes('sensibleweather.com') || l.includes('berlin.de') || l.includes('sydneyoperahouse.com') || l.endsWith('.html') || l.endsWith('.htm');
+    }
+
     function createMarkerIcon(cam) {
       const isOp = cam.status === 'operational';
       const color = isOp ? '#00ff66' : '#ff3366';
-      const pulseColor = isOp ? 'rgba(0, 255, 102, 0.4)' : 'rgba(255, 51, 102, 0.4)';
-      const isVideo = !cam.is_snapshot && !cam.youtube_id;
+      const ytId = extractYt(cam.stream_url, cam.youtube_id);
+      const isVideo = ytId || isMp4(cam.stream_url) || isMjpeg(cam.stream_url, cam);
       
       const svg = \`
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
@@ -632,23 +658,36 @@ const standaloneMapHtml = `<!DOCTYPE html>
 
     function createPopup(cam) {
       const isOp = cam.status === 'operational';
-      const isVideo = !cam.is_snapshot && !cam.youtube_id;
-      const ytId = cam.youtube_id;
+      const ytId = extractYt(cam.stream_url, cam.youtube_id);
+      const isNativeVideo = !ytId && isMp4(cam.stream_url);
+      const isMjpg = !ytId && !isNativeVideo && isMjpeg(cam.stream_url, cam);
+      const isWebpage = !ytId && !isNativeVideo && !isMjpg && isWp(cam.stream_url);
+
+      const rawThumb = cam.preview_image || (isWebpage ? '' : (isNativeVideo ? '' : cam.stream_url)) || '';
+      const streamUrl = cam.stream_url || '';
       
       let mediaHtml = '';
       if (ytId) {
         mediaHtml = \`<iframe src="https://www.youtube.com/embed/\${encodeURIComponent(ytId)}?autoplay=0" allowfullscreen></iframe>\`;
-      } else if (isVideo && cam.stream_url) {
+      } else if (isNativeVideo && streamUrl) {
         mediaHtml = \`
-          <video autoplay muted loop playsinline controls poster="\${cam.preview_image || ''}">
-            <source src="\${cam.stream_url}" type="video/mp4">
-          </video>
+          <div style="position:relative; width:100%; height:100%;">
+            <video autoplay muted loop playsinline controls poster="\${rawThumb}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <source src="\${streamUrl}" type="video/mp4">
+            </video>
+            <div style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#0d1117; flex-direction:column; align-items:center; justify-content:center; padding:10px; text-align:center;">
+              <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">Flux vidéo externe</div>
+              <a href="\${streamUrl}" target="_blank" rel="noopener noreferrer" class="popup-btn" style="width:auto; padding:4px 10px;">Ouvrir le flux ↗</a>
+            </div>
+          </div>
         \`;
-      } else if (cam.stream_url || cam.preview_image) {
-        const imgUrl = cam.stream_url || cam.preview_image;
-        mediaHtml = \`<img src="\${imgUrl}" alt="\${cam.name}" loading="lazy" onerror="this.src='\${cam.preview_image || ''}'" />\`;
+      } else if (isMjpg && streamUrl) {
+        mediaHtml = \`<img src="\${streamUrl}" alt="\${cam.name}" loading="lazy" onerror="this.onerror=null; \${rawThumb ? 'this.src=\\'' + rawThumb + '\\';' : 'this.style.opacity=0.3;'}" />\`;
+      } else if (rawThumb || streamUrl) {
+        const imgUrl = rawThumb || streamUrl;
+        mediaHtml = \`<img src="\${imgUrl}" alt="\${cam.name}" loading="lazy" onerror="this.style.opacity=0.3;" />\`;
       } else {
-        mediaHtml = \`<div style="color:var(--text-muted); font-size:12px;">Flux non disponible</div>\`;
+        mediaHtml = \`<div style="color:var(--text-muted); font-size:12px; text-align:center; padding:20px;">Flux non disponible</div>\`;
       }
 
       let portalLabel = 'PORTAIL ↗';
@@ -657,6 +696,7 @@ const standaloneMapHtml = `<!DOCTYPE html>
         else if (cam.insecam_url.includes('centre-est')) portalLabel = 'DIR-CE ↗';
         else if (cam.insecam_url.includes('massif-central')) portalLabel = 'DIR-MC ↗';
         else if (cam.insecam_url.includes('insecam.org')) portalLabel = 'INSECAM ↗';
+        else if (cam.insecam_url.includes('skylinewebcams')) portalLabel = 'SKYLINE ↗';
       }
 
       return \`
@@ -674,9 +714,11 @@ const standaloneMapHtml = `<!DOCTYPE html>
             GPS: \${cam.latitude.toFixed(4)}, \${cam.longitude.toFixed(4)}
           </div>
           <div class="popup-actions">
-            <a href="\${cam.stream_url}" target="_blank" rel="noopener noreferrer" class="popup-btn">
-              \${isVideo ? 'VIDÉO DIRECT ↗' : 'FLUX STREAM ↗'}
-            </a>
+            \${streamUrl ? \`
+              <a href="\${streamUrl}" target="_blank" rel="noopener noreferrer" class="popup-btn">
+                \${isNativeVideo ? 'VIDÉO DIRECT ↗' : (isWebpage ? 'VOIR CAMÉRA ↗' : 'FLUX STREAM ↗')}
+              </a>
+            \` : ''}
             \${cam.insecam_url ? \`
               <a href="\${cam.insecam_url}" target="_blank" rel="noopener noreferrer" class="popup-btn secondary">
                 \${portalLabel}

@@ -287,13 +287,53 @@ function sanitizeUrl(raw) {
   return '';
 }
 
+function extractYoutubeId(url, explicitId) {
+  if (explicitId) return explicitId;
+  if (!url || typeof url !== 'string') return '';
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/i);
+  return m ? m[1] : '';
+}
+
+function isNativeVideoUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  const clean = url.split('?')[0].toLowerCase();
+  return clean.endsWith('.mp4') || clean.endsWith('.webm') || clean.endsWith('.ogg');
+}
+
+function isMjpegUrl(url, cam) {
+  if (cam && cam.is_mjpeg) return true;
+  if (!url || typeof url !== 'string') return false;
+  const lower = url.toLowerCase();
+  return lower.includes('mjpg') || 
+         lower.includes('mjpeg') || 
+         lower.includes('faststream') || 
+         lower.includes('.cgi') || 
+         lower.includes('oneshotimage') || 
+         lower.includes('getdata');
+}
+
+function isWebpageUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  const lower = url.toLowerCase();
+  return lower.includes('skylinewebcams.com') ||
+         lower.includes('viewsurf.com') ||
+         lower.includes('earthcam.com') ||
+         lower.includes('camscape.com') ||
+         lower.includes('sensibleweather.com') ||
+         lower.includes('sydneyoperahouse.com') ||
+         lower.includes('berlin.de/webcams') ||
+         lower.endsWith('.html') ||
+         lower.endsWith('.htm');
+}
+
 function createMarkerIcon(cam) {
   const isDown = cam.status === 'down';
-  const isVideo = !cam.is_snapshot && !cam.youtube_id;
+  const ytId = extractYoutubeId(cam.stream_url, cam.youtube_id);
+  const isVideo = ytId || isNativeVideoUrl(cam.stream_url) || isMjpegUrl(cam.stream_url, cam);
   
   let markerClass = 'marker-live';
   if (isDown) markerClass = 'marker-down';
-  else if (cam.is_snapshot) markerClass = 'marker-snapshot';
+  else if (!isVideo) markerClass = 'marker-snapshot';
 
   return L.divIcon({
     className: 'custom-cam-marker',
@@ -306,11 +346,20 @@ function createMarkerIcon(cam) {
 
 function createPopupContent(cam) {
   const isDown = cam.status === 'down';
-  const isVideo = !cam.is_snapshot && !cam.youtube_id;
-  const ytId = cam.youtube_id;
+  const ytId = extractYoutubeId(cam.stream_url, cam.youtube_id);
+  const isNativeVideo = !ytId && isNativeVideoUrl(cam.stream_url);
+  const isMjpeg = !ytId && !isNativeVideo && isMjpegUrl(cam.stream_url, cam);
+  const isWebpage = !ytId && !isNativeVideo && !isMjpeg && isWebpageUrl(cam.stream_url);
+
+  const rawThumb = cam.preview_image || (isWebpage ? '' : (isNativeVideo ? '' : cam.stream_url));
+  const thumb = sanitizeUrl(rawThumb);
+  const streamUrl = sanitizeUrl(cam.stream_url);
 
   let mediaHtml = '';
+  let badgeText = 'Snapshot';
+
   if (ytId) {
+    badgeText = 'Live Stream';
     mediaHtml = `
       <iframe 
         src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(ytId)}?autoplay=0" 
@@ -318,19 +367,60 @@ function createPopupContent(cam) {
         allowfullscreen>
       </iframe>
     `;
-  } else if (isVideo && cam.stream_url) {
+  } else if (isNativeVideo && streamUrl) {
+    badgeText = 'Live Video';
+    // Native HTML5 video with fail-safe error catcher for Firefox
     mediaHtml = `
-      <video autoplay muted loop playsinline controls poster="${escapeHtml(cam.preview_image || '')}">
-        <source src="${sanitizeUrl(cam.stream_url)}" type="video/mp4">
-      </video>
+      <div class="video-container" style="position:relative; width:100%; height:100%; overflow:hidden;">
+        <video 
+          autoplay 
+          muted 
+          loop 
+          playsinline 
+          controls 
+          poster="${escapeHtml(thumb)}"
+          style="width:100%; height:100%; object-fit:cover;"
+          onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';"
+        >
+          <source src="${streamUrl}" type="video/mp4">
+        </video>
+        <div class="video-fallback" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:#0d1117; flex-direction:column; align-items:center; justify-content:center; padding:12px; text-align:center;">
+          ${thumb ? `<img src="${thumb}" alt="" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0.35;">` : ''}
+          <div style="position:relative; z-index:1; font-size:12px; color:var(--text-secondary); margin-bottom:8px;">Flux vidéo externe</div>
+          <a href="${streamUrl}" target="_blank" rel="noopener noreferrer" class="popup-btn primary" style="position:relative; z-index:1; width:auto; padding:6px 14px; font-size:11px;">
+            Lire le flux direct ↗
+          </a>
+        </div>
+      </div>
     `;
-  } else if (cam.stream_url || cam.preview_image) {
-    const src = sanitizeUrl(cam.stream_url || cam.preview_image);
+  } else if (isMjpeg && streamUrl) {
+    badgeText = 'Live Stream';
+    // Motion-JPEG renders natively as live continuous stream in <img> in Firefox, Chrome, Edge, Safari
     mediaHtml = `
-      <img src="${src}" data-src="${src}" class="popup-snapshot-img" alt="${escapeHtml(cam.name)}" loading="lazy" onerror="this.style.opacity='0.4';" />
+      <img 
+        src="${streamUrl}" 
+        class="popup-feed-img popup-mjpeg-stream" 
+        alt="${escapeHtml(cam.name)}" 
+        loading="lazy"
+        onerror="this.onerror=null; ${thumb ? `this.src='${thumb}';` : `this.style.opacity='0.3';`}"
+      />
+    `;
+  } else if (thumb || streamUrl) {
+    const imgSrc = thumb || streamUrl;
+    badgeText = cam.is_snapshot ? 'Snapshot' : 'Live Cam';
+    mediaHtml = `
+      <img 
+        src="${imgSrc}" 
+        data-src="${imgSrc}" 
+        class="popup-snapshot-img popup-feed-img" 
+        alt="${escapeHtml(cam.name)}" 
+        loading="lazy" 
+        onerror="this.style.opacity='0.3';" 
+      />
     `;
   } else {
-    mediaHtml = `<div style="font-size: 12px; color: var(--text-tertiary);">Feed currently unavailable</div>`;
+    badgeText = 'Unavailable';
+    mediaHtml = `<div style="font-size: 12px; color: var(--text-tertiary); text-align: center; padding: 20px;">Flux actuellement indisponible</div>`;
   }
 
   // Dynamic portal label
@@ -340,6 +430,7 @@ function createPopupContent(cam) {
     else if (cam.insecam_url.includes('centre-est')) portalLabel = 'DIR-CE ↗';
     else if (cam.insecam_url.includes('massif-central')) portalLabel = 'DIR-MC ↗';
     else if (cam.insecam_url.includes('insecam.org')) portalLabel = 'Insecam ↗';
+    else if (cam.insecam_url.includes('skylinewebcams')) portalLabel = 'Skyline ↗';
   }
 
   return `
@@ -348,7 +439,7 @@ function createPopupContent(cam) {
         <h4 class="popup-cam-title">${escapeHtml(cam.name)}</h4>
         <div class="popup-cam-meta">
           <span>${escapeHtml(cam.city || cam.source || '')}</span>
-          <span class="${isDown ? 'popup-badge-down' : 'popup-badge-live'}">${isDown ? 'Offline' : (isVideo ? 'Live Video' : 'Snapshot')}</span>
+          <span class="${isDown ? 'popup-badge-down' : 'popup-badge-live'}">${isDown ? 'Offline' : badgeText}</span>
         </div>
       </div>
 
@@ -357,9 +448,9 @@ function createPopupContent(cam) {
       </div>
 
       <div class="popup-actions-row">
-        ${cam.stream_url ? `
-          <a href="${sanitizeUrl(cam.stream_url)}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn primary">
-            Open Stream ↗
+        ${streamUrl ? `
+          <a href="${streamUrl}" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" class="popup-btn primary">
+            ${isWebpage ? 'Ouvrir la caméra ↗' : 'Flux direct ↗'}
           </a>
         ` : ''}
         ${cam.insecam_url ? `
@@ -451,11 +542,13 @@ function renderDrawerList() {
   if (subtitleEl) subtitleEl.textContent = `${visibleCams.length} feeds found`;
 
   listEl.innerHTML = visibleCams.map(cam => {
-    const isDown = cam.status === 'down';
-    const thumb = cam.preview_image || cam.stream_url || '';
+    const isWp = isWebpageUrl(cam.stream_url);
+    const isNv = isNativeVideoUrl(cam.stream_url);
+    const rawThumb = cam.preview_image || (isWp || isNv ? '' : cam.stream_url) || '';
+    const thumb = sanitizeUrl(rawThumb);
     return `
       <div class="feed-card" data-cam-id="${escapeHtml(cam.id)}">
-        <img class="feed-thumb" src="${sanitizeUrl(thumb)}" alt="" loading="lazy" onerror="this.style.opacity='0.2';" />
+        <img class="feed-thumb" src="${thumb}" alt="" loading="lazy" onerror="this.style.opacity='0.2';" />
         <div class="feed-info">
           <div class="feed-name">${escapeHtml(cam.name)}</div>
           <div class="feed-meta">

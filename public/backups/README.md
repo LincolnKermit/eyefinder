@@ -76,4 +76,4 @@ npm run backup
 node scripts/export-backup.js
 ```
 
-*Dernière exportation : 2026-09-28T18:56:23.939Z*
+*Dernière exportation : 2026-09-28T19:12:42.078Z*

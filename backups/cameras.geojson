@@ -8,7 +8,7 @@
     }
   },
   "metadata": {
-    "exported_at": "2026-09-28T18:56:23.939Z",
+    "exported_at": "2026-09-28T19:12:42.078Z",
     "total": 249,
     "operational": 219,
     "down": 30
@@ -467,15 +467,15 @@
         "country": "France",
         "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget.html",
         "preview_image": "https://cdn.skylinewebcams.com/live4276.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:47.991Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Aix-les-Bains - Lac du Bourget (Grand Port)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Aix-les-Bains (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live4276.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Aix-les-Bains - Lac du Bourget (Grand Port)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Aix-les-Bains (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live4276.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -496,15 +496,15 @@
         "country": "France",
         "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/vallorcine/vallorcine-mont-blanc.html",
         "preview_image": "https://cdn.skylinewebcams.com/live5366.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.004Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Vallorcine - Mont Blanc (Refuge de Loriaz)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Vallorcine (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live5366.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/vallorcine/vallorcine-mont-blanc.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Vallorcine - Mont Blanc (Refuge de Loriaz)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Vallorcine (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live5366.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/vallorcine/vallorcine-mont-blanc.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -525,15 +525,15 @@
         "country": "France",
         "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget-france.html",
         "preview_image": "https://cdn.skylinewebcams.com/live5755.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.359Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Aix-les-Bains - Lac du Bourget Panoramique</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Aix-les-Bains (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live5755.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget-france.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Aix-les-Bains - Lac du Bourget Panoramique</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Aix-les-Bains (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live5755.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/aix-les-bains/lac-du-bourget-france.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -554,15 +554,15 @@
         "country": "France",
         "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/arbusigny/les-aravis-mont-blanc.html",
         "preview_image": "https://cdn.skylinewebcams.com/live5627.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:47.944Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Arbusigny - Chaîne des Aravis &amp; Mont Blanc</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Arbusigny (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live5627.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/arbusigny/les-aravis-mont-blanc.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Arbusigny - Chaîne des Aravis &amp; Mont Blanc</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Arbusigny (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live5627.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/arbusigny/les-aravis-mont-blanc.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -583,15 +583,15 @@
         "country": "France",
         "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/hauteluce/domaine-skiable-des-contamines-montjoie.html",
         "preview_image": "https://cdn.skylinewebcams.com/live5671.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:47.952Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Hauteluce - Domaine des Contamines Montjoie</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Hauteluce (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live5671.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/hauteluce/domaine-skiable-des-contamines-montjoie.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Hauteluce - Domaine des Contamines Montjoie</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Hauteluce (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live5671.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/hauteluce/domaine-skiable-des-contamines-montjoie.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -612,15 +612,15 @@
         "country": "France",
         "source": "SkylineWebcams (Auvergne-Rhône-Alpes)",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/doussard/lac-d-annecy-france.html",
         "preview_image": "https://cdn.skylinewebcams.com/live4666.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:47.933Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Doussard - Lac d&apos;Annecy &amp; Col de la Forclaz</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Doussard (Annecy) (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live4666.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/doussard/lac-d-annecy-france.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Doussard - Lac d&apos;Annecy &amp; Col de la Forclaz</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Doussard (Annecy) (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams (Auvergne-Rhône-Alpes)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live4666.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/auvergne-rhone-alpes/doussard/lac-d-annecy-france.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -1859,15 +1859,15 @@
         "country": "United States",
         "source": "EarthCam Public Feeds",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.earthcam.com/usa/newyork/timessquare/?cam=tsrobo1",
         "preview_image": "",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.938Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">New York - Times Square North</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> New York (United States)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> EarthCam Public Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.earthcam.com/usa/newyork/timessquare/?cam=tsrobo1\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">New York - Times Square North</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> New York (United States)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> EarthCam Public Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.earthcam.com/usa/newyork/timessquare/?cam=tsrobo1\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -1975,15 +1975,15 @@
         "country": "United States",
         "source": "Open City Webcams",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.sensibleweather.com",
         "preview_image": "",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.982Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">San Francisco - Embarcadero Pier 14</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> San Francisco (United States)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Open City Webcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.sensibleweather.com\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">San Francisco - Embarcadero Pier 14</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> San Francisco (United States)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Open City Webcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.sensibleweather.com\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2004,15 +2004,15 @@
         "country": "United Kingdom",
         "source": "Camscape Feeds",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.camscape.com/camera/london-tower-bridge-webcam/",
         "preview_image": "",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.867Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">London - Tower Bridge Quay</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> London (United Kingdom)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Camscape Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.camscape.com/camera/london-tower-bridge-webcam/\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">London - Tower Bridge Quay</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> London (United Kingdom)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Camscape Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.camscape.com/camera/london-tower-bridge-webcam/\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2033,15 +2033,15 @@
         "country": "United Kingdom",
         "source": "EarthCam Feeds",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.earthcam.com/world/uk/london/piccadillycircus/?cam=piccadillycircus",
         "preview_image": "",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:49.357Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">London - Piccadilly Circus</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> London (United Kingdom)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> EarthCam Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.earthcam.com/world/uk/london/piccadillycircus/?cam=piccadillycircus\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">London - Piccadilly Circus</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> London (United Kingdom)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> EarthCam Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.earthcam.com/world/uk/london/piccadillycircus/?cam=piccadillycircus\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2062,15 +2062,15 @@
         "country": "France",
         "source": "SkylineWebcams",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/fr/webcam/france/ile-de-france/paris/tour-eiffel.html",
-        "preview_image": "",
+        "preview_image": "https://embed.skylinewebcams.com/img/837.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.686Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Paris - Tour Eiffel &amp; Champ de Mars</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Paris (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/ile-de-france/paris/tour-eiffel.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Paris - Tour Eiffel &amp; Champ de Mars</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Paris (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://embed.skylinewebcams.com/img/837.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/fr/webcam/france/ile-de-france/paris/tour-eiffel.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2084,22 +2084,22 @@
       },
       "properties": {
         "id": "cam-paris-concorde",
-        "name": "Paris - Place de la Concorde",
+        "name": "Paris - Tour Eiffel & Trocadéro Panorama (Live 4K)",
         "latitude": 48.8656,
         "longitude": 2.3212,
         "city": "Paris",
         "country": "France",
-        "source": "Viewsurf Open Feeds",
+        "source": "Paris Live Stream",
         "status": "operational",
         "is_snapshot": false,
-        "is_video": true,
+        "is_video": false,
         "refresh_interval": 60,
-        "stream_url": "https://www.viewsurf.com/univers/ville/vue/16769-france-ile-de-france-paris-place-de-la-concorde",
+        "stream_url": "https://www.youtube.com/watch?v=kYv9lJ1x15o",
         "preview_image": "",
         "insecam_url": "",
-        "youtube_id": "",
+        "youtube_id": "kYv9lJ1x15o",
         "last_checked": "2026-09-20T10:28:48.905Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Paris - Place de la Concorde</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Paris (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Viewsurf Open Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.viewsurf.com/univers/ville/vue/16769-france-ile-de-france-paris-place-de-la-concorde\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Paris - Tour Eiffel &amp; Trocadéro Panorama (Live 4K)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Paris (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Paris Live Stream</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.youtube.com/watch?v=kYv9lJ1x15o\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2121,14 +2121,14 @@
         "source": "Shibuya Live Stream",
         "status": "operational",
         "is_snapshot": false,
-        "is_video": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.youtube.com/watch?v=HpdO5Kq3o8Y",
         "preview_image": "",
         "insecam_url": "",
-        "youtube_id": "",
+        "youtube_id": "HpdO5Kq3o8Y",
         "last_checked": "2026-09-20T10:28:48.964Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Tokyo - Shibuya Crossing Central</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Tokyo (Japan)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Shibuya Live Stream</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.youtube.com/watch?v=HpdO5Kq3o8Y\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Tokyo - Shibuya Crossing Central</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Tokyo (Japan)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Shibuya Live Stream</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.youtube.com/watch?v=HpdO5Kq3o8Y\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2150,14 +2150,14 @@
         "source": "Live Shinjuku Cam",
         "status": "operational",
         "is_snapshot": false,
-        "is_video": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.youtube.com/watch?v=6afT4b_aXvI",
         "preview_image": "",
         "insecam_url": "",
-        "youtube_id": "",
+        "youtube_id": "6afT4b_aXvI",
         "last_checked": "2026-09-20T10:28:48.972Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Tokyo - Shinjuku Kabukicho Gate</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Tokyo (Japan)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Live Shinjuku Cam</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.youtube.com/watch?v=6afT4b_aXvI\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Tokyo - Shinjuku Kabukicho Gate</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Tokyo (Japan)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Live Shinjuku Cam</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.youtube.com/watch?v=6afT4b_aXvI\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2178,15 +2178,15 @@
         "country": "Netherlands",
         "source": "SkylineWebcams",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/en/webcam/netherlands/north-holland/amsterdam/dam-square.html",
-        "preview_image": "",
+        "preview_image": "https://cdn.skylinewebcams.com/live340.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.793Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Amsterdam - Dam Square</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Amsterdam (Netherlands)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.skylinewebcams.com/en/webcam/netherlands/north-holland/amsterdam/dam-square.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Amsterdam - Dam Square</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Amsterdam (Netherlands)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://cdn.skylinewebcams.com/live340.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/en/webcam/netherlands/north-holland/amsterdam/dam-square.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2207,15 +2207,15 @@
         "country": "Germany",
         "source": "Berlin Open Portal",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.berlin.de/webcams/brandenburger-tor/",
         "preview_image": "",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.928Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Berlin - Brandenburger Tor</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Berlin (Germany)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Berlin Open Portal</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.berlin.de/webcams/brandenburger-tor/\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Berlin - Brandenburger Tor</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Berlin (Germany)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Berlin Open Portal</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.berlin.de/webcams/brandenburger-tor/\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2236,15 +2236,15 @@
         "country": "Italy",
         "source": "SkylineWebcams",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/colosseo.html",
-        "preview_image": "",
+        "preview_image": "https://embed.skylinewebcams.com/img/181.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.802Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Rome - Colosseum Panoramic</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Rome (Italy)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/colosseo.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Rome - Colosseum Panoramic</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Rome (Italy)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://embed.skylinewebcams.com/img/181.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/en/webcam/italia/lazio/roma/colosseo.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2265,15 +2265,15 @@
         "country": "Italy",
         "source": "SkylineWebcams",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/piazza-san-marco.html",
-        "preview_image": "",
+        "preview_image": "https://embed.skylinewebcams.com/img/522.jpg",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:48.798Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Venice - Piazza San Marco</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Venice (Italy)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/piazza-san-marco.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Venice - Piazza San Marco</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Venice (Italy)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> SkylineWebcams</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://embed.skylinewebcams.com/img/522.jpg\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.skylinewebcams.com/en/webcam/italia/veneto/venezia/piazza-san-marco.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2294,15 +2294,15 @@
         "country": "Ireland",
         "source": "EarthCam Feeds",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.earthcam.com/world/ireland/dublin/?cam=templebar",
         "preview_image": "",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:49.057Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Dublin - Temple Bar Street</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Dublin (Ireland)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> EarthCam Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.earthcam.com/world/ireland/dublin/?cam=templebar\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Dublin - Temple Bar Street</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Dublin (Ireland)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> EarthCam Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.earthcam.com/world/ireland/dublin/?cam=templebar\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2323,15 +2323,15 @@
         "country": "Australia",
         "source": "Sydney Open Stream",
         "status": "down",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.sydneyoperahouse.com/our-story/live-webcam",
         "preview_image": "",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:49.735Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Sydney - Harbour &amp; Opera House</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Sydney (Australia)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Sydney Open Stream</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#ff3366\">down</span></p>\n        \n        <div>\n          <a href=\"https://www.sydneyoperahouse.com/our-story/live-webcam\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Sydney - Harbour &amp; Opera House</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Sydney (Australia)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Sydney Open Stream</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#ff3366\">down</span></p>\n        \n        <div>\n          <a href=\"https://www.sydneyoperahouse.com/our-story/live-webcam\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
@@ -2410,15 +2410,15 @@
         "country": "Czech Republic",
         "source": "EarthCam Feeds",
         "status": "operational",
-        "is_snapshot": false,
-        "is_video": true,
+        "is_snapshot": true,
+        "is_video": false,
         "refresh_interval": 60,
         "stream_url": "https://www.earthcam.com/world/czechrepublic/prague/?cam=pragueoldtown",
         "preview_image": "",
         "insecam_url": "",
         "youtube_id": "",
         "last_checked": "2026-09-20T10:28:49.118Z",
-        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Prague - Old Town Square &amp; Astronomical Clock</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Prague (Czech Republic)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> EarthCam Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.earthcam.com/world/czechrepublic/prague/?cam=pragueoldtown\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Prague - Old Town Square &amp; Astronomical Clock</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Prague (Czech Republic)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> EarthCam Feeds</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://www.earthcam.com/world/czechrepublic/prague/?cam=pragueoldtown\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     },
     {
