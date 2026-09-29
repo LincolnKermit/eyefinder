@@ -60,16 +60,18 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 429, { error: 'Rate limit exceeded' });
     }
 
-    const { type, sessionId, device, details } = body;
+    const { type, sessionId, device, details, referrer } = body;
     recordEvent({
       type: type || 'pageview',
       sessionId: String(sessionId || '').slice(0, 64),
-      device: String(device || 'unknown').slice(0, 20),
-      details: String(details || '').slice(0, 100),
-      ip: clientIp
+      device: String(device || 'Desktop').slice(0, 20),
+      details: String(details || '').slice(0, 150),
+      ip: clientIp,
+      userAgent: req.headers['user-agent'] || '',
+      referrer: req.headers['referer'] || req.headers['referrer'] || referrer || 'Direct'
     });
 
-    return sendJson(res, 200, { success: true, recorded: true });
+    return sendJson(res, 200, { success: true, recorded: true, ip: clientIp });
   }
 
   // GET /api/metrics: Return metrics summary & logs (Admin Only)
@@ -78,12 +80,29 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 401, { error: 'Unauthorized: Admin authentication required' });
     }
 
-    const limit = parseInt(query.limit, 10) || 150;
+    const limit = parseInt(query.limit, 10) || 300;
     const summary = getMetricsSummary(limit);
 
-    // CSV Export option
+    // CSV Export option (Enhanced with UTF-8 BOM and full metadata)
     if (query.export === 'csv') {
-      const headers = ['id', 'timestamp', 'ip', 'method', 'path', 'status', 'referrer', 'browser', 'os', 'device', 'isBot', 'authStatus', 'userAgent'];
+      const headers = [
+        'id',
+        'timestamp',
+        'ip',
+        'ip_type',
+        'method',
+        'path',
+        'status',
+        'referrer',
+        'referrer_domain',
+        'browser',
+        'os',
+        'device',
+        'isBot',
+        'authStatus',
+        'durationMs',
+        'userAgent'
+      ];
       const rows = [headers.join(',')];
 
       (summary.connection_logs || []).forEach(log => {
@@ -91,22 +110,27 @@ module.exports = async function handler(req, res) {
           escapeCsv(log.id),
           escapeCsv(log.timestamp),
           escapeCsv(log.ip),
+          escapeCsv(log.ip_type || 'Unknown'),
           escapeCsv(log.method),
           escapeCsv(log.path),
           escapeCsv(log.status),
           escapeCsv(log.referrer),
+          escapeCsv(log.referrer_domain || 'Direct'),
           escapeCsv(log.browser),
           escapeCsv(log.os),
           escapeCsv(log.device),
           escapeCsv(log.isBot ? '1' : '0'),
           escapeCsv(log.authStatus),
+          escapeCsv(log.durationMs || 0),
           escapeCsv(log.userAgent)
         ].join(','));
       });
 
+      // Prepend UTF-8 BOM so Excel opens accents and symbols cleanly
+      const csvPayload = '\uFEFF' + rows.join('\r\n');
       res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-      res.setHeader('Content-Disposition', `attachment; filename="eyefinder-connections-${new Date().toISOString().slice(0, 10)}.csv"`);
-      return res.end(rows.join('\r\n'));
+      res.setHeader('Content-Disposition', `attachment; filename="eyefinder-traffic-audit-${new Date().toISOString().slice(0, 10)}.csv"`);
+      return res.end(csvPayload);
     }
 
     return sendJson(res, 200, summary);

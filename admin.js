@@ -339,6 +339,17 @@
   let autoRefreshTimer = null;
   let isTelemetryLoading = false;
   let telemetryEventsInitialized = false;
+  let activeCategoryFilter = null; // { type: 'ip' | 'browser' | 'os' | 'endpoint' | 'status', value: '...' }
+
+  // CSV Escaping Helper
+  function escapeCsv(val) {
+    if (val === null || val === undefined) return '';
+    const str = String(val);
+    if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+      return `"${str.replace(/"/g, '""')}"`;
+    }
+    return str;
+  }
 
   // TAB 1: Load Visitor Telemetry & Metrics
   async function loadTelemetry(isSilent = false) {
@@ -347,7 +358,7 @@
 
     let data = null;
     try {
-      const res = await apiFetch('/api/metrics?limit=300');
+      const res = await apiFetch('/api/metrics?limit=500');
       if (res.ok) {
         data = await res.json().catch(() => null);
       }
@@ -359,44 +370,69 @@
         total_page_views: 42,
         unique_visitors: 18,
         total_connections: 56,
-        unique_ips: 18,
+        unique_ips_count: 18,
         blocked_attempts: 0,
-        browser_breakdown: { 'Chrome': 28, 'Firefox': 14, 'Safari': 10, 'Edge': 4 },
-        os_breakdown: { 'Windows': 30, 'macOS': 16, 'Linux': 6, 'iOS': 4 },
-        referrer_breakdown: { 'direct': 38, 'google.com': 12, 'github.com': 6 },
-        endpoint_breakdown: { '/api/cameras': 32, '/': 18, '/api/metrics': 6 },
+        browser_breakdown: [
+          { browser: 'Chrome 122', label: 'Chrome 122', count: 28 },
+          { browser: 'Firefox 124', label: 'Firefox 124', count: 14 },
+          { browser: 'Safari 17', label: 'Safari 17', count: 10 },
+          { browser: 'Edge 122', label: 'Edge 122', count: 4 }
+        ],
+        os_breakdown: [
+          { os: 'Windows 10/11', label: 'Windows 10/11', count: 30 },
+          { os: 'macOS', label: 'macOS', count: 16 },
+          { os: 'Linux', label: 'Linux', count: 6 },
+          { os: 'iOS (iPhone)', label: 'iOS (iPhone)', count: 4 }
+        ],
+        referrer_breakdown: [
+          { domain: 'Direct', label: 'Direct', count: 38 },
+          { domain: 'google.com', label: 'google.com', count: 12 },
+          { domain: 'github.com', label: 'github.com', count: 6 }
+        ],
+        endpoint_breakdown: [
+          { path: '/api/cameras', label: '/api/cameras', count: 32 },
+          { path: '/', label: '/', count: 18 },
+          { path: '/api/metrics', label: '/api/metrics', count: 6 }
+        ],
         status_breakdown: { '200': 52, '401': 4 },
         device_breakdown: {
           desktop: window.innerWidth > 900 ? 1 : 0,
           mobile: window.innerWidth <= 768 ? 1 : 0,
-          tablet: (window.innerWidth > 768 && window.innerWidth <= 900) ? 1 : 0
+          tablet: (window.innerWidth > 768 && window.innerWidth <= 900) ? 1 : 0,
+          bot: 0
         },
         filter_usage: { all: 18, france: 12, swiss: 6, live: 14, picture: 5, down: 2 },
-        top_cameras: (allCameras || []).slice(0, 5).map(c => ({ name: c.name, count: Math.floor(Math.random() * 8) + 2 })),
-        recent_activity: [
+        top_cameras: (allCameras || []).slice(0, 5).map(c => ({ name: c.name, label: c.name, count: Math.floor(Math.random() * 8) + 2 })),
+        top_ips: [
           {
-            timestamp: new Date().toISOString(),
-            type: 'pageview',
-            details: 'Admin Dashboard Accessed',
-            ip: '127.0.***.***'
+            ip: '127.0.0.1',
+            type: 'Localhost',
+            count: 36,
+            percentage: 64,
+            last_seen: new Date().toISOString(),
+            last_path: '/',
+            browser: 'Chrome 122',
+            os: 'Linux'
           }
         ],
         connection_logs: [
           {
+            id: 'req-1',
             timestamp: new Date().toISOString(),
             ip: '127.0.0.1',
+            ip_type: 'Localhost',
             method: 'GET',
             path: '/admin.html',
             status: 200,
-            authenticated: true,
-            duration_ms: 12,
+            authStatus: 'authenticated',
+            durationMs: 12,
             browser: 'Chrome 122',
             os: 'Linux',
-            device: 'desktop',
-            is_bot: false,
-            referrer: 'direct',
-            referrer_category: 'direct',
-            user_agent: navigator.userAgent
+            device: 'Desktop',
+            isBot: false,
+            referrer: 'Direct / None',
+            referrer_domain: 'Direct',
+            userAgent: navigator.userAgent
           }
         ]
       };
@@ -406,70 +442,46 @@
     cachedConnectionLogs = data.connection_logs || [];
 
     try {
-      // 1. Primary KPI Counters
+      // 1. Hero KPI Metrics
+      const totalConns = data.total_connections || data.total_page_views || 0;
+      const pageViews = data.total_page_views || 0;
+      const apiQueries = Math.max(0, totalConns - pageViews);
+      const uniqueIps = data.unique_ips_count || data.unique_visitors || Object.keys(data.unique_ips || {}).length || 0;
+      const blockedHits = data.blocked_attempts || 0;
+
       const kpiConn = document.getElementById('kpi-connections');
-      if (kpiConn) kpiConn.textContent = data.total_connections || data.total_page_views || 0;
+      if (kpiConn) kpiConn.textContent = totalConns.toLocaleString();
 
       const kpiViews = document.getElementById('kpi-views');
-      if (kpiViews) kpiViews.textContent = data.total_page_views || 0;
+      if (kpiViews) kpiViews.textContent = pageViews.toLocaleString();
+
+      const kpiApi = document.getElementById('kpi-api-queries');
+      if (kpiApi) kpiApi.textContent = apiQueries.toLocaleString();
 
       const kpiUniques = document.getElementById('kpi-uniques');
-      if (kpiUniques) kpiUniques.textContent = data.unique_ips || data.unique_visitors || 0;
+      if (kpiUniques) kpiUniques.textContent = uniqueIps.toLocaleString();
+
+      const kpiIpsMeta = document.getElementById('kpi-ips-meta');
+      if (kpiIpsMeta) {
+        kpiIpsMeta.textContent = `${uniqueIps} distinct network origin${uniqueIps === 1 ? '' : 's'}`;
+      }
 
       const kpiBlocked = document.getElementById('kpi-blocked');
-      if (kpiBlocked) kpiBlocked.textContent = data.blocked_attempts || 0;
+      if (kpiBlocked) kpiBlocked.textContent = blockedHits.toLocaleString();
 
-      // Top referrer KPI
-      const kpiTopRef = document.getElementById('kpi-top-ref');
-      const kpiTopRefMeta = document.getElementById('kpi-top-ref-meta');
-      if (kpiTopRef && data.referrer_breakdown) {
-        const refEntries = normalizeDistribution(data.referrer_breakdown);
-        if (refEntries.length > 0 && refEntries[0].count > 0) {
-          const topItem = refEntries[0];
-          const totalRef = refEntries.reduce((s, it) => s + it.count, 0) || 1;
-          const refPct = Math.round((topItem.count / totalRef) * 100);
-          kpiTopRef.textContent = (topItem.label.toLowerCase() === 'direct') ? 'Direct / None' : topItem.label;
-          if (kpiTopRefMeta) kpiTopRefMeta.textContent = `${topItem.count} hits (${refPct}% of traffic)`;
-        } else {
-          kpiTopRef.textContent = 'Direct / None';
-          if (kpiTopRefMeta) kpiTopRefMeta.textContent = 'No external referrers';
-        }
-      }
+      // Camera Fleet Health KPI
+      const opCount = allCameras.filter(c => c.status === 'operational').length;
+      const downCount = allCameras.length - opCount;
+      const healthPct = allCameras.length ? Math.round((opCount / allCameras.length) * 100) : 0;
+      const kpiHealth = document.getElementById('kpi-health');
+      if (kpiHealth) kpiHealth.textContent = `${healthPct}%`;
+      const kpiHealthSub = document.getElementById('kpi-health-sub');
+      if (kpiHealthSub) kpiHealthSub.textContent = `${opCount} up / ${downCount} down`;
 
-      // 2. Analytical Breakdown Cards
-      renderBarDistribution('browser-bars-container', data.browser_breakdown, ['var(--status-green)', '#38bdf8', '#a855f7', '#f59e0b', '#ec4899']);
-      renderBarDistribution('os-bars-container', data.os_breakdown, ['#38bdf8', 'var(--status-green)', '#ec4899', '#f59e0b', '#a855f7']);
-      renderBarDistribution('referrer-bars-container', data.referrer_breakdown, ['#f59e0b', 'var(--status-green)', '#38bdf8', '#a855f7', '#06b6d4']);
-      renderBarDistribution('endpoints-bars-container', data.endpoint_breakdown, ['#a855f7', 'var(--status-green)', '#38bdf8', '#f59e0b', '#ec4899']);
+      // 2. Render Interactive Categories Accordion Grid
+      renderCategoriesAccordion(data);
 
-      // 3. Top Cameras
-      const topContainer = document.getElementById('top-cameras-container');
-      if (topContainer) {
-        if (data.top_cameras && data.top_cameras.length > 0) {
-          topContainer.innerHTML = data.top_cameras.map((c, i) => `
-            <div class="top-camera-item">
-              <span class="top-cam-name">#${i + 1} ${escapeHtml(c.name)}</span>
-              <span class="top-cam-count">${c.count} views</span>
-            </div>
-          `).join('');
-        } else {
-          topContainer.innerHTML = '<div class="empty-state" style="padding: 12px; font-size: 11px; color: var(--text-muted);">No camera interactions recorded yet.</div>';
-        }
-      }
-
-      // 4. Filter Usage Grid
-      const filterContainer = document.getElementById('filters-usage-container');
-      if (filterContainer && data.filter_usage) {
-        filterContainer.innerHTML = Object.entries(data.filter_usage)
-          .map(([name, count]) => `
-            <div class="filter-stat-box">
-              <span class="filter-stat-name">${escapeHtml(name)}</span>
-              <span class="filter-stat-val">${count}</span>
-            </div>
-          `).join('');
-      }
-
-      // 5. Connection Audit Logs Table
+      // 3. Render Connection Audit Logs Table
       renderConnectionLogs();
 
     } catch (err) {
@@ -477,6 +489,304 @@
     } finally {
       isTelemetryLoading = false;
     }
+  }
+
+  // Helper to format relative time
+  function formatTimeAgo(isoString) {
+    if (!isoString) return '';
+    const date = new Date(isoString);
+    if (isNaN(date)) return '';
+    const diffSec = Math.max(0, Math.floor((Date.now() - date.getTime()) / 1000));
+    if (diffSec < 45) return 'Just now';
+    if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`;
+    if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`;
+    return date.toLocaleDateString();
+  }
+
+  // Render Interactive Category Dropdown Accordions
+  function renderCategoriesAccordion(data) {
+    const container = document.getElementById('categories-accordion-container');
+    if (!container) return;
+
+    // Collect currently expanded card IDs so re-renders don't collapse user's open view
+    const openCardIds = new Set();
+    container.querySelectorAll('.category-card.expanded').forEach(card => {
+      openCardIds.add(card.dataset.categoryId);
+    });
+    // Default open on initial mount: IP Addresses
+    if (openCardIds.size === 0 && !container.dataset.hasRendered) {
+      openCardIds.add('ips');
+      container.dataset.hasRendered = 'true';
+    }
+
+    const totalConns = data.total_connections || 1;
+
+    // Normalize category datasets
+    const ipsList = Array.isArray(data.top_ips) ? data.top_ips : [];
+    const browserList = normalizeDistribution(data.browser_breakdown);
+    const osList = normalizeDistribution(data.os_breakdown);
+    const referrerList = normalizeDistribution(data.referrer_breakdown);
+    const endpointList = normalizeDistribution(data.endpoint_breakdown);
+    const cameraList = Array.isArray(data.top_cameras) ? data.top_cameras : [];
+
+    const statusObj = data.status_breakdown || {};
+    const statusList = Object.entries(statusObj).map(([status, count]) => ({
+      label: `${status} ${status === '200' ? 'OK' : (status === '401' ? 'Unauthorized' : (status === '404' ? 'Not Found' : ''))}`,
+      status,
+      count: Number(count)
+    })).sort((a, b) => b.count - a.count);
+
+    const devObj = data.device_breakdown || {};
+    const deviceList = Object.entries(devObj).map(([device, count]) => ({
+      label: device.charAt(0).toUpperCase() + device.slice(1),
+      device,
+      count: Number(count)
+    })).filter(d => d.count > 0).sort((a, b) => b.count - a.count);
+
+    // Definitions of all 8 categories
+    const categories = [
+      {
+        id: 'ips',
+        title: 'VISITOR IP ADDRESSES',
+        icon: '🌐',
+        desc: 'Direct network endpoints and remote visitor IPs',
+        total_distinct: ipsList.length,
+        total_hits: ipsList.reduce((acc, it) => acc + (it.count || 0), 0) || totalConns,
+        type: 'ip',
+        items: ipsList
+      },
+      {
+        id: 'browsers',
+        title: 'WEB BROWSERS',
+        icon: '🧭',
+        desc: 'Client browser families and versions',
+        total_distinct: browserList.length,
+        total_hits: browserList.reduce((acc, it) => acc + it.count, 0) || totalConns,
+        type: 'browser',
+        items: browserList
+      },
+      {
+        id: 'os',
+        title: 'OPERATING SYSTEMS',
+        icon: '💻',
+        desc: 'Host platforms and mobile environments',
+        total_distinct: osList.length,
+        total_hits: osList.reduce((acc, it) => acc + it.count, 0) || totalConns,
+        type: 'os',
+        items: osList
+      },
+      {
+        id: 'devices',
+        title: 'HARDWARE PLATFORMS',
+        icon: '📱',
+        desc: 'Desktop, mobile handset, tablet, and bot clients',
+        total_distinct: deviceList.length,
+        total_hits: deviceList.reduce((acc, it) => acc + it.count, 0) || totalConns,
+        type: 'device',
+        items: deviceList
+      },
+      {
+        id: 'endpoints',
+        title: 'REQUESTED ENDPOINTS',
+        icon: '🛣️',
+        desc: 'Top queried web routes, assets, and API methods',
+        total_distinct: endpointList.length,
+        total_hits: endpointList.reduce((acc, it) => acc + it.count, 0) || totalConns,
+        type: 'path',
+        items: endpointList
+      },
+      {
+        id: 'referrers',
+        title: 'TRAFFIC SOURCES & REFERRERS',
+        icon: '🔗',
+        desc: 'Origin domains and redirecting inbound links',
+        total_distinct: referrerList.length,
+        total_hits: referrerList.reduce((acc, it) => acc + it.count, 0) || totalConns,
+        type: 'referrer',
+        items: referrerList
+      },
+      {
+        id: 'status_codes',
+        title: 'HTTP STATUS CODES',
+        icon: '🛡️',
+        desc: 'Response outcomes (200 OK, 401 Blocked, 404)',
+        total_distinct: statusList.length,
+        total_hits: statusList.reduce((acc, it) => acc + it.count, 0) || totalConns,
+        type: 'status',
+        items: statusList
+      },
+      {
+        id: 'cameras',
+        title: 'CAMERA STREAM INTERACTIONS',
+        icon: '📹',
+        desc: 'Most viewed live video streams and snapshots',
+        total_distinct: cameraList.length,
+        total_hits: cameraList.reduce((acc, it) => acc + (it.count || 0), 0),
+        type: 'camera',
+        items: cameraList
+      }
+    ];
+
+    container.innerHTML = categories.map(cat => {
+      const isExpanded = openCardIds.has(cat.id);
+      const totalHits = cat.total_hits || 1;
+
+      let itemsHtml = '';
+      if (!cat.items || cat.items.length === 0) {
+        itemsHtml = '<div style="padding: 14px; text-align: center; color: var(--text-muted); font-size: 11px;">No records logged yet.</div>';
+      } else {
+        itemsHtml = cat.items.slice(0, 15).map((item, idx) => {
+          const count = Number(item.count || 0);
+          const pct = Math.min(100, Math.max(1, Math.round((count / totalHits) * 100)));
+          
+          let rawVal = '';
+          let displayVal = '';
+          let badgeHtml = '';
+          let isBot = Boolean(item.is_bot || item.isBot);
+          let copyBtnHtml = '';
+
+          if (cat.id === 'ips') {
+            rawVal = item.ip || '127.0.0.1';
+            displayVal = rawVal;
+            const typeStr = item.type || 'IPv4';
+            let badgeClass = 'badge-public';
+            if (typeStr === 'Localhost') badgeClass = 'badge-local';
+            else if (typeStr.includes('LAN')) badgeClass = 'badge-lan';
+            badgeHtml = `<span class="cat-item-badge ${badgeClass}">${typeStr}</span>`;
+            if (isBot) badgeHtml += `<span class="cat-item-badge bot">BOT</span>`;
+            copyBtnHtml = `<button class="btn-cat-action btn-copy-item" data-value="${escapeHtml(rawVal)}" title="Copy IP to clipboard">📋</button>`;
+          } else if (cat.id === 'status_codes') {
+            rawVal = String(item.status || item.label || '200');
+            displayVal = item.label || rawVal;
+            const sNum = parseInt(rawVal, 10);
+            let sClass = 'badge-public';
+            if (sNum >= 400 && sNum < 500) sClass = 'bot';
+            else if (sNum >= 300) sClass = 'badge-lan';
+            badgeHtml = `<span class="cat-item-badge ${sClass}">${rawVal}</span>`;
+          } else if (cat.id === 'devices') {
+            rawVal = item.device || item.label || 'desktop';
+            displayVal = item.label || rawVal;
+          } else if (cat.id === 'cameras') {
+            rawVal = item.name || item.label || 'Camera';
+            displayVal = rawVal;
+          } else {
+            rawVal = item.label || item.name || item.domain || item.path || 'Unknown';
+            displayVal = (rawVal.toLowerCase() === 'direct') ? 'Direct / None' : rawVal;
+          }
+
+          const timeStr = item.last_seen ? `<span class="cat-item-time" title="${item.last_seen}">${formatTimeAgo(item.last_seen)}</span>` : '';
+
+          return `
+            <div class="cat-item-row">
+              <div class="cat-item-main">
+                <span class="cat-item-rank">#${idx + 1}</span>
+                <span class="cat-item-name ${cat.id === 'ips' ? 'ip-highlight' : ''}" title="${escapeHtml(displayVal)}">${escapeHtml(displayVal)}</span>
+                ${badgeHtml}
+              </div>
+              <div class="cat-item-progress">
+                <div class="cat-progress-fill" style="width: ${pct}%;"></div>
+              </div>
+              <div class="cat-item-meta">
+                <span class="cat-item-count">${count}</span>
+                <span class="cat-item-pct">(${pct}%)</span>
+                ${timeStr}
+              </div>
+              <div class="cat-item-actions">
+                ${copyBtnHtml}
+                <button class="btn-cat-action btn-filter-item" data-filter-type="${cat.type}" data-filter-val="${escapeHtml(rawVal)}" title="Filter Audit Logs by this item">
+                  🔍 Filter
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      return `
+        <div class="category-card ${isExpanded ? 'expanded' : ''}" data-category-id="${cat.id}">
+          <button class="category-header-btn" type="button" aria-expanded="${isExpanded}">
+            <div class="cat-header-left">
+              <span class="cat-icon">${cat.icon}</span>
+              <div class="cat-title-group">
+                <span class="cat-title">${cat.title}</span>
+                <span class="cat-desc">${cat.desc}</span>
+              </div>
+            </div>
+            <div class="cat-header-right">
+              <span class="cat-badge-pill">${cat.total_distinct} distinct • ${cat.total_hits} hits</span>
+              <span class="cat-chevron">▼</span>
+            </div>
+          </button>
+          <div class="category-body">
+            <div class="cat-items-list">
+              ${itemsHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Attach Category Card Dropdown Toggle Click Handlers
+    container.querySelectorAll('.category-header-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.category-card');
+        if (!card) return;
+        card.classList.toggle('expanded');
+        btn.setAttribute('aria-expanded', card.classList.contains('expanded'));
+      });
+    });
+
+    // Attach Copy Item Click Handlers
+    container.querySelectorAll('.btn-copy-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = btn.dataset.value;
+        if (val) {
+          navigator.clipboard.writeText(val).then(() => {
+            showToast(`Copied ${val} to clipboard.`);
+          }).catch(() => {
+            showToast(`Value: ${val}`);
+          });
+        }
+      });
+    });
+
+    // Attach Filter Item Click Handlers
+    container.querySelectorAll('.btn-filter-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const fType = btn.dataset.filterType;
+        const fVal = btn.dataset.filterVal;
+        if (fType && fVal) {
+          applyActiveFilter(fType, fVal);
+        }
+      });
+    });
+  }
+
+  // Apply Active Category Filter (Scrolls to logs table and filters records)
+  function applyActiveFilter(type, value) {
+    activeCategoryFilter = { type, value };
+    const banner = document.getElementById('active-filter-banner');
+    const textEl = document.getElementById('active-filter-text');
+    if (banner && textEl) {
+      textEl.textContent = `${type.toUpperCase()}: "${value}"`;
+      banner.style.display = 'flex';
+    }
+    renderConnectionLogs();
+    const tableEl = document.getElementById('connection-logs-table');
+    if (tableEl) {
+      tableEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    showToast(`Filtering audit table by ${type}: ${value}`);
+  }
+
+  function clearActiveFilter() {
+    activeCategoryFilter = null;
+    const banner = document.getElementById('active-filter-banner');
+    if (banner) banner.style.display = 'none';
+    renderConnectionLogs();
+    showToast('Filter reset.');
   }
 
   // Helper to normalize breakdown distributions (handles array of objects or key-value object)
@@ -499,37 +809,6 @@
     return [];
   }
 
-  // Render horizontal bar distribution helper
-  function renderBarDistribution(containerId, rawData, palette = ['var(--status-green)', '#38bdf8', '#a855f7', '#f59e0b', '#ec4899']) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    const entries = normalizeDistribution(rawData);
-    if (entries.length === 0) {
-      container.innerHTML = '<div class="empty-state" style="padding: 12px; font-size: 11px; color: var(--text-muted);">No records logged yet.</div>';
-      return;
-    }
-
-    const total = entries.reduce((sum, it) => sum + it.count, 0) || 1;
-    const topItems = entries.slice(0, 6);
-
-    container.innerHTML = topItems.map((item, idx) => {
-      const pct = Math.round((item.count / total) * 100);
-      const color = palette[idx % palette.length];
-      const displayName = (item.label.toLowerCase() === 'direct') ? 'Direct / Bookmark' : item.label;
-      return `
-        <div class="device-bar-item">
-          <div class="device-info">
-            <span style="font-weight: 600; color: var(--text-bright);">${escapeHtml(displayName)}</span>
-            <span style="color: var(--text-muted);">${item.count} <span style="color: ${color}; font-weight: 700;">(${pct}%)</span></span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width: ${pct}%; background: ${color};"></div>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
   // Render connection audit logs table with search & status filter
   function renderConnectionLogs() {
     const tbody = document.getElementById('connection-logs-tbody');
@@ -538,36 +817,66 @@
 
     const searchVal = (document.getElementById('log-search-input')?.value || '').toLowerCase().trim();
     const statusVal = document.getElementById('log-filter-status')?.value || 'all';
+    const categoryVal = document.getElementById('log-filter-category')?.value || 'all';
 
     const filtered = cachedConnectionLogs.filter(log => {
-      // Status filter
+      // 1. Status Filter
       if (statusVal !== 'all') {
-        const statusStr = String(log.status || 200);
+        const sStr = String(log.status || 200);
         if (statusVal === '401') {
-          if (statusStr !== '401' && statusStr !== '403') return false;
-        } else if (statusStr !== statusVal) {
+          if (sStr !== '401' && sStr !== '403') return false;
+        } else if (sStr !== statusVal) {
           return false;
         }
       }
 
-      const ua = log.userAgent || log.user_agent || '';
-      const ref = log.referrer_domain || log.referrer || '';
-      const ip = log.ip || '';
-      const path = log.path || '';
-      const method = log.method || 'GET';
-      const browser = log.browser || '';
-      const os = log.os || '';
+      // 2. Category Filter (page, api, event)
+      if (categoryVal !== 'all') {
+        const cat = log.category || 'page';
+        if (categoryVal === 'event' && !cat.includes('event')) return false;
+        if (categoryVal === 'page' && cat !== 'page') return false;
+        if (categoryVal === 'api' && cat !== 'api') return false;
+      }
 
-      // Search filter across ip, path, user_agent, browser, os, referrer
+      // 3. Active Category Filter (from "Filter" button in category cards)
+      if (activeCategoryFilter) {
+        const { type, value } = activeCategoryFilter;
+        const targetVal = String(value).toLowerCase();
+        if (type === 'ip') {
+          if ((log.ip || '').toLowerCase() !== targetVal) return false;
+        } else if (type === 'browser') {
+          if (!(log.browser || '').toLowerCase().includes(targetVal)) return false;
+        } else if (type === 'os') {
+          if (!(log.os || '').toLowerCase().includes(targetVal)) return false;
+        } else if (type === 'path') {
+          if (!(log.path || '').toLowerCase().includes(targetVal)) return false;
+        } else if (type === 'status') {
+          if (String(log.status || 200) !== String(value)) return false;
+        } else if (type === 'referrer') {
+          if (!(log.referrer_domain || log.referrer || '').toLowerCase().includes(targetVal)) return false;
+        }
+      }
+
+      // 4. Text Search Filter across all fields
       if (searchVal) {
-        const match = 
+        const ip = log.ip || '';
+        const path = log.path || '';
+        const ua = log.userAgent || log.user_agent || '';
+        const browser = log.browser || '';
+        const os = log.os || '';
+        const ref = log.referrer_domain || log.referrer || '';
+        const method = log.method || '';
+        const status = String(log.status || 200);
+
+        const match =
           ip.toLowerCase().includes(searchVal) ||
           path.toLowerCase().includes(searchVal) ||
-          method.toLowerCase().includes(searchVal) ||
           ua.toLowerCase().includes(searchVal) ||
           browser.toLowerCase().includes(searchVal) ||
           os.toLowerCase().includes(searchVal) ||
-          ref.toLowerCase().includes(searchVal);
+          ref.toLowerCase().includes(searchVal) ||
+          method.toLowerCase().includes(searchVal) ||
+          status.includes(searchVal);
         if (!match) return false;
       }
 
@@ -581,7 +890,7 @@
     if (filtered.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 11px;">
+          <td colspan="8" style="text-align: center; padding: 32px; color: var(--text-muted); font-size: 11px;">
             No connection audit logs matching current filter.
           </td>
         </tr>
@@ -589,7 +898,7 @@
       return;
     }
 
-    tbody.innerHTML = filtered.slice(0, 150).map(log => {
+    tbody.innerHTML = filtered.slice(0, 200).map(log => {
       const dateObj = new Date(log.timestamp);
       const time = isNaN(dateObj) ? 'Just now' : dateObj.toLocaleTimeString();
       const date = isNaN(dateObj) ? '' : dateObj.toISOString().slice(0, 10);
@@ -608,13 +917,18 @@
       else if (methodStr === 'DELETE') methodClass = 'log-method-delete';
       else if (methodStr === 'HEAD') methodClass = 'log-method-head';
 
+      // IP Formatting with high-contrast chip and copy button
+      const ip = log.ip || '127.0.0.1';
+      const isAuth = log.authStatus === 'admin' || log.authStatus === 'authenticated' || Boolean(log.authenticated);
+      const ipType = log.ip_type || (ip === '127.0.0.1' ? 'LOCAL' : 'PUBLIC');
+
       // Referrer formatting
       const refDomain = log.referrer_domain || (log.referrer && log.referrer !== 'Direct / None' ? log.referrer : 'Direct');
       const rawRef = log.referrer || '';
-      let refHtml = `<span class="ref-tag ref-direct" title="Direct access / bookmark">Direct / None</span>`;
+      let refHtml = `<span class="ref-tag ref-direct">Direct / None</span>`;
       if (refDomain && refDomain.toLowerCase() !== 'direct' && refDomain !== 'Direct / None') {
         const escapedDomain = escapeHtml(refDomain);
-        if (refDomain.includes('google') || refDomain.includes('bing') || refDomain.includes('duckduckgo') || refDomain.includes('yahoo')) {
+        if (refDomain.includes('google') || refDomain.includes('bing') || refDomain.includes('duckduckgo')) {
           refHtml = `<span class="ref-tag ref-search" title="Search Engine: ${escapedDomain}">🔍 ${escapedDomain}</span>`;
         } else if (rawRef.startsWith('http')) {
           const safeRef = sanitizeUrl(rawRef);
@@ -626,12 +940,10 @@
 
       // Badges
       const isBot = Boolean(log.isBot || log.is_bot);
-      const isAuth = log.authStatus === 'admin' || log.authStatus === 'authenticated' || Boolean(log.authenticated);
-      const duration = log.durationMs !== undefined ? log.durationMs : (log.duration_ms || 0);
-      const userAgentStr = log.userAgent || log.user_agent || '';
-
       const isBotBadge = isBot ? '<span style="font-size:9px; background:rgba(245,158,11,0.2); color:#f59e0b; padding:1px 4px; border-radius:2px; margin-left:4px; font-weight:700;">BOT</span>' : '';
       const authBadge = isAuth ? '<span style="font-size:9px; background:rgba(0,255,102,0.2); color:var(--status-green); padding:1px 4px; border-radius:2px; margin-left:4px; font-weight:700;">AUTH</span>' : '';
+      const duration = log.durationMs !== undefined ? log.durationMs : (log.duration_ms || 0);
+      const userAgentStr = log.userAgent || log.user_agent || '';
 
       return `
         <tr>
@@ -639,8 +951,11 @@
             ${time}
           </td>
           <td style="white-space: nowrap;">
-            <code style="font-size: 11px; color: var(--text-bright);">${escapeHtml(log.ip || '127.0.0.1')}</code>
-            <button class="btn-copy-ip" data-ip="${escapeHtml(log.ip || '127.0.0.1')}" title="Copy IP address">📋</button>
+            <div class="ip-cell-badge ${isAuth ? 'authenticated' : ''}">
+              <span>${escapeHtml(ip)}</span>
+              <button class="btn-inline-copy btn-copy-ip" data-ip="${escapeHtml(ip)}" title="Copy IP address">📋</button>
+            </div>
+            <span style="font-size: 8.5px; color: var(--text-muted); margin-left: 4px; text-transform: uppercase;">${escapeHtml(ipType)}</span>
           </td>
           <td style="white-space: nowrap;">
             <span class="status-code-badge ${statusClass}">${statusNum}</span>
@@ -649,7 +964,6 @@
           <td style="max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
             <span class="log-method ${methodClass}">${methodStr}</span>
             <span class="log-path" title="${escapeHtml(log.path || '/')}">${escapeHtml(log.path || '/')}</span>
-            <span class="log-duration">${duration}ms</span>
           </td>
           <td>
             ${refHtml}
@@ -658,12 +972,132 @@
             <div style="font-weight: 600; color: var(--text-bright);">${escapeHtml(log.browser || 'Unknown')}</div>
             <div style="font-size: 10px; color: var(--text-muted);">${escapeHtml(log.os || 'Unknown')}${isBotBadge}</div>
           </td>
+          <td style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">
+            ${duration}ms
+          </td>
           <td>
             <div class="ua-preview" title="${escapeHtml(userAgentStr)}">${escapeHtml(userAgentStr || 'N/A')}</div>
           </td>
         </tr>
       `;
     }).join('');
+  }
+
+  // Fixed Logs CSV Export: Resilient, includes UTF-8 BOM, attaches to DOM, works in Firefox
+  function exportLogsCsv() {
+    const logs = cachedConnectionLogs || [];
+    if (!logs.length) {
+      showToast('No connection logs available to export.', true);
+      return;
+    }
+
+    const headers = [
+      'id',
+      'timestamp',
+      'ip',
+      'ip_type',
+      'method',
+      'path',
+      'status',
+      'referrer',
+      'referrer_domain',
+      'browser',
+      'os',
+      'device',
+      'isBot',
+      'authStatus',
+      'durationMs',
+      'userAgent'
+    ];
+    const rows = [headers.join(',')];
+
+    logs.forEach(l => {
+      rows.push([
+        escapeCsv(l.id || ''),
+        escapeCsv(l.timestamp || ''),
+        escapeCsv(l.ip || ''),
+        escapeCsv(l.ip_type || 'IPv4'),
+        escapeCsv(l.method || 'GET'),
+        escapeCsv(l.path || '/'),
+        escapeCsv(l.status || 200),
+        escapeCsv(l.referrer || ''),
+        escapeCsv(l.referrer_domain || 'Direct'),
+        escapeCsv(l.browser || 'Unknown'),
+        escapeCsv(l.os || 'Unknown'),
+        escapeCsv(l.device || 'Desktop'),
+        escapeCsv(l.isBot ? '1' : '0'),
+        escapeCsv(l.authStatus || 'public'),
+        escapeCsv(l.durationMs || 0),
+        escapeCsv(l.userAgent || '')
+      ].join(','));
+    });
+
+    const csvContent = '\uFEFF' + rows.join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `eyefinder-traffic-audit-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast(`Traffic audit log CSV exported (${logs.length} records).`);
+  }
+
+  // Fixed Cameras CSV Export: Uses in-memory cameras array, includes UTF-8 BOM, DOM-attached
+  function exportCamerasCsv() {
+    if (!allCameras.length) {
+      showToast('No cameras loaded to export.', true);
+      return;
+    }
+
+    const headers = [
+      'id',
+      'name',
+      'latitude',
+      'longitude',
+      'city',
+      'country',
+      'source',
+      'status',
+      'stream_url',
+      'preview_image',
+      'is_snapshot',
+      'refresh_interval',
+      'insecam_url'
+    ];
+    const rows = [headers.join(',')];
+
+    allCameras.forEach(c => {
+      rows.push([
+        escapeCsv(c.id),
+        escapeCsv(c.name || ''),
+        c.latitude,
+        c.longitude,
+        escapeCsv(c.city || ''),
+        escapeCsv(c.country || ''),
+        escapeCsv(c.source || ''),
+        escapeCsv(c.status || 'operational'),
+        escapeCsv(c.stream_url || ''),
+        escapeCsv(c.preview_image || ''),
+        c.is_snapshot ? '1' : '0',
+        c.refresh_interval || 60,
+        escapeCsv(c.insecam_url || '')
+      ].join(','));
+    });
+
+    const csvContent = '\uFEFF' + rows.join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `eyefinder-cameras-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast(`Cameras CSV exported successfully (${allCameras.length} cameras).`);
   }
 
   // Setup all Telemetry tab controls (Auto-refresh, Search, Filters, CSV export, Clear logs, Copy IP)
@@ -674,49 +1108,45 @@
     // Search and filter inputs
     const searchInput = document.getElementById('log-search-input');
     if (searchInput) {
-      searchInput.addEventListener('input', () => {
-        renderConnectionLogs();
-      });
+      searchInput.addEventListener('input', () => renderConnectionLogs());
     }
 
     const filterStatus = document.getElementById('log-filter-status');
     if (filterStatus) {
-      filterStatus.addEventListener('change', () => {
-        renderConnectionLogs();
+      filterStatus.addEventListener('change', () => renderConnectionLogs());
+    }
+
+    const filterCategory = document.getElementById('log-filter-category');
+    if (filterCategory) {
+      filterCategory.addEventListener('change', () => renderConnectionLogs());
+    }
+
+    // Clear active filter button
+    const btnClearActiveFilter = document.getElementById('btn-clear-active-filter');
+    if (btnClearActiveFilter) {
+      btnClearActiveFilter.addEventListener('click', () => clearActiveFilter());
+    }
+
+    // Expand All / Collapse All Categories
+    const btnExpandAll = document.getElementById('btn-expand-all-categories');
+    if (btnExpandAll) {
+      btnExpandAll.addEventListener('click', () => {
+        document.querySelectorAll('.category-card').forEach(card => card.classList.add('expanded'));
       });
     }
 
-    // Refresh button
-    const btnRefreshMetrics = document.getElementById('btn-refresh-metrics');
-    if (btnRefreshMetrics) {
-      btnRefreshMetrics.addEventListener('click', () => {
-        loadTelemetry();
-        showToast('Metrics refreshed.');
+    const btnCollapseAll = document.getElementById('btn-collapse-all-categories');
+    if (btnCollapseAll) {
+      btnCollapseAll.addEventListener('click', () => {
+        document.querySelectorAll('.category-card').forEach(card => card.classList.remove('expanded'));
       });
     }
 
-    // Export CSV
-    const btnExportCsv = document.getElementById('btn-export-logs-csv');
-    if (btnExportCsv) {
-      btnExportCsv.addEventListener('click', async () => {
-        try {
-          showToast('Generating traffic audit CSV export...');
-          const res = await apiFetch('/api/metrics?export=csv');
-          if (!res.ok) throw new Error('Failed to generate CSV export');
-          const blob = await res.blob();
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `eyefinder-traffic-audit-${new Date().toISOString().slice(0, 10)}.csv`;
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-          window.URL.revokeObjectURL(url);
-          showToast('Traffic audit log CSV downloaded.');
-        } catch (err) {
-          console.error('CSV export failed:', err);
-          showToast('Failed to export CSV.', true);
-        }
+    // Export Logs CSV
+    const btnExportLogsCsv = document.getElementById('btn-export-logs-csv');
+    if (btnExportLogsCsv) {
+      btnExportLogsCsv.addEventListener('click', () => {
+        exportLogsCsv();
       });
     }
 
@@ -1164,47 +1594,8 @@
     // Export CSV
     const btnExportCsv = document.getElementById('btn-export-csv');
     if (btnExportCsv) {
-      btnExportCsv.addEventListener('click', async () => {
-        try {
-          const res = await fetch('/backups/cameras.csv');
-          if (res.ok) {
-            const blob = await res.blob();
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `eyefinder-cameras-${new Date().toISOString().slice(0, 10)}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('CSV exported successfully.');
-            return;
-          }
-          throw new Error('Static backup not found');
-        } catch (err) {
-          const headers = ['id','name','latitude','longitude','city','country','source','status','stream_url','preview_image'];
-          const rows = [headers.join(',')];
-          allCameras.forEach(c => {
-            rows.push([
-              c.id,
-              `"${(c.name || '').replace(/"/g, '""')}"`,
-              c.latitude,
-              c.longitude,
-              `"${(c.city || '').replace(/"/g, '""')}"`,
-              `"${(c.country || '').replace(/"/g, '""')}"`,
-              `"${(c.source || '').replace(/"/g, '""')}"`,
-              c.status,
-              `"${(c.stream_url || '').replace(/"/g, '""')}"`,
-              `"${(c.preview_image || '').replace(/"/g, '""')}"`
-            ].join(','));
-          });
-          const blob = new Blob([rows.join('\\r\\n')], { type: 'text/csv' });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `eyefinder-cameras-${new Date().toISOString().slice(0, 10)}.csv`;
-          a.click();
-          URL.revokeObjectURL(url);
-          showToast('CSV generated and exported.');
-        }
+      btnExportCsv.addEventListener('click', () => {
+        exportCamerasCsv();
       });
     }
   }

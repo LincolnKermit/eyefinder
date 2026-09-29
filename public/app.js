@@ -66,6 +66,29 @@ function clearStoredAccessToken() {
   localStorage.removeItem('eyefinder_admin_token');
 }
 
+// Inbound Telemetry Reporting (records visitor IP and interactions)
+function sendVisitorTelemetry(type, details = '') {
+  try {
+    const payload = {
+      type,
+      details,
+      device: window.innerWidth <= 768 ? 'Mobile' : (window.innerWidth <= 1024 ? 'Tablet' : 'Desktop'),
+      referrer: document.referrer || 'Direct'
+    };
+    const bodyStr = JSON.stringify(payload);
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/metrics', new Blob([bodyStr], { type: 'application/json' }));
+    } else {
+      fetch('/api/metrics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: bodyStr,
+        keepalive: true
+      }).catch(() => {});
+    }
+  } catch (e) {}
+}
+
 async function verifyPasskey(passkey) {
   if (!passkey) return { valid: false };
 
@@ -638,6 +661,9 @@ function renderMapMarkers() {
       maxWidth: 340,
       closeButton: false
     });
+    marker.on('popupopen', () => {
+      sendVisitorTelemetry('camera_view', cam.name);
+    });
 
     markersLayer.addLayer(marker);
   });
@@ -695,6 +721,7 @@ function renderDrawerList() {
       const id = card.dataset.camId;
       const target = allCameras.find(c => c.id === id);
       if (target && map) {
+        sendVisitorTelemetry('camera_view', target.name);
         map.flyTo([target.latitude, target.longitude], 14, { duration: 1.2 });
         // Find and open marker popup
         markersLayer.eachLayer(layer => {
@@ -816,6 +843,7 @@ function setupAppEvents() {
       document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeFilter = btn.dataset.filter;
+      sendVisitorTelemetry('filter', activeFilter);
       renderMapMarkers();
       renderDrawerList();
     });
@@ -990,6 +1018,7 @@ function setupLoginGate() {
       }
 
       if (result.valid) {
+        sendVisitorTelemetry('auth_success', `Gate unlocked (${result.role})`);
         const remember = rememberCheckbox ? rememberCheckbox.checked : true;
         setStoredAccessToken(passkey, remember);
         if (result.role === 'admin') {
@@ -997,6 +1026,7 @@ function setupLoginGate() {
         }
         await unlockSession(passkey, result.role);
       } else {
+        sendVisitorTelemetry('auth_failed', 'Gate access failed');
         if (errorEl) {
           errorEl.textContent = result.error || 'Invalid access key.';
           errorEl.classList.remove('hidden');
@@ -1010,6 +1040,7 @@ function setupLoginGate() {
 // Initialize on DOM load
 window.addEventListener('DOMContentLoaded', async () => {
   setupLoginGate();
+  sendVisitorTelemetry('pageview', 'Main Portal Accessed');
 
   const token = getStoredAccessToken();
   if (token) {

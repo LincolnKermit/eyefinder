@@ -9,6 +9,7 @@ const adminHandler = require('./api/admin');
 const metricsHandler = require('./api/metrics');
 const authHandler = require('./api/auth');
 const { logConnection } = require('./lib/metrics');
+const { getClientIp } = require('./lib/security');
 
 const PORT = process.env.PORT || 3000;
 
@@ -101,10 +102,7 @@ const server = http.createServer(async (req, res) => {
   // Log every connection upon response completion
   res.on('finish', () => {
     try {
-      const forwarded = req.headers['x-forwarded-for'];
-      const clientIp = forwarded
-        ? forwarded.split(',')[0].trim()
-        : (req.headers['x-real-ip'] || req.socket.remoteAddress || '127.0.0.1');
+      const clientIp = getClientIp(req);
 
       let authStatus = 'public';
       if (res.statusCode === 401) {
