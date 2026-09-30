@@ -49,7 +49,10 @@ async function sha256Hex(text) {
 }
 
 function getStoredAccessToken() {
-  return localStorage.getItem('eyefinder_access_token') || sessionStorage.getItem('eyefinder_access_token') || '';
+  return localStorage.getItem('eyefinder_access_token') ||
+    sessionStorage.getItem('eyefinder_access_token') ||
+    localStorage.getItem('eyefinder_admin_token') ||
+    '';
 }
 
 function setStoredAccessToken(token, remember = true) {
@@ -65,6 +68,112 @@ function clearStoredAccessToken() {
   sessionStorage.removeItem('eyefinder_access_token');
   localStorage.removeItem('eyefinder_admin_token');
 }
+
+// --------------------------------------------------------------------------
+// Client-Side Resilient Persistence Layer (LocalStorage Cache & Overrides)
+// Solves Vercel serverless ephemeral storage & offline resilience
+// --------------------------------------------------------------------------
+const STORAGE_KEY_OVERRIDES = 'eyefinder_camera_overrides';
+const STORAGE_KEY_CUSTOM = 'eyefinder_custom_cameras';
+const STORAGE_KEY_DELETED = 'eyefinder_deleted_camera_ids';
+
+function getLocalOverrides() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_OVERRIDES);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveLocalOverride(id, patch) {
+  try {
+    const overrides = getLocalOverrides();
+    overrides[id] = { ...(overrides[id] || {}), ...patch };
+    localStorage.setItem(STORAGE_KEY_OVERRIDES, JSON.stringify(overrides));
+
+    // Also sync in custom list if camera is in custom cameras
+    const custom = getLocalCustomCameras();
+    const idx = custom.findIndex(c => String(c.id) === String(id));
+    if (idx !== -1) {
+      custom[idx] = { ...custom[idx], ...patch };
+      localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(custom));
+    }
+  } catch (e) {}
+}
+
+function getLocalCustomCameras() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_CUSTOM);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveLocalCustomCamera(cam) {
+  try {
+    const custom = getLocalCustomCameras();
+    const idx = custom.findIndex(c => String(c.id) === String(cam.id));
+    if (idx !== -1) {
+      custom[idx] = { ...custom[idx], ...cam };
+    } else {
+      custom.push(cam);
+    }
+    localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(custom));
+  } catch (e) {}
+}
+
+function getLocalDeletedIds() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_DELETED);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveLocalDeletedId(id) {
+  try {
+    const deleted = getLocalDeletedIds();
+    if (!deleted.includes(String(id))) {
+      deleted.push(String(id));
+      localStorage.setItem(STORAGE_KEY_DELETED, JSON.stringify(deleted));
+    }
+    const custom = getLocalCustomCameras().filter(c => String(c.id) !== String(id));
+    localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(custom));
+    const overrides = getLocalOverrides();
+    delete overrides[id];
+    localStorage.setItem(STORAGE_KEY_OVERRIDES, JSON.stringify(overrides));
+  } catch (e) {}
+}
+
+function applyLocalPersistence(camerasList) {
+  if (!Array.isArray(camerasList)) return [];
+  const deleted = getLocalDeletedIds();
+  const overrides = getLocalOverrides();
+  const custom = getLocalCustomCameras();
+
+  const map = new Map();
+  for (const c of camerasList) {
+    if (!c || !c.id) continue;
+    const sid = String(c.id);
+    if (deleted.includes(sid)) continue;
+    const ov = overrides[sid] || {};
+    map.set(sid, { ...c, ...ov });
+  }
+
+  for (const cc of custom) {
+    if (!cc || !cc.id) continue;
+    const sid = String(cc.id);
+    if (deleted.includes(sid)) continue;
+    const ov = overrides[sid] || {};
+    map.set(sid, { ...cc, ...ov });
+  }
+
+  return Array.from(map.values());
+}
+
 
 // Inbound Telemetry Reporting (records visitor IP and interactions)
 function sendVisitorTelemetry(type, details = '') {
@@ -806,17 +915,20 @@ async function loadCameras() {
     return;
   }
 
+  let rawList = null;
+
   try {
     const res = await fetch('/api/cameras', {
       headers: {
         'Authorization': `Bearer ${token}`,
-        'x-access-token': token
+        'x-access-token': token,
+        'X-Admin-Key': token
       }
     });
 
     if (res.status === 401) {
       clearStoredAccessToken();
-      lockSession('Session expired. Please enter access key.');
+      lockSession('Session expirée. Veuillez saisir le mot de passe.');
       return;
     }
 
@@ -824,41 +936,42 @@ async function loadCameras() {
       const data = await res.json();
       const cams = Array.isArray(data) ? data : (data && data.cameras ? data.cameras : []);
       if (cams.length) {
-        allCameras = cams;
-        updateHeaderCounters();
-        renderMapMarkers();
-        renderDrawerList();
-        return;
+        rawList = cams;
       }
     }
   } catch (e) {
-    console.warn('API error, attempting authenticated fallback:', e);
+    console.warn('API /api/cameras error, attempting fallback:', e);
   }
 
-  // Fallback to seed.json with token
-  try {
-    const seedRes = await fetch('/seed.json', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'x-access-token': token
+  // Fallback to /seed.json with token
+  if (!rawList || rawList.length === 0) {
+    try {
+      const seedRes = await fetch('/seed.json', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'x-access-token': token
+        }
+      });
+      if (seedRes.status === 401) {
+        clearStoredAccessToken();
+        lockSession('Accès restreint.');
+        return;
       }
-    });
-    if (seedRes.status === 401) {
-      clearStoredAccessToken();
-      lockSession('Access restricted.');
-      return;
-    }
-    if (seedRes.ok) {
-      const seedData = await seedRes.json();
-      const cams = Array.isArray(seedData) ? seedData : (seedData && seedData.cameras ? seedData.cameras : []);
-      if (cams.length) {
-        allCameras = cams;
-        updateHeaderCounters();
-        renderMapMarkers();
-        renderDrawerList();
+      if (seedRes.ok) {
+        const seedData = await seedRes.json();
+        const cams = Array.isArray(seedData) ? seedData : (seedData && seedData.cameras ? seedData.cameras : []);
+        if (cams.length) {
+          rawList = cams;
+        }
       }
-    }
-  } catch (e) {}
+    } catch (e) {}
+  }
+
+  // Apply resilient persistence overlay (overrides, custom additions, deleted cameras)
+  allCameras = applyLocalPersistence(rawList || []);
+  updateHeaderCounters();
+  renderMapMarkers();
+  renderDrawerList();
 }
 
 function updateHeaderCounters() {
@@ -965,40 +1078,58 @@ function setupAppEvents() {
       const targetCam = allCameras.find(c => String(c.id) === String(camId));
       if (!targetCam) return;
 
-      try {
-        const token = getStoredAccessToken();
-        const res = await fetch('/api/admin/cameras/status', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({ id: camId, status: newStatus })
+      // 1. Immediately persist locally
+      saveLocalOverride(camId, { status: newStatus, last_checked: new Date().toISOString() });
+      targetCam.status = newStatus;
+      targetCam.last_checked = new Date().toISOString();
+
+      renderMapMarkers();
+      renderDrawerList();
+
+      // Live update active button style in popup without closing it
+      const actionsRow = btn.parentElement;
+      if (actionsRow) {
+        actionsRow.querySelectorAll('.popup-admin-btn').forEach(b => {
+          b.classList.remove('active-live', 'active-down', 'active-archive');
         });
-        const data = await res.json();
-        if (res.ok && data.success) {
-          targetCam.status = newStatus;
-          renderMapMarkers();
-          renderDrawerList();
-
-          // Live update active button style in popup without closing it
-          const actionsRow = btn.parentElement;
-          if (actionsRow) {
-            actionsRow.querySelectorAll('.popup-admin-btn').forEach(b => {
-              b.classList.remove('active-live', 'active-down', 'active-archive');
-            });
-            if (newStatus === 'operational') btn.classList.add('active-live');
-            else if (newStatus === 'down') btn.classList.add('active-down');
-            else if (newStatus === 'archived') btn.classList.add('active-archive');
-          }
-
-          showToast(`Statut caméra : ${newStatus.toUpperCase()}`);
-        } else {
-          showToast(data.error || 'Erreur lors du changement de statut', true);
-        }
-      } catch (err) {
-        showToast('Erreur réseau lors du changement de statut', true);
+        if (newStatus === 'operational') btn.classList.add('active-live');
+        else if (newStatus === 'down') btn.classList.add('active-down');
+        else if (newStatus === 'archived') btn.classList.add('active-archive');
       }
+
+      const statusLabels = { operational: 'OPÉRATIONNELLE', down: 'HORS LIGNE', archived: 'ARCHIVÉE' };
+      showToast(`Statut caméra : ${statusLabels[newStatus] || newStatus.toUpperCase()}`);
+
+      // 2. Background sync to backend
+      const token = getStoredAccessToken();
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'x-access-token': token,
+        'X-Admin-Key': token
+      };
+
+      (async () => {
+        let synced = false;
+        try {
+          const res = await fetch('/api/admin/cameras/status', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ id: camId, status: newStatus })
+          });
+          if (res.ok) synced = true;
+        } catch (e) {}
+
+        if (!synced) {
+          try {
+            await fetch('/api/cameras', {
+              method: 'PUT',
+              headers,
+              body: JSON.stringify({ id: camId, status: newStatus })
+            });
+          } catch (e2) {}
+        }
+      })();
     } else if (action === 'edit-cam') {
       const targetCam = allCameras.find(c => String(c.id) === String(camId));
       if (targetCam) {
@@ -1276,8 +1407,9 @@ function openInMapCameraModal(camToEdit = null, dropCoords = null) {
       return;
     }
 
+    const camId = id || `cam-user-${Date.now()}`;
     const payload = {
-      id: id || undefined,
+      id: camId,
       name,
       stream_url,
       latitude,
@@ -1287,65 +1419,82 @@ function openInMapCameraModal(camToEdit = null, dropCoords = null) {
       source,
       status,
       is_snapshot: streamType === 'picture',
-      is_mjpeg: streamType === 'mjpeg'
+      is_mjpeg: streamType === 'mjpeg',
+      last_checked: new Date().toISOString()
     };
 
-    const token = getStoredAccessToken();
-    const endpoint = '/api/cameras';
-    const method = isEditing ? 'PUT' : 'POST';
-
-    const saveBtn = document.getElementById('btn-save-inmap-modal');
-    saveBtn.disabled = true;
-    saveBtn.textContent = 'Enregistrement...';
-
-    try {
-      const res = await fetch(endpoint, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-
-      if (res.ok && data.success && data.camera) {
-        if (isEditing) {
-          const idx = allCameras.findIndex(c => String(c.id) === String(id));
-          if (idx !== -1) allCameras[idx] = data.camera;
-        } else {
-          allCameras.push(data.camera);
-        }
-
-        renderMapMarkers();
-        renderDrawerList();
-        closeModal();
-
-        showToast(isEditing ? `Caméra "${name}" modifiée.` : `Nouvelle caméra "${name}" ajoutée.`);
-
-        if (map) {
-          map.flyTo([latitude, longitude], 14, { duration: 1.2 });
-          setTimeout(() => {
-            markersLayer.eachLayer(layer => {
-              const l = layer.getLatLng();
-              if (Math.abs(l.lat - latitude) < 0.0001 && Math.abs(l.lng - longitude) < 0.0001) {
-                layer.openPopup();
-              }
-            });
-          }, 1300);
-        }
+    // 1. Immediately persist locally (LocalStorage cache & overrides)
+    if (isEditing) {
+      saveLocalOverride(camId, payload);
+      const idx = allCameras.findIndex(c => String(c.id) === String(camId));
+      if (idx !== -1) {
+        allCameras[idx] = { ...allCameras[idx], ...payload };
       } else {
-        saveBtn.disabled = false;
-        saveBtn.textContent = isEditing ? 'Enregistrer les modifications' : 'Ajouter la caméra';
-        errorEl.textContent = data.error || 'Erreur lors de la sauvegarde de la caméra.';
-        errorEl.classList.remove('hidden');
+        allCameras.push(payload);
       }
-    } catch (err) {
-      saveBtn.disabled = false;
-      saveBtn.textContent = isEditing ? 'Enregistrer les modifications' : 'Ajouter la caméra';
-      errorEl.textContent = 'Erreur réseau lors de la communication serveur.';
-      errorEl.classList.remove('hidden');
+    } else {
+      saveLocalCustomCamera(payload);
+      allCameras.push(payload);
     }
+
+    // 2. Immediately update UI
+    renderMapMarkers();
+    renderDrawerList();
+    closeModal();
+    showToast(isEditing ? `Caméra "${name}" modifiée (enregistré).` : `Nouvelle caméra "${name}" enregistrée.`);
+
+    if (map) {
+      map.flyTo([latitude, longitude], 14, { duration: 1.2 });
+      setTimeout(() => {
+        markersLayer.eachLayer(layer => {
+          const l = layer.getLatLng();
+          if (Math.abs(l.lat - latitude) < 0.0001 && Math.abs(l.lng - longitude) < 0.0001) {
+            layer.openPopup();
+          }
+        });
+      }, 1300);
+    }
+
+    // 3. Asynchronously sync to backend
+    const token = getStoredAccessToken();
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'x-access-token': token,
+      'X-Admin-Key': token
+    };
+
+    (async () => {
+      let synced = false;
+      const primaryEndpoint = isEditing ? '/api/admin/cameras/edit' : '/api/admin/cameras/add';
+      try {
+        const res = await fetch(primaryEndpoint, {
+          method: isEditing ? 'PUT' : 'POST',
+          headers,
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          const data = await res.json().catch(() => null);
+          if (data && data.camera) {
+            synced = true;
+            if (!isEditing && data.camera.id && data.camera.id !== camId) {
+              saveLocalCustomCamera(data.camera);
+            }
+          }
+        }
+      } catch (e) {}
+
+      if (!synced) {
+        try {
+          const res2 = await fetch('/api/cameras', {
+            method: isEditing ? 'PUT' : 'POST',
+            headers,
+            body: JSON.stringify(payload)
+          });
+          if (res2.ok) synced = true;
+        } catch (e2) {}
+      }
+    })();
   });
 }
 

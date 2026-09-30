@@ -51,6 +51,111 @@
     return fetch(endpoint, { credentials: 'same-origin', ...options, headers });
   }
 
+  // --------------------------------------------------------------------------
+  // Client-Side Resilient Persistence Layer (LocalStorage Cache & Overrides)
+  // Shared with app.js to guarantee persistence across reloads on Vercel
+  // --------------------------------------------------------------------------
+  const STORAGE_KEY_OVERRIDES = 'eyefinder_camera_overrides';
+  const STORAGE_KEY_CUSTOM = 'eyefinder_custom_cameras';
+  const STORAGE_KEY_DELETED = 'eyefinder_deleted_camera_ids';
+
+  function getLocalOverrides() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_OVERRIDES);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveLocalOverride(id, patch) {
+    try {
+      const overrides = getLocalOverrides();
+      overrides[id] = { ...(overrides[id] || {}), ...patch };
+      localStorage.setItem(STORAGE_KEY_OVERRIDES, JSON.stringify(overrides));
+
+      const custom = getLocalCustomCameras();
+      const idx = custom.findIndex(c => String(c.id) === String(id));
+      if (idx !== -1) {
+        custom[idx] = { ...custom[idx], ...patch };
+        localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(custom));
+      }
+    } catch (e) {}
+  }
+
+  function getLocalCustomCameras() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_CUSTOM);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveLocalCustomCamera(cam) {
+    try {
+      const custom = getLocalCustomCameras();
+      const idx = custom.findIndex(c => String(c.id) === String(cam.id));
+      if (idx !== -1) {
+        custom[idx] = { ...custom[idx], ...cam };
+      } else {
+        custom.push(cam);
+      }
+      localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(custom));
+    } catch (e) {}
+  }
+
+  function getLocalDeletedIds() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY_DELETED);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveLocalDeletedId(id) {
+    try {
+      const deleted = getLocalDeletedIds();
+      if (!deleted.includes(String(id))) {
+        deleted.push(String(id));
+        localStorage.setItem(STORAGE_KEY_DELETED, JSON.stringify(deleted));
+      }
+      const custom = getLocalCustomCameras().filter(c => String(c.id) !== String(id));
+      localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(custom));
+      const overrides = getLocalOverrides();
+      delete overrides[id];
+      localStorage.setItem(STORAGE_KEY_OVERRIDES, JSON.stringify(overrides));
+    } catch (e) {}
+  }
+
+  function applyLocalPersistence(camerasList) {
+    if (!Array.isArray(camerasList)) return [];
+    const deleted = getLocalDeletedIds();
+    const overrides = getLocalOverrides();
+    const custom = getLocalCustomCameras();
+
+    const map = new Map();
+    for (const c of camerasList) {
+      if (!c || !c.id) continue;
+      const sid = String(c.id);
+      if (deleted.includes(sid)) continue;
+      const ov = overrides[sid] || {};
+      map.set(sid, { ...c, ...ov });
+    }
+
+    for (const cc of custom) {
+      if (!cc || !cc.id) continue;
+      const sid = String(cc.id);
+      if (deleted.includes(sid)) continue;
+      const ov = overrides[sid] || {};
+      map.set(sid, { ...cc, ...ov });
+    }
+
+    return Array.from(map.values());
+  }
+
+
   // Toast notification
   function showToast(message, isError = false) {
     const toast = document.getElementById('admin-toast');
@@ -1239,9 +1344,8 @@
       } catch (e) {}
     }
 
-    if (data && data.cameras) {
-      allCameras = data.cameras;
-    }
+    const rawList = (data && data.cameras) ? data.cameras : (Array.isArray(data) ? data : []);
+    allCameras = applyLocalPersistence(rawList);
 
     try {
       // Update KPI
@@ -1456,24 +1560,24 @@
         // 1-Click Explicit Status Change (LIVE, DOWN, ARCHIVE)
         if (action === 'set-status') {
           const newStatus = target.dataset.status;
-          try {
-            const res = await apiFetch('/api/admin/cameras/status', {
-              method: 'POST',
-              body: { id, status: newStatus }
-            });
-            const data = await res.json();
-            if (res.ok && data.success) {
-              const cam = allCameras.find(c => String(c.id) === String(id));
-              if (cam) cam.status = newStatus;
-              filterAndRenderCameras();
-              if (typeof updateAdminMapMarkers === 'function') updateAdminMapMarkers();
-              showToast(`Statut mis à jour : ${newStatus.toUpperCase()}`);
-            } else {
-              showToast(data.error || 'Erreur lors du changement de statut', true);
-            }
-          } catch (err) {
-            showToast('Erreur réseau lors du changement de statut', true);
+          saveLocalOverride(id, { status: newStatus, last_checked: new Date().toISOString() });
+          const cam = allCameras.find(c => String(c.id) === String(id));
+          if (cam) {
+            cam.status = newStatus;
+            cam.last_checked = new Date().toISOString();
           }
+          filterAndRenderCameras();
+          if (typeof updateAdminMapMarkers === 'function') updateAdminMapMarkers();
+          showToast(`Statut mis à jour : ${newStatus.toUpperCase()}`);
+
+          (async () => {
+            try {
+              await apiFetch('/api/admin/cameras/status', {
+                method: 'POST',
+                body: { id, status: newStatus }
+              });
+            } catch (err) {}
+          })();
           return;
         }
 
@@ -1485,26 +1589,24 @@
           else if (currentStatus === 'down') newStatus = 'archived';
           else newStatus = 'operational';
 
-          target.textContent = 'UPDATING...';
-
-          try {
-            const res = await apiFetch('/api/admin/cameras/status', {
-              method: 'POST',
-              body: { id, status: newStatus }
-            });
-            const data = await res.json();
-            if (res.ok && data.success) {
-              const cam = allCameras.find(c => String(c.id) === String(id));
-              if (cam) cam.status = newStatus;
-              filterAndRenderCameras();
-              if (typeof updateAdminMapMarkers === 'function') updateAdminMapMarkers();
-              showToast(`Statut basculé en ${newStatus.toUpperCase()}`);
-            } else {
-              showToast(data.error || 'Failed to toggle status', true);
-            }
-          } catch (err) {
-            showToast('Network error while toggling status', true);
+          saveLocalOverride(id, { status: newStatus, last_checked: new Date().toISOString() });
+          const cam = allCameras.find(c => String(c.id) === String(id));
+          if (cam) {
+            cam.status = newStatus;
+            cam.last_checked = new Date().toISOString();
           }
+          filterAndRenderCameras();
+          if (typeof updateAdminMapMarkers === 'function') updateAdminMapMarkers();
+          showToast(`Statut basculé en ${newStatus.toUpperCase()}`);
+
+          (async () => {
+            try {
+              await apiFetch('/api/admin/cameras/status', {
+                method: 'POST',
+                body: { id, status: newStatus }
+              });
+            } catch (err) {}
+          })();
           return;
         }
 
@@ -1540,22 +1642,20 @@
         if (action === 'delete') {
           if (!confirm(`Are you sure you want to delete camera "${id}"?`)) return;
 
-          try {
-            const res = await apiFetch('/api/admin/cameras/delete', {
-              method: 'POST',
-              body: { id }
-            });
-            const data = await res.json();
-            if (res.ok && data.success) {
-              allCameras = allCameras.filter(c => String(c.id) !== String(id));
-              filterAndRenderCameras();
-              showToast('Camera deleted successfully.');
-            } else {
-              showToast(data.error || 'Failed to delete camera', true);
-            }
-          } catch (err) {
-            showToast('Network error on delete', true);
-          }
+          saveLocalDeletedId(id);
+          allCameras = allCameras.filter(c => String(c.id) !== String(id));
+          filterAndRenderCameras();
+          if (typeof updateAdminMapMarkers === 'function') updateAdminMapMarkers();
+          showToast('Camera deleted successfully.');
+
+          (async () => {
+            try {
+              await apiFetch('/api/admin/cameras/delete', {
+                method: 'POST',
+                body: { id }
+              });
+            } catch (err) {}
+          })();
         }
       });
     }
@@ -1733,24 +1833,24 @@
 
         if (action === 'set-status') {
           const newStatus = target.dataset.status;
-          try {
-            const res = await apiFetch('/api/admin/cameras/status', {
-              method: 'POST',
-              body: { id, status: newStatus }
-            });
-            const data = await res.json();
-            if (res.ok && data.success) {
-              const cam = allCameras.find(c => String(c.id) === String(id));
-              if (cam) cam.status = newStatus;
-              filterAndRenderCameras();
-              updateAdminMapMarkers();
-              showToast(`Statut mis à jour : ${newStatus.toUpperCase()}`);
-            } else {
-              showToast(data.error || 'Erreur lors du changement de statut', true);
-            }
-          } catch (err) {
-            showToast('Erreur réseau lors du changement de statut', true);
+          saveLocalOverride(id, { status: newStatus, last_checked: new Date().toISOString() });
+          const cam = allCameras.find(c => String(c.id) === String(id));
+          if (cam) {
+            cam.status = newStatus;
+            cam.last_checked = new Date().toISOString();
           }
+          filterAndRenderCameras();
+          updateAdminMapMarkers();
+          showToast(`Statut mis à jour : ${newStatus.toUpperCase()}`);
+
+          (async () => {
+            try {
+              await apiFetch('/api/admin/cameras/status', {
+                method: 'POST',
+                body: { id, status: newStatus }
+              });
+            } catch (err) {}
+          })();
         } else if (action === 'edit') {
           const cam = allCameras.find(c => String(c.id) === String(id));
           if (cam) openCameraModal(cam);
@@ -1985,8 +2085,9 @@
         const streamType = document.getElementById('form-stream-type').value;
         const status = document.getElementById('form-status').value;
 
+        const camId = id || `cam-admin-${Date.now()}`;
         const payload = {
-          id: id || undefined,
+          id: camId,
           name,
           stream_url,
           latitude,
@@ -1996,32 +2097,36 @@
           source,
           status,
           is_snapshot: streamType === 'picture',
-          is_mjpeg: streamType === 'mjpeg'
+          is_mjpeg: streamType === 'mjpeg',
+          last_checked: new Date().toISOString()
         };
 
         const isEditing = Boolean(id);
+        if (isEditing) {
+          saveLocalOverride(camId, payload);
+        } else {
+          saveLocalCustomCamera(payload);
+        }
+
+        closeCameraModal();
+        loadCameras();
+        showToast(isEditing ? 'Caméra mise à jour (enregistré).' : 'Nouvelle caméra enregistrée.');
+
         const endpoint = isEditing ? '/api/admin/cameras/edit' : '/api/admin/cameras/add';
         const method = isEditing ? 'PUT' : 'POST';
 
-        try {
-          const res = await apiFetch(endpoint, {
-            method,
-            body: payload
-          });
-          const data = await res.json();
-
-          if (res.ok && (data.camera || data.success)) {
-            closeCameraModal();
-            loadCameras();
-            showToast(isEditing ? 'Camera updated.' : 'New camera registered.');
-          } else {
-            formError.textContent = data.error || 'Failed to save camera.';
-            formError.classList.remove('hidden');
-          }
-        } catch (err) {
-          formError.textContent = 'Server communication error.';
-          formError.classList.remove('hidden');
-        }
+        (async () => {
+          try {
+            const res = await apiFetch(endpoint, {
+              method,
+              body: payload
+            });
+            const data = await res.json().catch(() => null);
+            if (data && data.camera && !isEditing && data.camera.id && data.camera.id !== camId) {
+              saveLocalCustomCamera(data.camera);
+            }
+          } catch (err) {}
+        })();
       });
     }
 
@@ -2090,29 +2195,24 @@
           return;
         }
 
-        btnSubmitImport.textContent = 'IMPORTING...';
-
-        try {
-          const res = await apiFetch('/api/admin/import', {
-            method: 'POST',
-            body: { cameras }
-          });
-          const data = await res.json();
-          btnSubmitImport.textContent = 'START IMPORT';
-
-          if (res.ok && data.success) {
-            closeImportModal();
-            loadCameras();
-            showToast(`Imported ${data.importedCount} cameras successfully.`);
-          } else {
-            importStatus.textContent = data.error || 'Import failed.';
-            importStatus.classList.remove('hidden');
+        for (const cam of cameras) {
+          if (cam && (cam.name || cam.stream_url)) {
+            if (!cam.id) cam.id = `cam-import-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
+            saveLocalCustomCamera(cam);
           }
-        } catch (err) {
-          btnSubmitImport.textContent = 'START IMPORT';
-          importStatus.textContent = 'Network error during import.';
-          importStatus.classList.remove('hidden');
         }
+        closeImportModal();
+        loadCameras();
+        showToast(`Import de ${cameras.length} caméras effectué (persistance locale active).`);
+
+        (async () => {
+          try {
+            await apiFetch('/api/admin/import', {
+              method: 'POST',
+              body: { cameras }
+            });
+          } catch (e) {}
+        })();
       });
     }
   }

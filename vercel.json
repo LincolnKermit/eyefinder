@@ -8,12 +8,16 @@
   ],
   "rewrites": [
     {
-      "source": "/api/cameras",
-      "destination": "/seed.json"
+      "source": "/api/admin/:match*",
+      "destination": "/api/admin"
     },
     {
-      "source": "/api/cron",
-      "destination": "/seed.json"
+      "source": "/api/metrics/:match*",
+      "destination": "/api/metrics"
+    },
+    {
+      "source": "/api/auth/:match*",
+      "destination": "/api/auth"
     }
   ],
   "headers": [
@@ -35,6 +39,23 @@
         {
           "key": "Permissions-Policy",
           "value": "geolocation=(), camera=(), microphone=()"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization, X-Access-Token, X-Admin-Key"
         }
       ]
     }

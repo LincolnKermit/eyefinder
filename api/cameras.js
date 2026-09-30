@@ -1,8 +1,8 @@
 function sendJson(res, statusCode, data) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-access-token, X-Admin-Key');
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
   if (typeof res.status === 'function' && typeof res.json === 'function') {
     return res.status(statusCode).json(data);
@@ -14,8 +14,8 @@ function sendJson(res, statusCode, data) {
 module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-access-token, X-Admin-Key');
     if (typeof res.status === 'function') return res.status(200).end();
     res.statusCode = 200;
     return res.end();
@@ -83,6 +83,56 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    const isEdit = req.method === 'PUT' || (req.method === 'POST' && (
+      (req.body && (req.body.action === 'edit' || req.body._method === 'PUT')) ||
+      (req.query && req.query.action === 'edit')
+    ));
+
+    if (isEdit) {
+      const { isAuthorizedAdmin, sanitizeCameraPayload, isSafeUrl } = require('../lib/security');
+      if (!isAuthorizedAdmin(req)) {
+        return sendJson(res, 401, { error: 'Unauthorized: Admin authorization required to edit cameras' });
+      }
+
+      const { id } = req.body || {};
+      if (!id) {
+        return sendJson(res, 400, { error: 'Missing camera ID' });
+      }
+
+      const sanitized = sanitizeCameraPayload(req.body);
+      if (!sanitized) {
+        return sendJson(res, 400, { error: 'Invalid camera update fields' });
+      }
+
+      if (!isSafeUrl(sanitized.stream_url)) {
+        return sendJson(res, 400, { error: 'Forbidden stream URL rejected by SSRF filter' });
+      }
+
+      const { getCameras, saveAllCameras } = require('../lib/db');
+      let cameras = await getCameras();
+      let idx = cameras.findIndex(c => String(c.id) === String(id));
+      if (idx === -1) {
+        const seedIdx = SEED_CAMERAS.findIndex(c => String(c.id) === String(id));
+        if (seedIdx !== -1) {
+          cameras = [...cameras, SEED_CAMERAS[seedIdx]];
+          idx = cameras.length - 1;
+        } else {
+          cameras.push({ id: String(id), ...sanitized });
+          idx = cameras.length - 1;
+        }
+      }
+
+      cameras[idx] = {
+        ...cameras[idx],
+        ...sanitized,
+        id: String(id),
+        last_checked: new Date().toISOString()
+      };
+
+      await saveAllCameras(cameras);
+      return sendJson(res, 200, { success: true, camera: cameras[idx] });
+    }
+
     if (req.method === 'POST') {
       const { isAuthorizedAdmin, sanitizeCameraPayload, isSafeUrl } = require('../lib/security');
       if (!isAuthorizedAdmin(req)) {
@@ -113,44 +163,6 @@ module.exports = async function handler(req, res) {
       } catch (e) {}
 
       return sendJson(res, 201, { success: true, camera: newCamera });
-    }
-
-    if (req.method === 'PUT') {
-      const { isAuthorizedAdmin, sanitizeCameraPayload, isSafeUrl } = require('../lib/security');
-      if (!isAuthorizedAdmin(req)) {
-        return sendJson(res, 401, { error: 'Unauthorized: Admin authorization required to edit cameras' });
-      }
-
-      const { id } = req.body || {};
-      if (!id) {
-        return sendJson(res, 400, { error: 'Missing camera ID' });
-      }
-
-      const sanitized = sanitizeCameraPayload(req.body);
-      if (!sanitized) {
-        return sendJson(res, 400, { error: 'Invalid camera update fields' });
-      }
-
-      if (!isSafeUrl(sanitized.stream_url)) {
-        return sendJson(res, 400, { error: 'Forbidden stream URL rejected by SSRF filter' });
-      }
-
-      const { getCameras, saveAllCameras } = require('../lib/db');
-      const cameras = await getCameras();
-      const idx = cameras.findIndex(c => String(c.id) === String(id));
-      if (idx === -1) {
-        return sendJson(res, 404, { error: 'Camera not found' });
-      }
-
-      cameras[idx] = {
-        ...cameras[idx],
-        ...sanitized,
-        id: String(id),
-        last_checked: new Date().toISOString()
-      };
-
-      await saveAllCameras(cameras);
-      return sendJson(res, 200, { success: true, camera: cameras[idx] });
     }
 
     if (req.method === 'DELETE') {

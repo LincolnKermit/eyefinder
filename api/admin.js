@@ -25,7 +25,7 @@ module.exports = async function handler(req, res) {
   // CORS & Security headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Admin-Key');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-access-token, X-Admin-Key');
 
   if (req.method === 'OPTIONS') {
     if (typeof res.status === 'function') return res.status(200).end();
@@ -34,12 +34,24 @@ module.exports = async function handler(req, res) {
   }
 
   const clientIp = getClientIp(req);
+  const matchedPath = req.headers['x-matched-path'] || req.headers['x-vercel-matched-path'] || req.headers['x-forwarded-uri'] || '';
   const parsedUrl = new URL(req.url, 'http://localhost');
-  const pathname = parsedUrl.pathname;
-  const subAction = (req.query && req.query.action) || parsedUrl.searchParams.get('action') || '';
+  const pathname = matchedPath || parsedUrl.pathname;
+  const pathParam = (req.query && (req.query.path || req.query.match)) || '';
+  const subAction = (req.query && req.query.action) ||
+    parsedUrl.searchParams.get('action') ||
+    (typeof pathParam === 'string' ? pathParam : (Array.isArray(pathParam) ? pathParam.join('/') : '')) ||
+    '';
+
+  function isRoute(name) {
+    return pathname === `/api/admin/${name}` ||
+      pathname.endsWith(`/${name}`) ||
+      subAction === name ||
+      subAction.endsWith(`/${name}`);
+  }
 
   // 1. Login Endpoint: POST /api/admin/login or action=login
-  if (pathname === '/api/admin/login' || subAction === 'login') {
+  if (isRoute('login')) {
     if (req.method !== 'POST') {
       return sendJson(res, 405, { error: 'Method not allowed' });
     }
@@ -76,7 +88,7 @@ module.exports = async function handler(req, res) {
   }
 
   // 3. Verify Token Endpoint
-  if (pathname === '/api/admin/verify' || subAction === 'verify') {
+  if (isRoute('verify')) {
     return sendJson(res, 200, {
       success: true,
       authenticated: true,
@@ -84,8 +96,8 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  // 4. List Cameras for Admin: GET /api/admin/cameras
-  if ((pathname === '/api/admin/cameras' || subAction === 'cameras') && req.method === 'GET') {
+  // 4. List Cameras for Admin: GET /api/admin/cameras or GET /api/admin
+  if ((isRoute('cameras') || pathname === '/api/admin') && req.method === 'GET') {
     const cameras = await getCameras();
     return sendJson(res, 200, {
       success: true,
@@ -98,7 +110,7 @@ module.exports = async function handler(req, res) {
   }
 
   // 5. Toggle / Update Camera Status: POST /api/admin/cameras/status
-  if (pathname === '/api/admin/cameras/status' || subAction === 'status') {
+  if (isRoute('cameras/status') || isRoute('status')) {
     const { id, status } = req.body || {};
     if (!id || !status || !['operational', 'down', 'archived'].includes(status)) {
       return sendJson(res, 400, { error: 'Missing or invalid parameters: id and status required (operational, down, or archived)' });
@@ -118,7 +130,7 @@ module.exports = async function handler(req, res) {
   }
 
   // 5b. Geocode address search: GET /api/admin/geocode?q=... (Uses Mullvad VPN on VPS)
-  if (pathname === '/api/admin/geocode' || subAction === 'geocode') {
+  if (isRoute('geocode')) {
     const query = (req.query && req.query.q) || parsedUrl.searchParams.get('q') || '';
     if (!query || typeof query !== 'string' || query.trim().length < 2) {
       return sendJson(res, 400, { error: 'Query parameter q is required (min 2 chars)' });
@@ -155,7 +167,7 @@ module.exports = async function handler(req, res) {
   }
 
   // 5c. Reverse geocode coordinates to address: GET /api/admin/reverse-geocode?lat=...&lon=...
-  if (pathname === '/api/admin/reverse-geocode' || subAction === 'reverse-geocode') {
+  if (isRoute('reverse-geocode')) {
     const lat = parseFloat((req.query && req.query.lat) || parsedUrl.searchParams.get('lat'));
     const lon = parseFloat((req.query && req.query.lon) || parsedUrl.searchParams.get('lon'));
     if (isNaN(lat) || isNaN(lon)) {
@@ -189,7 +201,7 @@ module.exports = async function handler(req, res) {
   }
 
   // 6. On-demand SSRF-Safe Camera Probe: POST /api/admin/cameras/probe
-  if (pathname === '/api/admin/cameras/probe' || subAction === 'probe') {
+  if (isRoute('cameras/probe') || isRoute('probe')) {
     const { url } = req.body || {};
     if (!url || typeof url !== 'string') {
       return sendJson(res, 400, { error: 'Missing stream URL' });
@@ -210,33 +222,12 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  // 7. Add Camera: POST /api/admin/cameras/add
-  if (pathname === '/api/admin/cameras/add' || (pathname === '/api/admin/cameras' && req.method === 'POST') || subAction === 'add') {
-    const sanitized = sanitizeCameraPayload(req.body);
-    if (!sanitized) {
-      return sendJson(res, 400, {
-        error: 'Invalid camera data. Required: valid name, coordinates (-90..90, -180..180), and stream URL.'
-      });
-    }
+  // 7. Edit Camera: PUT /api/admin/cameras/edit or POST with action=edit
+  const isEditAction = isRoute('cameras/edit') || isRoute('edit') || (
+    req.body && (req.body.action === 'edit' || req.body._method === 'PUT')
+  );
 
-    if (!isSafeUrl(sanitized.stream_url)) {
-      return sendJson(res, 400, {
-        error: 'Forbidden stream URL: SSRF filter rejected private, loopback, or metadata host.'
-      });
-    }
-
-    const newCamera = {
-      id: `cam-admin-${Date.now()}`,
-      ...sanitized,
-      last_checked: new Date().toISOString()
-    };
-
-    await upsertCameras([newCamera]);
-    return sendJson(res, 201, { success: true, camera: newCamera });
-  }
-
-  // 8. Edit Camera: PUT /api/admin/cameras/edit
-  if (pathname === '/api/admin/cameras/edit' || (pathname === '/api/admin/cameras' && req.method === 'PUT') || subAction === 'edit') {
+  if (isEditAction) {
     const { id } = req.body || {};
     if (!id) {
       return sendJson(res, 400, { error: 'Missing camera ID' });
@@ -252,9 +243,23 @@ module.exports = async function handler(req, res) {
     }
 
     const cameras = await getCameras();
-    const idx = cameras.findIndex(c => String(c.id) === String(id));
+    let idx = cameras.findIndex(c => String(c.id) === String(id));
     if (idx === -1) {
-      return sendJson(res, 404, { error: 'Camera not found' });
+      try {
+        const seedMod = require('../lib/seed');
+        const seedList = Array.isArray(seedMod) ? seedMod : (seedMod.SEED_CAMERAS || seedMod.cameras || []);
+        const seedItem = seedList.find(c => String(c.id) === String(id));
+        if (seedItem) {
+          cameras.push({ ...seedItem });
+          idx = cameras.length - 1;
+        } else {
+          cameras.push({ id: String(id), ...sanitized });
+          idx = cameras.length - 1;
+        }
+      } catch (e) {
+        cameras.push({ id: String(id), ...sanitized });
+        idx = cameras.length - 1;
+      }
     }
 
     cameras[idx] = {
@@ -268,8 +273,33 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 200, { success: true, camera: cameras[idx] });
   }
 
-  // 9. Delete Camera: DELETE /api/admin/cameras/delete
-  if (pathname === '/api/admin/cameras/delete' || (pathname === '/api/admin/cameras' && req.method === 'DELETE') || subAction === 'delete') {
+  // 8. Add Camera: POST /api/admin/cameras/add or POST /api/admin/cameras
+  if (isRoute('cameras/add') || isRoute('add') || ((isRoute('cameras') || pathname === '/api/admin') && req.method === 'POST')) {
+    const sanitized = sanitizeCameraPayload(req.body);
+    if (!sanitized) {
+      return sendJson(res, 400, {
+        error: 'Invalid camera data. Required: valid name, coordinates (-90..90, -180..180), and stream URL.'
+      });
+    }
+
+    if (!isSafeUrl(sanitized.stream_url)) {
+      return sendJson(res, 400, {
+        error: 'Forbidden stream URL: SSRF filter rejected private, loopback, or metadata host.'
+      });
+    }
+
+    const newCamera = {
+      id: (req.body && req.body.id) || `cam-admin-${Date.now()}`,
+      ...sanitized,
+      last_checked: new Date().toISOString()
+    };
+
+    await upsertCameras([newCamera]);
+    return sendJson(res, 201, { success: true, camera: newCamera });
+  }
+
+  // 9. Delete Camera: DELETE /api/admin/cameras/delete or DELETE /api/admin/cameras
+  if (isRoute('cameras/delete') || isRoute('delete') || ((isRoute('cameras') || pathname === '/api/admin') && req.method === 'DELETE')) {
     const id = (req.body && req.body.id) || (req.query && req.query.id);
     if (!id) {
       return sendJson(res, 400, { error: 'Missing camera ID' });
@@ -284,7 +314,7 @@ module.exports = async function handler(req, res) {
   }
 
   // 10. Export Database: GET /api/admin/export
-  if (pathname === '/api/admin/export' || subAction === 'export') {
+  if (isRoute('export')) {
     const cameras = await getCameras();
     return sendJson(res, 200, {
       export_date: new Date().toISOString(),
@@ -294,7 +324,7 @@ module.exports = async function handler(req, res) {
   }
 
   // 11. Import Seed JSON: POST /api/admin/import
-  if (pathname === '/api/admin/import' || subAction === 'import') {
+  if (isRoute('import')) {
     const list = Array.isArray(req.body) ? req.body : (req.body && req.body.cameras);
     if (!Array.isArray(list) || list.length === 0) {
       return sendJson(res, 400, { error: 'Invalid payload: expected non-empty array of cameras' });
@@ -324,7 +354,7 @@ module.exports = async function handler(req, res) {
   }
 
   // 12. Site Access Settings: GET & PUT /api/admin/settings
-  if (pathname === '/api/admin/settings' || subAction === 'settings') {
+  if (isRoute('settings')) {
     if (req.method === 'PUT' || req.method === 'POST') {
       const { private_mode, visitor_passkey } = req.body || {};
       const updates = {};
