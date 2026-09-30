@@ -70,6 +70,7 @@ module.exports = async function handler(req, res) {
 
       const operationalCount = cameras.filter(c => c.status === 'operational').length;
       const downCount = cameras.filter(c => c.status === 'down').length;
+      const archivedCount = cameras.filter(c => c.status === 'archived').length;
 
       return sendJson(res, 200, {
         success: true,
@@ -77,6 +78,7 @@ module.exports = async function handler(req, res) {
         total: cameras.length,
         operational: operationalCount,
         down: downCount,
+        archived: archivedCount,
         cameras
       });
     }
@@ -99,7 +101,7 @@ module.exports = async function handler(req, res) {
       }
 
       const newCamera = {
-        id: `cam-${Date.now()}`,
+        id: (req.body && req.body.id) || `cam-${Date.now()}`,
         ...sanitized,
         status: sanitized.status || 'operational',
         last_checked: new Date().toISOString()
@@ -113,6 +115,64 @@ module.exports = async function handler(req, res) {
       return sendJson(res, 201, { success: true, camera: newCamera });
     }
 
+    if (req.method === 'PUT') {
+      const { isAuthorizedAdmin, sanitizeCameraPayload, isSafeUrl } = require('../lib/security');
+      if (!isAuthorizedAdmin(req)) {
+        return sendJson(res, 401, { error: 'Unauthorized: Admin authorization required to edit cameras' });
+      }
+
+      const { id } = req.body || {};
+      if (!id) {
+        return sendJson(res, 400, { error: 'Missing camera ID' });
+      }
+
+      const sanitized = sanitizeCameraPayload(req.body);
+      if (!sanitized) {
+        return sendJson(res, 400, { error: 'Invalid camera update fields' });
+      }
+
+      if (!isSafeUrl(sanitized.stream_url)) {
+        return sendJson(res, 400, { error: 'Forbidden stream URL rejected by SSRF filter' });
+      }
+
+      const { getCameras, saveAllCameras } = require('../lib/db');
+      const cameras = await getCameras();
+      const idx = cameras.findIndex(c => String(c.id) === String(id));
+      if (idx === -1) {
+        return sendJson(res, 404, { error: 'Camera not found' });
+      }
+
+      cameras[idx] = {
+        ...cameras[idx],
+        ...sanitized,
+        id: String(id),
+        last_checked: new Date().toISOString()
+      };
+
+      await saveAllCameras(cameras);
+      return sendJson(res, 200, { success: true, camera: cameras[idx] });
+    }
+
+    if (req.method === 'DELETE') {
+      const { isAuthorizedAdmin } = require('../lib/security');
+      if (!isAuthorizedAdmin(req)) {
+        return sendJson(res, 401, { error: 'Unauthorized: Admin authorization required to delete cameras' });
+      }
+
+      const id = (req.body && req.body.id) || (req.query && req.query.id);
+      if (!id) {
+        return sendJson(res, 400, { error: 'Missing camera ID' });
+      }
+
+      const { deleteCamera } = require('../lib/db');
+      const deleted = await deleteCamera(id);
+      if (!deleted) {
+        return sendJson(res, 404, { error: 'Camera ID not found' });
+      }
+
+      return sendJson(res, 200, { success: true, deletedId: id });
+    }
+
     return sendJson(res, 405, { error: 'Method not allowed' });
   } catch (err) {
     console.error('API /api/cameras error:', err);
@@ -122,6 +182,7 @@ module.exports = async function handler(req, res) {
       total: SEED_CAMERAS.length,
       operational: SEED_CAMERAS.filter(c => c.status === 'operational').length,
       down: SEED_CAMERAS.filter(c => c.status === 'down').length,
+      archived: SEED_CAMERAS.filter(c => c.status === 'archived').length,
       cameras: SEED_CAMERAS
     });
   }

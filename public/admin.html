@@ -9,6 +9,7 @@
   
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 <body class="admin-body">
 
@@ -239,91 +240,120 @@
 
     <!-- Tab 2: Camera Management -->
     <section id="tab-cameras" class="admin-tab-content">
-      <div class="cameras-toolbar">
-        <div class="toolbar-left">
-          <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input 
-              type="text" 
-              id="admin-search" 
-              placeholder="Search by name, city, country, or URL..." 
-              autocomplete="off"
-            />
-          </div>
-
-          <div class="filter-dropdowns">
-            <select id="filter-status" class="admin-select">
-              <option value="all">All Statuses</option>
-              <option value="operational">Operational Only</option>
-              <option value="down">Offline Only</option>
-            </select>
-
-            <select id="filter-region" class="admin-select">
-              <option value="all">All Regions</option>
-              <option value="france">France Only</option>
-              <option value="swiss">Switzerland Only</option>
-            </select>
-
-            <select id="filter-type" class="admin-select">
-              <option value="all">All Stream Types</option>
-              <option value="live">Live Video</option>
-              <option value="picture">Picture (60s)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="toolbar-right" style="flex-wrap: wrap; gap: 6px;">
-          <button id="btn-add-camera" class="admin-btn admin-btn-primary">
-            <span>+ ADD CAMERA</span>
-          </button>
-          <button id="btn-export-geojson" class="admin-btn admin-btn-secondary" title="Télécharger GeoJSON pour uMap, geojson.io, QGIS">
-            <span>🗺️ GEOJSON</span>
-          </button>
-          <button id="btn-export-kml" class="admin-btn admin-btn-secondary" title="Télécharger KML pour Google Earth & Google My Maps">
-            <span>📍 KML</span>
-          </button>
-          <button id="btn-export-csv" class="admin-btn admin-btn-secondary" title="Télécharger CSV pour Google My Maps / Excel">
-            <span>📊 CSV</span>
-          </button>
-          <button id="btn-export-json" class="admin-btn admin-btn-secondary" title="Download clean dataset as JSON">
-            <span>💾 EXPORT JSON</span>
-          </button>
-          <a href="/backups/standalone_map.html" target="_blank" rel="noreferrer noopener" referrerpolicy="no-referrer" class="admin-btn admin-btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;" title="Ouvrir la carte de secours autonome">
-            <span>🚨 CARTE SECOURS</span>
-          </a>
-          <button id="btn-import-json" class="admin-btn admin-btn-secondary" title="Import cameras from JSON">
-            <span>📥 IMPORT JSON</span>
-          </button>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+        <div class="view-mode-toggle">
+          <button id="btn-view-table" class="view-mode-btn active" type="button">📋 TABLEAU</button>
+          <button id="btn-view-map" class="view-mode-btn" type="button">🗺️ CARTE ADMIN</button>
         </div>
       </div>
 
-      <!-- Camera Table Container -->
-      <div class="table-container">
-        <table class="admin-table" id="cameras-table">
-          <thead>
-            <tr>
-              <th style="width: 50px;">TYPE</th>
-              <th>NAME &amp; LOCATION</th>
-              <th>COORDINATES</th>
-              <th>SOURCE</th>
-              <th>STATUS</th>
-              <th>LAST CHECK</th>
-              <th style="text-align: right; width: 230px;">ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody id="cameras-tbody">
-            <!-- Dynamically populated -->
-          </tbody>
-        </table>
+      <!-- Admin Tactical Map Container (Toggled via CARTE ADMIN button) -->
+      <div id="admin-map-card" class="admin-map-card hidden">
+        <div class="admin-map-header">
+          <div class="admin-map-title">
+            <span class="status-pulse-dot"></span>
+            CARTE TACTIQUE D'ADMINISTRATION
+            <span class="admin-map-hint">(Cliquez n'importe où sur la carte pour créer une caméra, ou cliquez sur un marqueur pour modifier son statut ou ses coordonnées)</span>
+          </div>
+          <div class="admin-map-legend">
+            <span class="stat-chip"><span class="legend-dot dot-live"></span> Live (<span id="map-count-live">0</span>)</span>
+            <span class="stat-chip"><span class="legend-dot dot-picture"></span> Snapshot (<span id="map-count-pic">0</span>)</span>
+            <span class="stat-chip"><span class="legend-dot dot-down"></span> Down (<span id="map-count-down">0</span>)</span>
+            <span class="stat-chip"><span class="legend-dot dot-archived"></span> Archivée (<span id="map-count-archived">0</span>)</span>
+          </div>
+        </div>
+        <div id="admin-leaflet-map" style="height: 520px; width: 100%; border-radius: 4px; background: #08090d;"></div>
       </div>
 
-      <!-- Pagination Footer -->
-      <div class="table-pagination">
-        <div class="pagination-info" id="pagination-info">Showing 0 of 0 cameras</div>
-        <div class="pagination-controls">
-          <button id="btn-prev-page" class="admin-btn admin-btn-small">← PREV</button>
-          <span class="page-number" id="current-page-num">1</span>
-          <button id="btn-next-page" class="admin-btn admin-btn-small">NEXT →</button>
+      <!-- Admin Table View Wrapper -->
+      <div id="admin-table-view-wrap">
+        <div class="cameras-toolbar">
+          <div class="toolbar-left">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input 
+                type="text" 
+                id="admin-search" 
+                placeholder="Search by name, city, country, or URL..." 
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="filter-dropdowns">
+              <select id="filter-status" class="admin-select">
+                <option value="all">All Statuses</option>
+                <option value="operational">Operational Only</option>
+                <option value="down">Offline Only</option>
+                <option value="archived">Archived Only</option>
+              </select>
+
+              <select id="filter-region" class="admin-select">
+                <option value="all">All Regions</option>
+                <option value="france">France Only</option>
+                <option value="swiss">Switzerland Only</option>
+              </select>
+
+              <select id="filter-type" class="admin-select">
+                <option value="all">All Stream Types</option>
+                <option value="live">Live Video</option>
+                <option value="picture">Picture (60s)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="toolbar-right" style="flex-wrap: wrap; gap: 6px;">
+            <button id="btn-add-camera" class="admin-btn admin-btn-primary">
+              <span>+ ADD CAMERA</span>
+            </button>
+            <button id="btn-export-geojson" class="admin-btn admin-btn-secondary" title="Télécharger GeoJSON pour uMap, geojson.io, QGIS">
+              <span>🗺️ GEOJSON</span>
+            </button>
+            <button id="btn-export-kml" class="admin-btn admin-btn-secondary" title="Télécharger KML pour Google Earth & Google My Maps">
+              <span>📍 KML</span>
+            </button>
+            <button id="btn-export-csv" class="admin-btn admin-btn-secondary" title="Télécharger CSV pour Google My Maps / Excel">
+              <span>📊 CSV</span>
+            </button>
+            <button id="btn-export-json" class="admin-btn admin-btn-secondary" title="Download clean dataset as JSON">
+              <span>💾 EXPORT JSON</span>
+            </button>
+            <a href="/backups/standalone_map.html" target="_blank" rel="noreferrer noopener" referrerpolicy="no-referrer" class="admin-btn admin-btn-secondary" style="text-decoration:none; display:inline-flex; align-items:center;" title="Ouvrir la carte de secours autonome">
+              <span>🚨 CARTE SECOURS</span>
+            </a>
+            <button id="btn-import-json" class="admin-btn admin-btn-secondary" title="Import cameras from JSON">
+              <span>📥 IMPORT JSON</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Camera Table Container -->
+        <div class="table-container">
+          <table class="admin-table" id="cameras-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">TYPE</th>
+                <th>NAME &amp; LOCATION</th>
+                <th>COORDINATES</th>
+                <th>SOURCE</th>
+                <th>STATUS</th>
+                <th>LAST CHECK</th>
+                <th style="text-align: right; width: 230px;">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="cameras-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Footer -->
+        <div class="table-pagination">
+          <div class="pagination-info" id="pagination-info">Showing 0 of 0 cameras</div>
+          <div class="pagination-controls">
+            <button id="btn-prev-page" class="admin-btn admin-btn-small">← PREV</button>
+            <span class="page-number" id="current-page-num">1</span>
+            <button id="btn-next-page" class="admin-btn admin-btn-small">NEXT →</button>
+          </div>
         </div>
       </div>
     </section>
@@ -459,6 +489,16 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label class="form-label" for="form-address-search">RECHERCHE D'ADRESSE / LIEU (GÉOCODAGE AUTO)</label>
+          <div class="input-with-action address-search-wrap">
+            <input type="text" id="form-address-search" class="admin-input" placeholder="ex: Place Bellecour, Lyon ou 12 Rue de la République..." autocomplete="off" />
+            <button type="button" id="btn-search-address" class="admin-btn admin-btn-secondary">🔍 RECHERCHER</button>
+            <div id="address-suggestions" class="address-search-results hidden"></div>
+          </div>
+          <span class="form-hint">Tapez une adresse ou un nom de lieu pour renseigner automatiquement les coordonnées GPS, la ville et le pays.</span>
+        </div>
+
         <div class="form-row">
           <div class="form-group flex-1">
             <label class="form-label" for="form-lat">LATITUDE * (-90 to 90)</label>
@@ -493,6 +533,7 @@
             <select id="form-status" class="admin-select">
               <option value="operational">Operational</option>
               <option value="down">Offline / Down</option>
+              <option value="archived">Archived / Archivée</option>
             </select>
           </div>
         </div>
@@ -539,6 +580,8 @@
   <!-- Notification Toast -->
   <div id="admin-toast" class="admin-toast hidden"></div>
 
+  <!-- Leaflet JS for Admin Tactical Map -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="admin.js"></script>
 </body>
 </html>

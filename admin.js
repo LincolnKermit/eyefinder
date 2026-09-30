@@ -1253,15 +1253,19 @@
 
       const op = allCameras.filter(c => c.status === 'operational').length;
       const down = allCameras.filter(c => c.status === 'down').length;
+      const archived = allCameras.filter(c => c.status === 'archived').length;
       const ratio = allCameras.length > 0 ? Math.round((op / allCameras.length) * 100) : 0;
 
       const kpiHealth = document.getElementById('kpi-health');
       if (kpiHealth) kpiHealth.textContent = `${ratio}%`;
 
       const kpiSub = document.getElementById('kpi-health-sub');
-      if (kpiSub) kpiSub.textContent = `${op} live / ${down} down`;
+      if (kpiSub) kpiSub.textContent = `${op} live / ${down} down / ${archived} arch`;
 
       filterAndRenderCameras();
+      if (typeof updateAdminMapMarkers === 'function') {
+        updateAdminMapMarkers();
+      }
     } catch (err) {
       console.error('Failed to render cameras:', err);
     }
@@ -1333,10 +1337,12 @@
 
     tbody.innerHTML = pageItems.map(cam => {
       const isPic = isPictureCam(cam);
+      const isArchived = cam.status === 'archived';
+      const isDown = cam.status === 'down';
       const typeLabel = isPic ? 'PICTURE' : (cam.is_mjpeg ? 'MJPEG' : 'LIVE');
-      const dotClass = cam.status === 'down' ? 'dot-down' : (isPic ? 'dot-picture' : 'dot-live');
-      const statusPillClass = cam.status === 'operational' ? 'pill-operational' : 'pill-down';
-      const statusText = cam.status === 'operational' ? '● OPERATIONAL' : '■ OFFLINE';
+      const dotClass = isArchived ? 'dot-archived' : (isDown ? 'dot-down' : (isPic ? 'dot-picture' : 'dot-live'));
+      const statusPillClass = isArchived ? 'pill-archived' : (cam.status === 'operational' ? 'pill-operational' : 'pill-down');
+      const statusText = isArchived ? '📦 ARCHIVED' : (cam.status === 'operational' ? '● OPERATIONAL' : '■ OFFLINE');
 
       const lat = Number(cam.latitude).toFixed(4);
       const lon = Number(cam.longitude).toFixed(4);
@@ -1356,9 +1362,16 @@
           <td><code>${lat}, ${lon}</code></td>
           <td><span class="badge-tag">${escapeHtml(cam.source || 'Public')}</span></td>
           <td>
-            <span class="status-pill ${statusPillClass}" data-action="toggle-status" data-id="${escapeHtml(cam.id)}" data-status="${escapeHtml(cam.status)}">
-              ${statusText}
-            </span>
+            <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+              <span class="status-pill ${statusPillClass}" data-action="toggle-status" data-id="${escapeHtml(cam.id)}" data-status="${escapeHtml(cam.status)}">
+                ${statusText}
+              </span>
+              <div class="status-action-group">
+                <button class="btn-status-quick ${cam.status === 'operational' ? 'active-live' : ''}" data-action="set-status" data-id="${escapeHtml(cam.id)}" data-status="operational" title="Passer en LIVE">LIVE</button>
+                <button class="btn-status-quick ${cam.status === 'down' ? 'active-down' : ''}" data-action="set-status" data-id="${escapeHtml(cam.id)}" data-status="down" title="Passer en DOWN">DOWN</button>
+                <button class="btn-status-quick ${cam.status === 'archived' ? 'active-archived' : ''}" data-action="set-status" data-id="${escapeHtml(cam.id)}" data-status="archived" title="Passer en ARCHIVÉ">ARCHIVE</button>
+              </div>
+            </div>
           </td>
           <td><span style="color:var(--text-muted); font-size:10px;">${timeStr}</span></td>
           <td style="text-align: right;">
@@ -1407,7 +1420,30 @@
       });
     }
 
-    // Delegate Table Clicks (Toggle Status, Probe, Edit, Delete)
+    // View Mode Toggle (Table vs Tactical Admin Map)
+    const btnViewTable = document.getElementById('btn-view-table');
+    const btnViewMap = document.getElementById('btn-view-map');
+    const tableWrap = document.getElementById('admin-table-view-wrap');
+    const mapCard = document.getElementById('admin-map-card');
+
+    if (btnViewTable && btnViewMap) {
+      btnViewTable.addEventListener('click', () => {
+        btnViewTable.classList.add('active');
+        btnViewMap.classList.remove('active');
+        if (mapCard) mapCard.classList.add('hidden');
+        if (tableWrap) tableWrap.classList.remove('hidden');
+      });
+
+      btnViewMap.addEventListener('click', () => {
+        btnViewMap.classList.add('active');
+        btnViewTable.classList.remove('active');
+        if (tableWrap) tableWrap.classList.add('hidden');
+        if (mapCard) mapCard.classList.remove('hidden');
+        if (typeof initAdminMap === 'function') initAdminMap();
+      });
+    }
+
+    // Delegate Table Clicks (Set Status, Toggle Status, Probe, Edit, Delete)
     const tbody = document.getElementById('cameras-tbody');
     if (tbody) {
       tbody.addEventListener('click', async (e) => {
@@ -1417,10 +1453,38 @@
         const action = target.dataset.action;
         const id = target.dataset.id;
 
-        // Toggle Status
+        // 1-Click Explicit Status Change (LIVE, DOWN, ARCHIVE)
+        if (action === 'set-status') {
+          const newStatus = target.dataset.status;
+          try {
+            const res = await apiFetch('/api/admin/cameras/status', {
+              method: 'POST',
+              body: { id, status: newStatus }
+            });
+            const data = await res.json();
+            if (res.ok && data.success) {
+              const cam = allCameras.find(c => String(c.id) === String(id));
+              if (cam) cam.status = newStatus;
+              filterAndRenderCameras();
+              if (typeof updateAdminMapMarkers === 'function') updateAdminMapMarkers();
+              showToast(`Statut mis à jour : ${newStatus.toUpperCase()}`);
+            } else {
+              showToast(data.error || 'Erreur lors du changement de statut', true);
+            }
+          } catch (err) {
+            showToast('Erreur réseau lors du changement de statut', true);
+          }
+          return;
+        }
+
+        // Toggle Status Cycle (operational -> down -> archived -> operational)
         if (action === 'toggle-status') {
           const currentStatus = target.dataset.status;
-          const newStatus = currentStatus === 'operational' ? 'down' : 'operational';
+          let newStatus = 'down';
+          if (currentStatus === 'operational') newStatus = 'down';
+          else if (currentStatus === 'down') newStatus = 'archived';
+          else newStatus = 'operational';
+
           target.textContent = 'UPDATING...';
 
           try {
@@ -1433,13 +1497,15 @@
               const cam = allCameras.find(c => String(c.id) === String(id));
               if (cam) cam.status = newStatus;
               filterAndRenderCameras();
-              showToast(`Status toggled to ${newStatus.toUpperCase()}`);
+              if (typeof updateAdminMapMarkers === 'function') updateAdminMapMarkers();
+              showToast(`Statut basculé en ${newStatus.toUpperCase()}`);
             } else {
               showToast(data.error || 'Failed to toggle status', true);
             }
           } catch (err) {
             showToast('Network error while toggling status', true);
           }
+          return;
         }
 
         // Live Probe
@@ -1600,6 +1666,171 @@
     }
   }
 
+  // --------------------------------------------------------------------------
+  // Admin Tactical Leaflet Map Controller
+  // --------------------------------------------------------------------------
+  let adminMap = null;
+  let adminMapMarkersLayer = null;
+
+  function initAdminMap() {
+    const mapContainer = document.getElementById('admin-leaflet-map');
+    if (!mapContainer || typeof L === 'undefined') return;
+
+    if (!adminMap) {
+      adminMap = L.map('admin-leaflet-map', {
+        center: [46.15, 5.4],
+        zoom: 7,
+        minZoom: 3,
+        maxZoom: 18
+      });
+
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '&copy; Esri &copy; OpenStreetMap contributors',
+        maxZoom: 19
+      }).addTo(adminMap);
+
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        opacity: 0.75
+      }).addTo(adminMap);
+
+      adminMapMarkersLayer = L.layerGroup().addTo(adminMap);
+
+      // Clicking on admin map opens modal with clicked coordinates prefilled
+      adminMap.on('click', async (e) => {
+        const { lat, lng } = e.latlng;
+        openCameraModal({
+          name: '',
+          latitude: Number(lat.toFixed(5)),
+          longitude: Number(lng.toFixed(5)),
+          city: '',
+          country: 'France',
+          source: 'Admin Map Placement',
+          status: 'operational',
+          stream_url: ''
+        });
+        showToast(`📍 Coordonnées sélectionnées sur la carte : ${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+
+        // Attempt reverse geocode via Mullvad VPN to auto-fill city
+        try {
+          const res = await apiFetch(`/api/admin/reverse-geocode?lat=${lat}&lon=${lng}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.city) {
+              const cityInput = document.getElementById('form-city');
+              if (cityInput && !cityInput.value) cityInput.value = data.city;
+            }
+          }
+        } catch (e) {}
+      });
+
+      // Listen for popup actions in admin map
+      document.addEventListener('click', async (e) => {
+        const target = e.target.closest('[data-admin-map-action]');
+        if (!target) return;
+        const action = target.dataset.adminMapAction;
+        const id = target.dataset.id;
+
+        if (action === 'set-status') {
+          const newStatus = target.dataset.status;
+          try {
+            const res = await apiFetch('/api/admin/cameras/status', {
+              method: 'POST',
+              body: { id, status: newStatus }
+            });
+            const data = await res.json();
+            if (res.ok && data.success) {
+              const cam = allCameras.find(c => String(c.id) === String(id));
+              if (cam) cam.status = newStatus;
+              filterAndRenderCameras();
+              updateAdminMapMarkers();
+              showToast(`Statut mis à jour : ${newStatus.toUpperCase()}`);
+            } else {
+              showToast(data.error || 'Erreur lors du changement de statut', true);
+            }
+          } catch (err) {
+            showToast('Erreur réseau lors du changement de statut', true);
+          }
+        } else if (action === 'edit') {
+          const cam = allCameras.find(c => String(c.id) === String(id));
+          if (cam) openCameraModal(cam);
+        }
+      });
+    }
+
+    updateAdminMapMarkers();
+    setTimeout(() => {
+      if (adminMap) adminMap.invalidateSize();
+    }, 150);
+  }
+
+  function updateAdminMapMarkers() {
+    if (!adminMap || !adminMapMarkersLayer || typeof L === 'undefined') return;
+    adminMapMarkersLayer.clearLayers();
+
+    let liveCount = 0;
+    let picCount = 0;
+    let downCount = 0;
+    let archivedCount = 0;
+
+    allCameras.forEach(cam => {
+      const isPic = isPictureCam(cam);
+      const isArchived = cam.status === 'archived';
+      const isDown = cam.status === 'down';
+
+      if (isArchived) archivedCount++;
+      else if (isDown) downCount++;
+      else if (isPic) picCount++;
+      else liveCount++;
+
+      if (typeof cam.latitude !== 'number' || typeof cam.longitude !== 'number') return;
+
+      let markerClass = 'dot-live';
+      if (isArchived) markerClass = 'dot-archived';
+      else if (isDown) markerClass = 'dot-down';
+      else if (isPic) markerClass = 'dot-picture';
+
+      const customIcon = L.divIcon({
+        className: 'custom-admin-marker',
+        html: `<div class="feed-dot ${markerClass}" style="width: 14px; height: 14px; border: 2px solid #fff; cursor: pointer; border-radius: 50%;"></div>`,
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
+      });
+
+      const popupHtml = `
+        <div class="admin-popup-card">
+          <div class="admin-popup-title">${escapeHtml(cam.name)}</div>
+          <div class="admin-popup-meta">
+            <span>${escapeHtml(cam.city || '')} (${escapeHtml(cam.country || 'France')})</span> • 
+            <span style="font-weight:700; color: ${isArchived ? '#c084fc' : (isDown ? '#ff3b5c' : '#00ff66')}">${isArchived ? 'ARCHIVÉE' : (isDown ? 'OFFLINE' : 'LIVE')}</span>
+          </div>
+          ${cam.preview_image ? `<img src="${sanitizeUrl(cam.preview_image)}" class="admin-popup-thumb" alt="" onerror="this.style.display='none';">` : ''}
+          <div style="font-size: 10px; color: #94a3b8; margin-bottom: 6px;">
+            <code>GPS: ${Number(cam.latitude).toFixed(4)}, ${Number(cam.longitude).toFixed(4)}</code>
+          </div>
+          <div class="admin-popup-btn-row">
+            <button class="admin-btn admin-btn-small ${cam.status === 'operational' ? 'admin-btn-primary' : 'admin-btn-secondary'}" data-admin-map-action="set-status" data-id="${escapeHtml(cam.id)}" data-status="operational">LIVE</button>
+            <button class="admin-btn admin-btn-small ${cam.status === 'down' ? 'admin-btn-danger' : 'admin-btn-secondary'}" data-admin-map-action="set-status" data-id="${escapeHtml(cam.id)}" data-status="down">DOWN</button>
+            <button class="admin-btn admin-btn-small ${cam.status === 'archived' ? 'admin-btn-primary' : 'admin-btn-secondary'}" data-admin-map-action="set-status" data-id="${escapeHtml(cam.id)}" data-status="archived" style="border-color:#a855f7; color:#c084fc;">ARCHIVE</button>
+            <button class="admin-btn admin-btn-small admin-btn-secondary" data-admin-map-action="edit" data-id="${escapeHtml(cam.id)}" title="Modifier">✏️</button>
+          </div>
+        </div>
+      `;
+
+      const marker = L.marker([cam.latitude, cam.longitude], { icon: customIcon }).bindPopup(popupHtml, { maxWidth: 300 });
+      adminMapMarkersLayer.addLayer(marker);
+    });
+
+    const elLive = document.getElementById('map-count-live');
+    const elPic = document.getElementById('map-count-pic');
+    const elDown = document.getElementById('map-count-down');
+    const elArchived = document.getElementById('map-count-archived');
+    if (elLive) elLive.textContent = liveCount;
+    if (elPic) elPic.textContent = picCount;
+    if (elDown) elDown.textContent = downCount;
+    if (elArchived) elArchived.textContent = archivedCount;
+  }
+
   // Modals Setup (Add/Edit Camera & Import JSON)
   function setupModals() {
     const camModal = document.getElementById('camera-modal');
@@ -1622,10 +1853,87 @@
       camForm.reset();
       formError.classList.add('hidden');
       probeStatus.textContent = '';
+      const addrInput = document.getElementById('form-address-search');
+      if (addrInput) addrInput.value = '';
+      const suggestions = document.getElementById('address-suggestions');
+      if (suggestions) suggestions.classList.add('hidden');
     }
 
     if (btnCloseCam) btnCloseCam.addEventListener('click', closeCameraModal);
     if (btnCancelCam) btnCancelCam.addEventListener('click', closeCameraModal);
+
+    // Address Search & Geocoding via Mullvad VPN on VPS
+    const addrInput = document.getElementById('form-address-search');
+    const btnSearchAddr = document.getElementById('btn-search-address');
+    const addrSuggestions = document.getElementById('address-suggestions');
+
+    async function performAddressSearch() {
+      if (!addrInput || !addrSuggestions) return;
+      const q = addrInput.value.trim();
+      if (!q || q.length < 2) {
+        showToast('Veuillez entrer une adresse d\'au moins 2 caractères.', true);
+        return;
+      }
+
+      if (btnSearchAddr) btnSearchAddr.textContent = '⏳ ...';
+      addrSuggestions.innerHTML = '<div style="padding: 10px; color: var(--text-muted); font-size: 11px;">Recherche géocodée via VPN Mullvad...</div>';
+      addrSuggestions.classList.remove('hidden');
+
+      try {
+        const res = await apiFetch(`/api/admin/geocode?q=${encodeURIComponent(q)}`);
+        const data = await res.json();
+        if (btnSearchAddr) btnSearchAddr.textContent = '🔍 RECHERCHER';
+
+        if (res.ok && data.results && data.results.length > 0) {
+          addrSuggestions.innerHTML = data.results.map(r => `
+            <div class="address-result-item" data-lat="${r.lat}" data-lon="${r.lon}" data-city="${escapeHtml(r.city || '')}" data-country="${escapeHtml(r.country || 'France')}" data-name="${escapeHtml(r.name || '')}">
+              <span class="address-result-name">${escapeHtml(r.name || q)}</span>
+              <span class="address-result-meta">${escapeHtml(r.display_name)}</span>
+              <span class="address-result-meta" style="color:var(--status-green);">GPS: ${r.lat.toFixed(4)}, ${r.lon.toFixed(4)}</span>
+            </div>
+          `).join('');
+
+          addrSuggestions.querySelectorAll('.address-result-item').forEach(item => {
+            item.addEventListener('click', () => {
+              const lat = item.dataset.lat;
+              const lon = item.dataset.lon;
+              const city = item.dataset.city;
+              const country = item.dataset.country;
+              const name = item.dataset.name;
+
+              document.getElementById('form-lat').value = lat;
+              document.getElementById('form-lon').value = lon;
+              if (city) document.getElementById('form-city').value = city;
+              if (country) document.getElementById('form-country').value = country;
+              const nameInput = document.getElementById('form-name');
+              if (nameInput && (!nameInput.value || nameInput.value.trim() === '')) {
+                nameInput.value = name || q;
+              }
+
+              addrSuggestions.classList.add('hidden');
+              showToast(`Localisation appliquée : ${city || name || 'OK'} (${lat}, ${lon})`);
+            });
+          });
+        } else {
+          addrSuggestions.innerHTML = '<div style="padding: 10px; color: var(--status-red); font-size: 11px;">Aucune adresse trouvée pour cette recherche.</div>';
+        }
+      } catch (err) {
+        if (btnSearchAddr) btnSearchAddr.textContent = '🔍 RECHERCHER';
+        addrSuggestions.innerHTML = '<div style="padding: 10px; color: var(--status-red); font-size: 11px;">Erreur de communication géocodage.</div>';
+      }
+    }
+
+    if (btnSearchAddr) {
+      btnSearchAddr.addEventListener('click', performAddressSearch);
+    }
+    if (addrInput) {
+      addrInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          performAddressSearch();
+        }
+      });
+    }
 
     // In-modal live probe
     if (btnProbeUrl) {

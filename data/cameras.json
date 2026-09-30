@@ -10,9 +10,11 @@
     "refresh_interval": 60,
     "source": "Grand Lyon CRITER (CRITER)",
     "status": "operational",
-    "last_checked": "2026-09-20T10:28:48.249Z",
+    "last_checked": "2026-09-30T12:21:55.007Z",
     "country": "France",
-    "city": "Lyon"
+    "city": "Lyon",
+    "insecam_url": "",
+    "is_mjpeg": false
   },
   {
     "id": "lyon-criter-258",
@@ -3988,7 +3990,8 @@
     "country": "France",
     "city": "Lyon",
     "status": "operational",
-    "insecam_url": "https://www.bojolpif.com/",
-    "last_checked": "2026-09-30T06:20:06.405Z"
+    "insecam_url": "",
+    "last_checked": "2026-09-30T12:07:34.642Z",
+    "is_mjpeg": false
   }
 ]

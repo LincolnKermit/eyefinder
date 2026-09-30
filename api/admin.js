@@ -92,6 +92,7 @@ module.exports = async function handler(req, res) {
       total: cameras.length,
       operational: cameras.filter(c => c.status === 'operational').length,
       down: cameras.filter(c => c.status === 'down').length,
+      archived: cameras.filter(c => c.status === 'archived').length,
       cameras
     });
   }
@@ -99,8 +100,8 @@ module.exports = async function handler(req, res) {
   // 5. Toggle / Update Camera Status: POST /api/admin/cameras/status
   if (pathname === '/api/admin/cameras/status' || subAction === 'status') {
     const { id, status } = req.body || {};
-    if (!id || !status || !['operational', 'down'].includes(status)) {
-      return sendJson(res, 400, { error: 'Missing or invalid parameters: id and status required' });
+    if (!id || !status || !['operational', 'down', 'archived'].includes(status)) {
+      return sendJson(res, 400, { error: 'Missing or invalid parameters: id and status required (operational, down, or archived)' });
     }
 
     const cameras = await getCameras();
@@ -114,6 +115,77 @@ module.exports = async function handler(req, res) {
     await updateCameraStatus(id, status);
 
     return sendJson(res, 200, { success: true, camera: target });
+  }
+
+  // 5b. Geocode address search: GET /api/admin/geocode?q=... (Uses Mullvad VPN on VPS)
+  if (pathname === '/api/admin/geocode' || subAction === 'geocode') {
+    const query = (req.query && req.query.q) || parsedUrl.searchParams.get('q') || '';
+    if (!query || typeof query !== 'string' || query.trim().length < 2) {
+      return sendJson(res, 400, { error: 'Query parameter q is required (min 2 chars)' });
+    }
+
+    try {
+      const geoUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query.trim())}&limit=5&addressdetails=1`;
+      const geoRes = await fetch(geoUrl, {
+        headers: {
+          'User-Agent': 'EyeFinder-Admin/2.0 (Tactical OSINT)',
+          'Accept-Language': 'fr,en'
+        },
+        signal: AbortSignal.timeout(4500)
+      });
+
+      if (!geoRes.ok) {
+        return sendJson(res, 502, { error: 'Geocoding service returned error ' + geoRes.status });
+      }
+
+      const results = await geoRes.json();
+      const formatted = (results || []).map(r => ({
+        display_name: r.display_name,
+        name: r.name,
+        lat: parseFloat(r.lat),
+        lon: parseFloat(r.lon),
+        city: r.address ? (r.address.city || r.address.town || r.address.village || r.address.municipality || '') : '',
+        country: r.address ? (r.address.country || '') : ''
+      }));
+
+      return sendJson(res, 200, { success: true, results: formatted });
+    } catch (err) {
+      return sendJson(res, 500, { error: 'Geocoding failed: ' + err.message });
+    }
+  }
+
+  // 5c. Reverse geocode coordinates to address: GET /api/admin/reverse-geocode?lat=...&lon=...
+  if (pathname === '/api/admin/reverse-geocode' || subAction === 'reverse-geocode') {
+    const lat = parseFloat((req.query && req.query.lat) || parsedUrl.searchParams.get('lat'));
+    const lon = parseFloat((req.query && req.query.lon) || parsedUrl.searchParams.get('lon'));
+    if (isNaN(lat) || isNaN(lon)) {
+      return sendJson(res, 400, { error: 'Valid lat and lon parameters are required' });
+    }
+
+    try {
+      const geoUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`;
+      const geoRes = await fetch(geoUrl, {
+        headers: {
+          'User-Agent': 'EyeFinder-Admin/2.0 (Tactical OSINT)',
+          'Accept-Language': 'fr,en'
+        },
+        signal: AbortSignal.timeout(4500)
+      });
+
+      if (!geoRes.ok) {
+        return sendJson(res, 502, { error: 'Reverse geocoding service unavailable' });
+      }
+
+      const r = await geoRes.json();
+      return sendJson(res, 200, {
+        success: true,
+        display_name: r.display_name || '',
+        city: r.address ? (r.address.city || r.address.town || r.address.village || r.address.municipality || '') : '',
+        country: r.address ? (r.address.country || '') : ''
+      });
+    } catch (err) {
+      return sendJson(res, 500, { error: 'Reverse geocoding failed: ' + err.message });
+    }
   }
 
   // 6. On-demand SSRF-Safe Camera Probe: POST /api/admin/cameras/probe

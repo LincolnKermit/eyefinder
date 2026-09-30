@@ -261,10 +261,17 @@ function mountAppInterface() {
           <button class="filter-pill" data-filter="live">Live</button>
           <button class="filter-pill" data-filter="picture">Snapshot</button>
           <button class="filter-pill" data-filter="down">Offline</button>
+          <button class="filter-pill" data-filter="archived">📦 Archivées</button>
         </div>
       </div>
 
       <div class="header-right">
+        ${userRole === 'admin' ? `
+          <button id="btn-admin-add-cam" class="header-btn" style="background: rgba(0, 229, 117, 0.15); border-color: rgba(0, 229, 117, 0.4); color: var(--accent-emerald); font-weight: 600;" title="Ajouter une caméra directement sur la carte">
+            <span style="font-size: 14px; margin-right: 3px;">+</span>
+            <span class="desktop-only">Ajouter</span>
+          </button>
+        ` : ''}
         <button id="btn-toggle-feeds" class="header-btn" title="Toggle Feeds Drawer">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
           <span class="desktop-only">Feeds</span>
@@ -412,6 +419,15 @@ function initMap() {
     }
   });
 
+  // Pin-drop map click listener for Admin camera creation
+  map.on('click', (e) => {
+    if (isPinDropMode && typeof pinDropCallback === 'function') {
+      const cb = pinDropCallback;
+      exitPinDropMode();
+      cb(e.latlng);
+    }
+  });
+
   // Ensure map is properly calibrated to viewport dimensions
   setTimeout(() => {
     if (map) map.invalidateSize();
@@ -475,12 +491,14 @@ function isWebpageUrl(url) {
 }
 
 function createMarkerIcon(cam) {
+  const isArchived = cam.status === 'archived';
   const isDown = cam.status === 'down';
   const ytId = extractYoutubeId(cam.stream_url, cam.youtube_id);
   const isVideo = ytId || isNativeVideoUrl(cam.stream_url) || isMjpegUrl(cam.stream_url, cam);
   
   let markerClass = 'marker-live';
-  if (isDown) markerClass = 'marker-down';
+  if (isArchived) markerClass = 'marker-archived';
+  else if (isDown) markerClass = 'marker-down';
   else if (!isVideo) markerClass = 'marker-snapshot';
 
   return L.divIcon({
@@ -493,6 +511,7 @@ function createMarkerIcon(cam) {
 }
 
 function createPopupContent(cam) {
+  const isArchived = cam.status === 'archived';
   const isDown = cam.status === 'down';
   const ytId = extractYoutubeId(cam.stream_url, cam.youtube_id);
   const isNativeVideo = !ytId && isNativeVideoUrl(cam.stream_url);
@@ -585,13 +604,45 @@ function createPopupContent(cam) {
     else if (cam.insecam_url.includes('skylinewebcams')) portalLabel = 'Skyline ↗';
   }
 
+  // Status badge styling
+  let badgeClass = isDown ? 'popup-badge-down' : 'popup-badge-live';
+  let badgeLabel = isDown ? 'Offline' : badgeText;
+  if (isArchived) {
+    badgeClass = 'popup-badge-archived';
+    badgeLabel = 'Archivée';
+  }
+
+  // Admin action controls inside popup
+  const adminBarHtml = (userRole === 'admin') ? `
+    <div class="popup-admin-bar">
+      <div class="popup-admin-title">
+        <span>CONTRÔLE ADMINISTRATEUR</span>
+        <span style="font-size: 8.5px; opacity:0.65;">#${escapeHtml(cam.id)}</span>
+      </div>
+      <div class="popup-admin-actions">
+        <button class="popup-admin-btn btn-act-live ${cam.status === 'operational' ? 'active-live' : ''}" data-admin-action="set-status" data-cam-id="${escapeHtml(cam.id)}" data-status="operational" title="Passer en opérationnel">
+          ● Live
+        </button>
+        <button class="popup-admin-btn btn-act-down ${cam.status === 'down' ? 'active-down' : ''}" data-admin-action="set-status" data-cam-id="${escapeHtml(cam.id)}" data-status="down" title="Passer hors ligne">
+          ■ Down
+        </button>
+        <button class="popup-admin-btn btn-act-archive ${cam.status === 'archived' ? 'active-archive' : ''}" data-admin-action="set-status" data-cam-id="${escapeHtml(cam.id)}" data-status="archived" title="Archiver la caméra">
+          📦 Archive
+        </button>
+        <button class="popup-admin-btn btn-act-edit" data-admin-action="edit-cam" data-cam-id="${escapeHtml(cam.id)}" title="Modifier titre, coordonnées ou adresse">
+          ✏️ Modifier
+        </button>
+      </div>
+    </div>
+  ` : '';
+
   return `
     <div class="popup-container">
       <div class="popup-header-row">
         <h4 class="popup-cam-title">${escapeHtml(cam.name)}</h4>
         <div class="popup-cam-meta">
           <span>${escapeHtml(cam.city || cam.source || '')}</span>
-          <span class="${isDown ? 'popup-badge-down' : 'popup-badge-live'}">${isDown ? 'Offline' : badgeText}</span>
+          <span class="${badgeClass}">${badgeLabel}</span>
         </div>
       </div>
 
@@ -611,6 +662,7 @@ function createPopupContent(cam) {
           </a>
         ` : ''}
       </div>
+      ${adminBarHtml}
     </div>
   `;
 }
@@ -627,6 +679,7 @@ function renderMapMarkers() {
     if (activeFilter === 'live' && (cam.status !== 'operational' || cam.is_snapshot)) return;
     if (activeFilter === 'picture' && (cam.status !== 'operational' || !cam.is_snapshot)) return;
     if (activeFilter === 'down' && cam.status !== 'down') return;
+    if (activeFilter === 'archived' && cam.status !== 'archived') return;
     if (activeFilter === 'france' && (cam.country || '').toLowerCase() !== 'france') return;
     if (activeFilter === 'swiss' && (cam.country || '').toLowerCase() !== 'switzerland' && (cam.city || '').toLowerCase() !== 'geneva') return;
 
@@ -678,6 +731,7 @@ function renderDrawerList() {
     if (activeFilter === 'live' && (cam.status !== 'operational' || cam.is_snapshot)) return false;
     if (activeFilter === 'picture' && (cam.status !== 'operational' || !cam.is_snapshot)) return false;
     if (activeFilter === 'down' && cam.status !== 'down') return false;
+    if (activeFilter === 'archived' && cam.status !== 'archived') return false;
     if (activeFilter === 'france' && (cam.country || '').toLowerCase() !== 'france') return false;
     if (activeFilter === 'swiss' && (cam.country || '').toLowerCase() !== 'switzerland' && (cam.city || '').toLowerCase() !== 'geneva') return false;
 
@@ -701,13 +755,19 @@ function renderDrawerList() {
     const isNv = isNativeVideoUrl(cam.stream_url);
     const rawThumb = cam.preview_image || (isWp || isNv ? '' : cam.stream_url) || '';
     const thumb = sanitizeUrl(rawThumb);
+    const isArchived = cam.status === 'archived';
+    const isDown = cam.status === 'down';
+    let dotClass = 'live';
+    if (isArchived) dotClass = 'archived';
+    else if (isDown) dotClass = 'down';
+
     return `
       <div class="feed-card" data-cam-id="${escapeHtml(cam.id)}">
         <img class="feed-thumb" src="${thumb}" referrerpolicy="no-referrer" alt="" loading="lazy" onerror="this.style.opacity='0.2';" />
         <div class="feed-info">
           <div class="feed-name">${escapeHtml(cam.name)}</div>
           <div class="feed-meta">
-            <span class="feed-status-dot ${isDown ? 'down' : 'live'}"></span>
+            <span class="feed-status-dot ${dotClass}"></span>
             <span>${escapeHtml(cam.city || cam.source || '')}</span>
           </div>
         </div>
@@ -883,6 +943,410 @@ function setupAppEvents() {
       showToast('Session locked.');
     });
   }
+
+  // Admin "+ Ajouter" Header Button
+  const btnAdminAdd = document.getElementById('btn-admin-add-cam');
+  if (btnAdminAdd) {
+    btnAdminAdd.addEventListener('click', () => {
+      openInMapCameraModal(null);
+    });
+  }
+
+  // Delegated Popup Admin Actions (Live / Down / Archive / Edit)
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-admin-action]');
+    if (!btn) return;
+    const action = btn.dataset.adminAction;
+    const camId = btn.dataset.camId;
+    if (!action || !camId) return;
+
+    if (action === 'set-status') {
+      const newStatus = btn.dataset.status;
+      const targetCam = allCameras.find(c => String(c.id) === String(camId));
+      if (!targetCam) return;
+
+      try {
+        const token = getStoredAccessToken();
+        const res = await fetch('/api/admin/cameras/status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ id: camId, status: newStatus })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          targetCam.status = newStatus;
+          renderMapMarkers();
+          renderDrawerList();
+
+          // Live update active button style in popup without closing it
+          const actionsRow = btn.parentElement;
+          if (actionsRow) {
+            actionsRow.querySelectorAll('.popup-admin-btn').forEach(b => {
+              b.classList.remove('active-live', 'active-down', 'active-archive');
+            });
+            if (newStatus === 'operational') btn.classList.add('active-live');
+            else if (newStatus === 'down') btn.classList.add('active-down');
+            else if (newStatus === 'archived') btn.classList.add('active-archive');
+          }
+
+          showToast(`Statut caméra : ${newStatus.toUpperCase()}`);
+        } else {
+          showToast(data.error || 'Erreur lors du changement de statut', true);
+        }
+      } catch (err) {
+        showToast('Erreur réseau lors du changement de statut', true);
+      }
+    } else if (action === 'edit-cam') {
+      const targetCam = allCameras.find(c => String(c.id) === String(camId));
+      if (targetCam) {
+        if (map) map.closePopup();
+        openInMapCameraModal(targetCam);
+      }
+    }
+  });
+}
+
+// --------------------------------------------------------------------------
+// Admin In-Map Camera Management & Address Geocoding
+// --------------------------------------------------------------------------
+let isPinDropMode = false;
+let pinDropCallback = null;
+
+function setPinDropMode(callback) {
+  isPinDropMode = true;
+  pinDropCallback = callback;
+  const mapEl = document.getElementById('map');
+  if (mapEl) mapEl.classList.add('pin-drop-active');
+
+  let banner = document.getElementById('pin-drop-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'pin-drop-banner';
+    banner.className = 'pin-drop-banner';
+    document.body.appendChild(banner);
+  }
+  banner.innerHTML = `
+    <span>📍 Cliquez sur la carte pour définir la position GPS</span>
+    <button type="button" class="pin-drop-cancel" id="btn-cancel-pindrop">✕ Annuler</button>
+  `;
+  banner.classList.remove('hidden');
+
+  document.getElementById('btn-cancel-pindrop')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    exitPinDropMode();
+    if (callback) callback(null);
+  });
+}
+
+function exitPinDropMode() {
+  isPinDropMode = false;
+  pinDropCallback = null;
+  const mapEl = document.getElementById('map');
+  if (mapEl) mapEl.classList.remove('pin-drop-active');
+  const banner = document.getElementById('pin-drop-banner');
+  if (banner) banner.remove();
+}
+
+function openInMapCameraModal(camToEdit = null, dropCoords = null) {
+  const existing = document.getElementById('inmap-camera-modal');
+  if (existing) existing.remove();
+
+  const isEditing = Boolean(camToEdit && camToEdit.id);
+  const titleText = isEditing ? `Modifier la caméra // ${camToEdit.name}` : 'Ajouter une nouvelle caméra';
+  const initialLat = dropCoords ? dropCoords.lat : (camToEdit ? camToEdit.latitude : 45.7578);
+  const initialLon = dropCoords ? dropCoords.lng : (camToEdit ? camToEdit.longitude : 4.8320);
+
+  const modalEl = document.createElement('div');
+  modalEl.id = 'inmap-camera-modal';
+  modalEl.className = 'inmap-modal-backdrop';
+  modalEl.innerHTML = `
+    <div class="inmap-modal-card">
+      <div class="inmap-modal-header">
+        <div class="inmap-modal-title">
+          <span>📹</span>
+          <span>${escapeHtml(titleText)}</span>
+        </div>
+        <button type="button" class="inmap-modal-close" id="btn-close-inmap-modal">✕</button>
+      </div>
+
+      <form id="inmap-camera-form" class="inmap-modal-body">
+        <input type="hidden" id="inmap-cam-id" value="${isEditing ? escapeHtml(camToEdit.id) : ''}" />
+
+        <div class="inmap-form-group">
+          <label class="inmap-form-label" for="inmap-form-name">Nom / Titre de la caméra *</label>
+          <input type="text" id="inmap-form-name" class="inmap-form-input" placeholder="ex: Lyon - Place Bellecour Nord" value="${camToEdit ? escapeHtml(camToEdit.name || '') : ''}" required />
+        </div>
+
+        <!-- Recherche par adresse / lieu via OSM Nominatim sur VPN Mullvad -->
+        <div class="inmap-form-group">
+          <label class="inmap-form-label" for="inmap-addr-search">Localisation par adresse (Recherche OSINT Nominatim)</label>
+          <div style="display: flex; gap: 6px;">
+            <input type="text" id="inmap-addr-search" class="inmap-form-input" style="flex:1;" placeholder="ex: Place Bellecour, Lyon ou 10 rue de la Paix, Paris..." autocomplete="off" />
+            <button type="button" id="btn-inmap-search-addr" class="inmap-btn-locate">🔍 Chercher</button>
+          </div>
+          <div id="inmap-addr-results" class="inmap-geocode-results hidden"></div>
+        </div>
+
+        <div class="inmap-input-row">
+          <div class="inmap-form-group">
+            <label class="inmap-form-label" for="inmap-form-lat">Latitude *</label>
+            <input type="number" step="any" id="inmap-form-lat" class="inmap-form-input" value="${initialLat || ''}" required />
+          </div>
+          <div class="inmap-form-group">
+            <label class="inmap-form-label" for="inmap-form-lon">Longitude *</label>
+            <input type="number" step="any" id="inmap-form-lon" class="inmap-form-input" value="${initialLon || ''}" required />
+          </div>
+          <div style="display: flex; align-items: flex-end;">
+            <button type="button" id="btn-inmap-pick-pin" class="inmap-btn-locate" title="Sélectionner la position en cliquant directement sur la carte">
+              📍 Pointer carte
+            </button>
+          </div>
+        </div>
+
+        <div class="inmap-input-row">
+          <div class="inmap-form-group">
+            <label class="inmap-form-label" for="inmap-form-city">Ville</label>
+            <input type="text" id="inmap-form-city" class="inmap-form-input" placeholder="ex: Lyon" value="${camToEdit ? escapeHtml(camToEdit.city || '') : ''}" />
+          </div>
+          <div class="inmap-form-group">
+            <label class="inmap-form-label" for="inmap-form-country">Pays</label>
+            <input type="text" id="inmap-form-country" class="inmap-form-input" placeholder="ex: France" value="${camToEdit ? escapeHtml(camToEdit.country || 'France') : 'France'}" />
+          </div>
+        </div>
+
+        <div class="inmap-form-group">
+          <label class="inmap-form-label" for="inmap-form-url">URL du Flux / Image *</label>
+          <input type="url" id="inmap-form-url" class="inmap-form-input" placeholder="http://... ou https://..." value="${camToEdit ? escapeHtml(camToEdit.stream_url || '') : ''}" required />
+        </div>
+
+        <div class="inmap-input-row">
+          <div class="inmap-form-group">
+            <label class="inmap-form-label" for="inmap-form-type">Type de flux</label>
+            <select id="inmap-form-type" class="inmap-form-select">
+              <option value="live" ${camToEdit && !camToEdit.is_snapshot && !camToEdit.is_mjpeg ? 'selected' : ''}>Vidéo Direct / HLS / MP4</option>
+              <option value="mjpeg" ${camToEdit && camToEdit.is_mjpeg ? 'selected' : ''}>MJPEG Live Flux</option>
+              <option value="picture" ${camToEdit && camToEdit.is_snapshot ? 'selected' : ''}>Capture Snapshot (60s)</option>
+            </select>
+          </div>
+          <div class="inmap-form-group">
+            <label class="inmap-form-label" for="inmap-form-status">Statut de la caméra</label>
+            <select id="inmap-form-status" class="inmap-form-select">
+              <option value="operational" ${!camToEdit || camToEdit.status === 'operational' ? 'selected' : ''}>🟢 Opérationnel (Live)</option>
+              <option value="down" ${camToEdit && camToEdit.status === 'down' ? 'selected' : ''}>🔴 Hors ligne (Down)</option>
+              <option value="archived" ${camToEdit && camToEdit.status === 'archived' ? 'selected' : ''}>🟣 Archivée (Archived)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="inmap-form-group">
+          <label class="inmap-form-label" for="inmap-form-source">Source</label>
+          <input type="text" id="inmap-form-source" class="inmap-form-input" placeholder="ex: Grand Lyon / Insecam" value="${camToEdit ? escapeHtml(camToEdit.source || 'Admin Console') : 'Admin Console'}" />
+        </div>
+
+        <div id="inmap-form-error" style="color: #ff3b5c; font-size: 11px;" class="hidden"></div>
+      </form>
+
+      <div class="inmap-modal-footer">
+        <button type="button" class="inmap-btn-secondary" id="btn-cancel-inmap-modal">Annuler</button>
+        <button type="button" class="inmap-btn-primary" id="btn-save-inmap-modal">
+          <span>💾</span>
+          <span>${isEditing ? 'Enregistrer les modifications' : 'Ajouter la caméra'}</span>
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modalEl);
+
+  const closeModal = () => modalEl.remove();
+  document.getElementById('btn-close-inmap-modal')?.addEventListener('click', closeModal);
+  document.getElementById('btn-cancel-inmap-modal')?.addEventListener('click', closeModal);
+
+  // Address geocoding lookup
+  const addrInput = document.getElementById('inmap-addr-search');
+  const btnSearchAddr = document.getElementById('btn-inmap-search-addr');
+  const resultsContainer = document.getElementById('inmap-addr-results');
+
+  const executeAddrSearch = async () => {
+    const q = addrInput.value.trim();
+    if (!q || q.length < 2) {
+      showToast('Entrez une adresse d\'au moins 2 caractères', true);
+      return;
+    }
+    btnSearchAddr.textContent = '⏳ ...';
+    resultsContainer.innerHTML = '<div style="padding:8px 10px; font-size:11px; color:#94a3b8;">Recherche d\'adresse via VPN Mullvad...</div>';
+    resultsContainer.classList.remove('hidden');
+
+    try {
+      const token = getStoredAccessToken();
+      const res = await fetch(`/api/admin/geocode?q=${encodeURIComponent(q)}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      btnSearchAddr.textContent = '🔍 Chercher';
+
+      if (res.ok && data.results && data.results.length > 0) {
+        resultsContainer.innerHTML = data.results.map(r => `
+          <div class="inmap-geocode-item" data-lat="${r.lat}" data-lon="${r.lon}" data-city="${escapeHtml(r.city || '')}" data-country="${escapeHtml(r.country || 'France')}" data-name="${escapeHtml(r.name || '')}">
+            <div style="font-weight:700; color:#fff;">${escapeHtml(r.name || q)}</div>
+            <div style="font-size:10px; color:#94a3b8;">${escapeHtml(r.display_name)}</div>
+            <div style="font-size:9.5px; color:#00e575;">GPS: ${r.lat.toFixed(5)}, ${r.lon.toFixed(5)}</div>
+          </div>
+        `).join('');
+
+        resultsContainer.querySelectorAll('.inmap-geocode-item').forEach(item => {
+          item.addEventListener('click', () => {
+            document.getElementById('inmap-form-lat').value = item.dataset.lat;
+            document.getElementById('inmap-form-lon').value = item.dataset.lon;
+            if (item.dataset.city) document.getElementById('inmap-form-city').value = item.dataset.city;
+            if (item.dataset.country) document.getElementById('inmap-form-country').value = item.dataset.country;
+            const nameEl = document.getElementById('inmap-form-name');
+            if (!nameEl.value || nameEl.value.trim() === '') {
+              nameEl.value = item.dataset.name || q;
+            }
+            resultsContainer.classList.add('hidden');
+            showToast(`Position appliquée : ${item.dataset.city || item.dataset.name || 'OK'}`);
+          });
+        });
+      } else {
+        resultsContainer.innerHTML = '<div style="padding:8px 10px; font-size:11px; color:#ff3b5c;">Aucun résultat trouvé pour cette adresse.</div>';
+      }
+    } catch (e) {
+      btnSearchAddr.textContent = '🔍 Chercher';
+      resultsContainer.innerHTML = '<div style="padding:8px 10px; font-size:11px; color:#ff3b5c;">Erreur réseau lors de la recherche.</div>';
+    }
+  };
+
+  btnSearchAddr?.addEventListener('click', executeAddrSearch);
+  addrInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      executeAddrSearch();
+    }
+  });
+
+  // Pin drop pointer on map
+  document.getElementById('btn-inmap-pick-pin')?.addEventListener('click', () => {
+    modalEl.classList.add('hidden');
+    setPinDropMode(async (latlng) => {
+      modalEl.classList.remove('hidden');
+      if (latlng) {
+        document.getElementById('inmap-form-lat').value = Number(latlng.lat.toFixed(5));
+        document.getElementById('inmap-form-lon').value = Number(latlng.lng.toFixed(5));
+        showToast(`📍 Coordonnées définies : ${latlng.lat.toFixed(4)}, ${latlng.lng.toFixed(4)}`);
+        try {
+          const token = getStoredAccessToken();
+          const rRes = await fetch(`/api/admin/reverse-geocode?lat=${latlng.lat}&lon=${latlng.lng}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (rRes.ok) {
+            const rData = await rRes.json();
+            if (rData.city) {
+              const cInput = document.getElementById('inmap-form-city');
+              if (cInput && !cInput.value) cInput.value = rData.city;
+            }
+          }
+        } catch (e) {}
+      }
+    });
+  });
+
+  // Save submit
+  document.getElementById('btn-save-inmap-modal')?.addEventListener('click', async () => {
+    const errorEl = document.getElementById('inmap-form-error');
+    errorEl.classList.add('hidden');
+
+    const id = document.getElementById('inmap-cam-id').value;
+    const name = document.getElementById('inmap-form-name').value.trim();
+    const stream_url = document.getElementById('inmap-form-url').value.trim();
+    const latitude = parseFloat(document.getElementById('inmap-form-lat').value);
+    const longitude = parseFloat(document.getElementById('inmap-form-lon').value);
+    const city = document.getElementById('inmap-form-city').value.trim();
+    const country = document.getElementById('inmap-form-country').value.trim() || 'France';
+    const source = document.getElementById('inmap-form-source').value.trim() || 'Admin Console';
+    const streamType = document.getElementById('inmap-form-type').value;
+    const status = document.getElementById('inmap-form-status').value;
+
+    if (!name || isNaN(latitude) || isNaN(longitude) || !stream_url) {
+      errorEl.textContent = 'Veuillez remplir tous les champs requis (nom, latitude, longitude, URL).';
+      errorEl.classList.remove('hidden');
+      return;
+    }
+
+    const payload = {
+      id: id || undefined,
+      name,
+      stream_url,
+      latitude,
+      longitude,
+      city,
+      country,
+      source,
+      status,
+      is_snapshot: streamType === 'picture',
+      is_mjpeg: streamType === 'mjpeg'
+    };
+
+    const token = getStoredAccessToken();
+    const endpoint = '/api/cameras';
+    const method = isEditing ? 'PUT' : 'POST';
+
+    const saveBtn = document.getElementById('btn-save-inmap-modal');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Enregistrement...';
+
+    try {
+      const res = await fetch(endpoint, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success && data.camera) {
+        if (isEditing) {
+          const idx = allCameras.findIndex(c => String(c.id) === String(id));
+          if (idx !== -1) allCameras[idx] = data.camera;
+        } else {
+          allCameras.push(data.camera);
+        }
+
+        renderMapMarkers();
+        renderDrawerList();
+        closeModal();
+
+        showToast(isEditing ? `Caméra "${name}" modifiée.` : `Nouvelle caméra "${name}" ajoutée.`);
+
+        if (map) {
+          map.flyTo([latitude, longitude], 14, { duration: 1.2 });
+          setTimeout(() => {
+            markersLayer.eachLayer(layer => {
+              const l = layer.getLatLng();
+              if (Math.abs(l.lat - latitude) < 0.0001 && Math.abs(l.lng - longitude) < 0.0001) {
+                layer.openPopup();
+              }
+            });
+          }, 1300);
+        }
+      } else {
+        saveBtn.disabled = false;
+        saveBtn.textContent = isEditing ? 'Enregistrer les modifications' : 'Ajouter la caméra';
+        errorEl.textContent = data.error || 'Erreur lors de la sauvegarde de la caméra.';
+        errorEl.classList.remove('hidden');
+      }
+    } catch (err) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = isEditing ? 'Enregistrer les modifications' : 'Ajouter la caméra';
+      errorEl.textContent = 'Erreur réseau lors de la communication serveur.';
+      errorEl.classList.remove('hidden');
+    }
+  });
 }
 
 function showToast(msg) {
