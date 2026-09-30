@@ -8,9 +8,9 @@
     }
   },
   "metadata": {
-    "exported_at": "2026-09-28T21:29:20.386Z",
-    "total": 249,
-    "operational": 219,
+    "exported_at": "2026-09-30T06:20:06.776Z",
+    "total": 256,
+    "operational": 226,
     "down": 30
   },
   "features": [
@@ -7233,6 +7233,209 @@
         "youtube_id": "",
         "last_checked": "2026-09-28T13:49:41.704Z",
         "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">PMVPR11 (Direction Clermont-Ferrand)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Puy-de-Dôme / Cantal (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> DIR Massif Central (M-CAM)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        \n        <div>\n          <a href=\"https://public.dir-massif-central.magsys-services.net/stream/PMVPR11/videoclip_ch1_20260928_154804.mp4\" target=\"_blank\" rel=\"noopener noreferrer\" referrerpolicy=\"no-referrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.4981,
+          45.6742
+        ]
+      },
+      "properties": {
+        "id": "lyon-axis-aubepin",
+        "name": "[Axis] Lyon Ouest - Monts du Lyonnais (Météo L'Aubépin)",
+        "latitude": 45.6742,
+        "longitude": 4.4981,
+        "city": "Lyon",
+        "country": "France",
+        "source": "Axis Communications (Météo L'Aubépin)",
+        "status": "operational",
+        "is_snapshot": true,
+        "is_video": false,
+        "refresh_interval": 60,
+        "stream_url": "https://www.meteo-aubepin.fr/axis/live.jpg",
+        "preview_image": "https://www.meteo-aubepin.fr/axis/live.jpg",
+        "insecam_url": "https://www.meteo-aubepin.fr/",
+        "youtube_id": "",
+        "last_checked": "2026-09-30T06:20:06.371Z",
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">[Axis] Lyon Ouest - Monts du Lyonnais (Météo L&apos;Aubépin)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Lyon (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Axis Communications (Météo L&apos;Aubépin)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://www.meteo-aubepin.fr/axis/live.jpg\" referrerpolicy=\"no-referrer\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.meteo-aubepin.fr/axis/live.jpg\" target=\"_blank\" rel=\"noopener noreferrer\" referrerpolicy=\"no-referrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5.5564,
+          45.0716
+        ]
+      },
+      "properties": {
+        "id": "lyon-rhone-alpes-axis-m5525e",
+        "name": "[Axis] Lyon / Rhône-Alpes - Axis M5525-E PTZ Live Stream",
+        "latitude": 45.0716,
+        "longitude": 5.5564,
+        "city": "Lyon",
+        "country": "France",
+        "source": "Insecam (Axis M5525-E)",
+        "status": "operational",
+        "is_snapshot": false,
+        "is_video": true,
+        "refresh_interval": 60,
+        "stream_url": "http://82.127.206.236/axis-cgi/mjpg/video.cgi",
+        "preview_image": "http://82.127.206.236/axis-cgi/jpg/image.cgi",
+        "insecam_url": "http://82.127.206.236/",
+        "youtube_id": "",
+        "last_checked": "2026-09-30T06:20:06.404Z",
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">[Axis] Lyon / Rhône-Alpes - Axis M5525-E PTZ Live Stream</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Lyon (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Insecam (Axis M5525-E)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"http://82.127.206.236/axis-cgi/jpg/image.cgi\" referrerpolicy=\"no-referrer\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"http://82.127.206.236/axis-cgi/mjpg/video.cgi\" target=\"_blank\" rel=\"noopener noreferrer\" referrerpolicy=\"no-referrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Vidéo) ↗</a>\n        </div>\n      </div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.8214,
+          45.8197
+        ]
+      },
+      "properties": {
+        "id": "lyon-mont-cindre",
+        "name": "Lyon Métropole - Mont Cindre (Panoramique Sud-Est)",
+        "latitude": 45.8197,
+        "longitude": 4.8214,
+        "city": "Lyon",
+        "country": "France",
+        "source": "NetSyst (Mont Cindre)",
+        "status": "operational",
+        "is_snapshot": true,
+        "is_video": false,
+        "refresh_interval": 120,
+        "stream_url": "https://images-webcams.windy.com/06/1661360406/current/full/1661360406.jpg",
+        "preview_image": "https://images-webcams.windy.com/06/1661360406/current/full/1661360406.jpg",
+        "insecam_url": "https://app.webcam-hd.com/netsyst/mont-cindre",
+        "youtube_id": "",
+        "last_checked": "2026-09-30T06:20:06.404Z",
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Lyon Métropole - Mont Cindre (Panoramique Sud-Est)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Lyon (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> NetSyst (Mont Cindre)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://images-webcams.windy.com/06/1661360406/current/full/1661360406.jpg\" referrerpolicy=\"no-referrer\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://images-webcams.windy.com/06/1661360406/current/full/1661360406.jpg\" target=\"_blank\" rel=\"noopener noreferrer\" referrerpolicy=\"no-referrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.8067,
+          45.7144
+        ]
+      },
+      "properties": {
+        "id": "lyon-oullins-ifs",
+        "name": "Lyon Sud - Oullins: Résidence Les Ifs",
+        "latitude": 45.7144,
+        "longitude": 4.8067,
+        "city": "Lyon",
+        "country": "France",
+        "source": "Résidence Les Ifs (Grand Lyon)",
+        "status": "operational",
+        "is_snapshot": true,
+        "is_video": false,
+        "refresh_interval": 60,
+        "stream_url": "http://residence-les-ifs.info/Webcam/Webcam.jpg",
+        "preview_image": "http://residence-les-ifs.info/Webcam/Webcam.jpg",
+        "insecam_url": "http://residence-les-ifs.info/",
+        "youtube_id": "",
+        "last_checked": "2026-09-30T06:20:06.405Z",
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Lyon Sud - Oullins: Résidence Les Ifs</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Lyon (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Résidence Les Ifs (Grand Lyon)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"http://residence-les-ifs.info/Webcam/Webcam.jpg\" referrerpolicy=\"no-referrer\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"http://residence-les-ifs.info/Webcam/Webcam.jpg\" target=\"_blank\" rel=\"noopener noreferrer\" referrerpolicy=\"no-referrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.832,
+          45.7578
+        ]
+      },
+      "properties": {
+        "id": "lyon-centre-ipcam",
+        "name": "Lyon Centre - Caméra IP Publique (Presqu'île)",
+        "latitude": 45.7578,
+        "longitude": 4.832,
+        "city": "Lyon",
+        "country": "France",
+        "source": "Insecam (Lyon IP Cam)",
+        "status": "operational",
+        "is_snapshot": true,
+        "is_video": false,
+        "refresh_interval": 30,
+        "stream_url": "http://92.154.0.63:1024/oneshotimage1",
+        "preview_image": "http://92.154.0.63:1024/oneshotimage1",
+        "insecam_url": "http://www.insecam.org/en/view/869519/",
+        "youtube_id": "",
+        "last_checked": "2026-09-30T06:20:06.405Z",
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Lyon Centre - Caméra IP Publique (Presqu&apos;île)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Lyon (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Insecam (Lyon IP Cam)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"http://92.154.0.63:1024/oneshotimage1\" referrerpolicy=\"no-referrer\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"http://92.154.0.63:1024/oneshotimage1\" target=\"_blank\" rel=\"noopener noreferrer\" referrerpolicy=\"no-referrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.6006,
+          45.8119
+        ]
+      },
+      "properties": {
+        "id": "lyon-ouest-sain-bel",
+        "name": "Lyon Ouest - Sain-Bel (Vallée de la Brévenne)",
+        "latitude": 45.8119,
+        "longitude": 4.6006,
+        "city": "Lyon",
+        "country": "France",
+        "source": "Météo Sain-Bel (Rhône)",
+        "status": "operational",
+        "is_snapshot": true,
+        "is_video": false,
+        "refresh_interval": 60,
+        "stream_url": "http://www.meteo-sain-bel.fr/script/webcam/webcam.jpg",
+        "preview_image": "http://www.meteo-sain-bel.fr/script/webcam/webcam.jpg",
+        "insecam_url": "http://www.meteo-sain-bel.fr/",
+        "youtube_id": "",
+        "last_checked": "2026-09-30T06:20:06.405Z",
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Lyon Ouest - Sain-Bel (Vallée de la Brévenne)</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Lyon (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Météo Sain-Bel (Rhône)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"http://www.meteo-sain-bel.fr/script/webcam/webcam.jpg\" referrerpolicy=\"no-referrer\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"http://www.meteo-sain-bel.fr/script/webcam/webcam.jpg\" target=\"_blank\" rel=\"noopener noreferrer\" referrerpolicy=\"no-referrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4.7172,
+          45.9347
+        ]
+      },
+      "properties": {
+        "id": "lyon-nord-anse",
+        "name": "Lyon Nord - Anse: Val de Saône / Beaujolais",
+        "latitude": 45.9347,
+        "longitude": 4.7172,
+        "city": "Lyon",
+        "country": "France",
+        "source": "Bojolpif Météo (Rhône)",
+        "status": "operational",
+        "is_snapshot": true,
+        "is_video": false,
+        "refresh_interval": 60,
+        "stream_url": "https://www.bojolpif.com/Anse_cam.php",
+        "preview_image": "https://www.bojolpif.com/Anse_cam.php",
+        "insecam_url": "https://www.bojolpif.com/",
+        "youtube_id": "",
+        "last_checked": "2026-09-30T06:20:06.405Z",
+        "description": "<div style=\"font-family: monospace; max-width: 300px;\">\n        <h4 style=\"margin: 0 0 6px 0; color: #00ff66;\">Lyon Nord - Anse: Val de Saône / Beaujolais</h4>\n        <p style=\"margin: 0 0 4px 0;\"><b>Ville:</b> Lyon (France)</p>\n        <p style=\"margin: 0 0 4px 0;\"><b>Source:</b> Bojolpif Météo (Rhône)</p>\n        <p style=\"margin: 0 0 8px 0;\"><b>Statut:</b> <span style=\"color:#00ff66\">operational</span></p>\n        <img src=\"https://www.bojolpif.com/Anse_cam.php\" referrerpolicy=\"no-referrer\" alt=\"Preview\" style=\"width:100%; border-radius:4px; margin-bottom:8px; border:1px solid #333;\" />\n        <div>\n          <a href=\"https://www.bojolpif.com/Anse_cam.php\" target=\"_blank\" rel=\"noopener noreferrer\" referrerpolicy=\"no-referrer\" style=\"color: #00ff66; text-decoration: underline;\">Ouvrir le flux (Image) ↗</a>\n        </div>\n      </div>"
       }
     }
   ]

@@ -2,7 +2,7 @@
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
     <name>EyeFinder Cameras Backup</name>
-    <description>Sauvegarde de l'ensemble des caméras publiques EyeFinder (219 opérationnelles, 30 hors-ligne).</description>
+    <description>Sauvegarde de l'ensemble des caméras publiques EyeFinder (226 opérationnelles, 30 hors-ligne).</description>
     <Style id="operational-cam">
       <IconStyle>
         <scale>1.1</scale>
@@ -5246,6 +5246,153 @@
   ]]></description>
       <Point>
         <coordinates>3.1423131,45.6731414,0</coordinates>
+      </Point>
+    </Placemark>
+<Placemark>
+      <name>[Axis] Lyon Ouest - Monts du Lyonnais (Météo L&apos;Aubépin)</name>
+      <styleUrl>#operational-cam</styleUrl>
+      <description><![CDATA[
+    <div style="font-family: Arial, sans-serif; font-size: 13px; line-height: 1.4;">
+      <h3 style="margin: 0 0 6px 0; color: #009933;">[Axis] Lyon Ouest - Monts du Lyonnais (Météo L&apos;Aubépin)</h3>
+      <p style="margin: 0 0 4px 0;"><b>Ville:</b> Lyon (France)</p>
+      <p style="margin: 0 0 4px 0;"><b>Source:</b> Axis Communications (Météo L&apos;Aubépin)</p>
+      <p style="margin: 0 0 4px 0;"><b>Statut:</b> En ligne</p>
+      <p style="margin: 0 0 8px 0;"><b>Coordonnées:</b> 45.6742, 4.4981</p>
+      <div style="margin-bottom: 8px;"><img src="https://www.meteo-aubepin.fr/axis/live.jpg" referrerpolicy="no-referrer" style="max-width: 280px; height: auto; border: 1px solid #ccc; border-radius: 4px;" /></div>
+      <p style="margin: 6px 0 0 0;">
+        <a href="https://www.meteo-aubepin.fr/axis/live.jpg" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="font-weight: bold; color: #0066cc;">Ouvrir le flux vidéo / image direct ↗</a>
+      </p>
+      <p style="margin: 4px 0 0 0;"><a href="https://www.meteo-aubepin.fr/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="color: #666;">Portail Source ↗</a></p>
+    </div>
+  ]]></description>
+      <Point>
+        <coordinates>4.4981,45.6742,0</coordinates>
+      </Point>
+    </Placemark>
+<Placemark>
+      <name>[Axis] Lyon / Rhône-Alpes - Axis M5525-E PTZ Live Stream</name>
+      <styleUrl>#operational-cam</styleUrl>
+      <description><![CDATA[
+    <div style="font-family: Arial, sans-serif; font-size: 13px; line-height: 1.4;">
+      <h3 style="margin: 0 0 6px 0; color: #009933;">[Axis] Lyon / Rhône-Alpes - Axis M5525-E PTZ Live Stream</h3>
+      <p style="margin: 0 0 4px 0;"><b>Ville:</b> Lyon (France)</p>
+      <p style="margin: 0 0 4px 0;"><b>Source:</b> Insecam (Axis M5525-E)</p>
+      <p style="margin: 0 0 4px 0;"><b>Statut:</b> En ligne</p>
+      <p style="margin: 0 0 8px 0;"><b>Coordonnées:</b> 45.0716, 5.5564</p>
+      <div style="margin-bottom: 8px;"><img src="http://82.127.206.236/axis-cgi/jpg/image.cgi" referrerpolicy="no-referrer" style="max-width: 280px; height: auto; border: 1px solid #ccc; border-radius: 4px;" /></div>
+      <p style="margin: 6px 0 0 0;">
+        <a href="http://82.127.206.236/axis-cgi/mjpg/video.cgi" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="font-weight: bold; color: #0066cc;">Ouvrir le flux vidéo / image direct ↗</a>
+      </p>
+      <p style="margin: 4px 0 0 0;"><a href="http://82.127.206.236/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="color: #666;">Portail Source ↗</a></p>
+    </div>
+  ]]></description>
+      <Point>
+        <coordinates>5.5564,45.0716,0</coordinates>
+      </Point>
+    </Placemark>
+<Placemark>
+      <name>Lyon Métropole - Mont Cindre (Panoramique Sud-Est)</name>
+      <styleUrl>#operational-cam</styleUrl>
+      <description><![CDATA[
+    <div style="font-family: Arial, sans-serif; font-size: 13px; line-height: 1.4;">
+      <h3 style="margin: 0 0 6px 0; color: #009933;">Lyon Métropole - Mont Cindre (Panoramique Sud-Est)</h3>
+      <p style="margin: 0 0 4px 0;"><b>Ville:</b> Lyon (France)</p>
+      <p style="margin: 0 0 4px 0;"><b>Source:</b> NetSyst (Mont Cindre)</p>
+      <p style="margin: 0 0 4px 0;"><b>Statut:</b> En ligne</p>
+      <p style="margin: 0 0 8px 0;"><b>Coordonnées:</b> 45.8197, 4.8214</p>
+      <div style="margin-bottom: 8px;"><img src="https://images-webcams.windy.com/06/1661360406/current/full/1661360406.jpg" referrerpolicy="no-referrer" style="max-width: 280px; height: auto; border: 1px solid #ccc; border-radius: 4px;" /></div>
+      <p style="margin: 6px 0 0 0;">
+        <a href="https://images-webcams.windy.com/06/1661360406/current/full/1661360406.jpg" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="font-weight: bold; color: #0066cc;">Ouvrir le flux vidéo / image direct ↗</a>
+      </p>
+      <p style="margin: 4px 0 0 0;"><a href="https://app.webcam-hd.com/netsyst/mont-cindre" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="color: #666;">Portail Source ↗</a></p>
+    </div>
+  ]]></description>
+      <Point>
+        <coordinates>4.8214,45.8197,0</coordinates>
+      </Point>
+    </Placemark>
+<Placemark>
+      <name>Lyon Sud - Oullins: Résidence Les Ifs</name>
+      <styleUrl>#operational-cam</styleUrl>
+      <description><![CDATA[
+    <div style="font-family: Arial, sans-serif; font-size: 13px; line-height: 1.4;">
+      <h3 style="margin: 0 0 6px 0; color: #009933;">Lyon Sud - Oullins: Résidence Les Ifs</h3>
+      <p style="margin: 0 0 4px 0;"><b>Ville:</b> Lyon (France)</p>
+      <p style="margin: 0 0 4px 0;"><b>Source:</b> Résidence Les Ifs (Grand Lyon)</p>
+      <p style="margin: 0 0 4px 0;"><b>Statut:</b> En ligne</p>
+      <p style="margin: 0 0 8px 0;"><b>Coordonnées:</b> 45.7144, 4.8067</p>
+      <div style="margin-bottom: 8px;"><img src="http://residence-les-ifs.info/Webcam/Webcam.jpg" referrerpolicy="no-referrer" style="max-width: 280px; height: auto; border: 1px solid #ccc; border-radius: 4px;" /></div>
+      <p style="margin: 6px 0 0 0;">
+        <a href="http://residence-les-ifs.info/Webcam/Webcam.jpg" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="font-weight: bold; color: #0066cc;">Ouvrir le flux vidéo / image direct ↗</a>
+      </p>
+      <p style="margin: 4px 0 0 0;"><a href="http://residence-les-ifs.info/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="color: #666;">Portail Source ↗</a></p>
+    </div>
+  ]]></description>
+      <Point>
+        <coordinates>4.8067,45.7144,0</coordinates>
+      </Point>
+    </Placemark>
+<Placemark>
+      <name>Lyon Centre - Caméra IP Publique (Presqu&apos;île)</name>
+      <styleUrl>#operational-cam</styleUrl>
+      <description><![CDATA[
+    <div style="font-family: Arial, sans-serif; font-size: 13px; line-height: 1.4;">
+      <h3 style="margin: 0 0 6px 0; color: #009933;">Lyon Centre - Caméra IP Publique (Presqu&apos;île)</h3>
+      <p style="margin: 0 0 4px 0;"><b>Ville:</b> Lyon (France)</p>
+      <p style="margin: 0 0 4px 0;"><b>Source:</b> Insecam (Lyon IP Cam)</p>
+      <p style="margin: 0 0 4px 0;"><b>Statut:</b> En ligne</p>
+      <p style="margin: 0 0 8px 0;"><b>Coordonnées:</b> 45.7578, 4.832</p>
+      <div style="margin-bottom: 8px;"><img src="http://92.154.0.63:1024/oneshotimage1" referrerpolicy="no-referrer" style="max-width: 280px; height: auto; border: 1px solid #ccc; border-radius: 4px;" /></div>
+      <p style="margin: 6px 0 0 0;">
+        <a href="http://92.154.0.63:1024/oneshotimage1" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="font-weight: bold; color: #0066cc;">Ouvrir le flux vidéo / image direct ↗</a>
+      </p>
+      <p style="margin: 4px 0 0 0;"><a href="http://www.insecam.org/en/view/869519/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="color: #666;">Portail Source ↗</a></p>
+    </div>
+  ]]></description>
+      <Point>
+        <coordinates>4.832,45.7578,0</coordinates>
+      </Point>
+    </Placemark>
+<Placemark>
+      <name>Lyon Ouest - Sain-Bel (Vallée de la Brévenne)</name>
+      <styleUrl>#operational-cam</styleUrl>
+      <description><![CDATA[
+    <div style="font-family: Arial, sans-serif; font-size: 13px; line-height: 1.4;">
+      <h3 style="margin: 0 0 6px 0; color: #009933;">Lyon Ouest - Sain-Bel (Vallée de la Brévenne)</h3>
+      <p style="margin: 0 0 4px 0;"><b>Ville:</b> Lyon (France)</p>
+      <p style="margin: 0 0 4px 0;"><b>Source:</b> Météo Sain-Bel (Rhône)</p>
+      <p style="margin: 0 0 4px 0;"><b>Statut:</b> En ligne</p>
+      <p style="margin: 0 0 8px 0;"><b>Coordonnées:</b> 45.8119, 4.6006</p>
+      <div style="margin-bottom: 8px;"><img src="http://www.meteo-sain-bel.fr/script/webcam/webcam.jpg" referrerpolicy="no-referrer" style="max-width: 280px; height: auto; border: 1px solid #ccc; border-radius: 4px;" /></div>
+      <p style="margin: 6px 0 0 0;">
+        <a href="http://www.meteo-sain-bel.fr/script/webcam/webcam.jpg" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="font-weight: bold; color: #0066cc;">Ouvrir le flux vidéo / image direct ↗</a>
+      </p>
+      <p style="margin: 4px 0 0 0;"><a href="http://www.meteo-sain-bel.fr/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="color: #666;">Portail Source ↗</a></p>
+    </div>
+  ]]></description>
+      <Point>
+        <coordinates>4.6006,45.8119,0</coordinates>
+      </Point>
+    </Placemark>
+<Placemark>
+      <name>Lyon Nord - Anse: Val de Saône / Beaujolais</name>
+      <styleUrl>#operational-cam</styleUrl>
+      <description><![CDATA[
+    <div style="font-family: Arial, sans-serif; font-size: 13px; line-height: 1.4;">
+      <h3 style="margin: 0 0 6px 0; color: #009933;">Lyon Nord - Anse: Val de Saône / Beaujolais</h3>
+      <p style="margin: 0 0 4px 0;"><b>Ville:</b> Lyon (France)</p>
+      <p style="margin: 0 0 4px 0;"><b>Source:</b> Bojolpif Météo (Rhône)</p>
+      <p style="margin: 0 0 4px 0;"><b>Statut:</b> En ligne</p>
+      <p style="margin: 0 0 8px 0;"><b>Coordonnées:</b> 45.9347, 4.7172</p>
+      <div style="margin-bottom: 8px;"><img src="https://www.bojolpif.com/Anse_cam.php" referrerpolicy="no-referrer" style="max-width: 280px; height: auto; border: 1px solid #ccc; border-radius: 4px;" /></div>
+      <p style="margin: 6px 0 0 0;">
+        <a href="https://www.bojolpif.com/Anse_cam.php" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="font-weight: bold; color: #0066cc;">Ouvrir le flux vidéo / image direct ↗</a>
+      </p>
+      <p style="margin: 4px 0 0 0;"><a href="https://www.bojolpif.com/" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" style="color: #666;">Portail Source ↗</a></p>
+    </div>
+  ]]></description>
+      <Point>
+        <coordinates>4.7172,45.9347,0</coordinates>
       </Point>
     </Placemark>
   </Document>

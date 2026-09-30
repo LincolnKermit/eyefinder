@@ -1,6 +1,6 @@
 # EyeFinder - Sauvegardes & Guide de Restauration Cartographique
 
-Ce dossier contient une sauvegarde intégrale et autonome des **249 caméras** référencées par EyeFinder (219 flux actifs en direct).
+Ce dossier contient une sauvegarde intégrale et autonome des **256 caméras** référencées par EyeFinder (226 flux actifs en direct).
 
 Ces fichiers permettent de visualiser, importer et restaurer instantanément la cartographie complète même en cas de panne totale du serveur, de l'hébergeur Vercel ou de la base de données.
 
@@ -22,7 +22,7 @@ Ces fichiers permettent de visualiser, importer et restaurer instantanément la 
 
 ### Option 1 : La Carte Autonome d'Urgence (Recommandé - 0 installation)
 1. Ouvrez simplement le fichier **`standalone_map.html`** dans votre navigateur (double-clic ou glisser-déposer dans Chrome/Firefox).
-2. La carte s'affiche instantanément avec les **249 caméras** géolocalisées, la recherche textuelle, les filtres par réseau (DIR-Est, DIR Centre-Est, DIR Massif Central, Grand Lyon, Insecam...) et les lecteurs vidéo/images dans les popups.
+2. La carte s'affiche instantanément avec les **256 caméras** géolocalisées, la recherche textuelle, les filtres par réseau (DIR-Est, DIR Centre-Est, DIR Massif Central, Grand Lyon, Insecam...) et les lecteurs vidéo/images dans les popups.
 3. Aucune dépendance backend : fonctionne hors-ligne ou via internet direct.
 
 ### Option 2 : Sur Google My Maps (Créer une carte personnelle Google)
@@ -76,4 +76,4 @@ npm run backup
 node scripts/export-backup.js
 ```
 
-*Dernière exportation : 2026-09-28T21:29:20.386Z*
+*Dernière exportation : 2026-09-30T06:20:06.776Z*
